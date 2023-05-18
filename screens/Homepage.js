@@ -1,12 +1,12 @@
 import React, { useState }  from 'react';
 import { View, Text, Image, StyleSheet,TouchableOpacity} from 'react-native';
-//import LinearGradient from 'react-native-linear-gradient';
+import { LinearGradient } from 'expo-linear-gradient';
 import Carousel from 'react-native-snap-carousel';
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#807DFF',
+     backgroundColor: '#807DFF',
     },
     logo: {
       width: 100,
@@ -27,11 +27,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      image: {
-        width: 250,
-        height: 150,
-        resizeMode: 'contain',
       },
       buttons: {
         flexDirection: 'row',
@@ -87,6 +82,7 @@ const styles = StyleSheet.create({
       },text2:{
         fontSize: 20,
         color: '#ffffff',
+        marginTop:20,
         marginLeft: 20,
         marginBottom: 35,
       }
@@ -119,6 +115,8 @@ const Homepage = () => {
 
 
   return (
+
+    
 <View style={styles.container}>
     
       <Image style={styles.logo} source={require('../assets/logo_litle_hompeage.png')} />
