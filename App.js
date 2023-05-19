@@ -8,6 +8,7 @@ import Welcome from './screens/Welcome';
 import LogIn from './screens/LogIn';
 import SignUp from './screens/SignUp';
 import Profile from './screens/Profile';
+import JoinEventAfterScan from './screens/Joinevent';
 
  {/* <NavigationContainer>
       <Stack.Navigator initialRouteName="Homepage" screenOptions={{ header: () => null }}>
@@ -21,6 +22,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <Profile/>  
+    <JoinEventAfterScan/>  
   );
 }

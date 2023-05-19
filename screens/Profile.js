@@ -4,7 +4,6 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
 } from "react-native";
@@ -42,8 +41,8 @@ const Profile = () => {
          </View>
 
          <View style={styles.linksContainer}>
-         <Text style={styles.titleOVerlayBlueLinks}>Change Password</Text>
-         <Text style={styles.titleOVerlayBlueLinks}>Delete Account</Text>
+         <TouchableOpacity><Text style={styles.titleOVerlayBlueLinks}>Change Password</Text></TouchableOpacity>
+         <TouchableOpacity><Text style={styles.titleOVerlayBlueLinks}>Delete Account</Text></TouchableOpacity>
          </View>
 
          <View style={styles.logout_btn}>
