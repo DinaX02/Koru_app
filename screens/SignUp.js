@@ -10,7 +10,16 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const LogIn = () => {
+const SignUp = () => {
+
+  const [email, setEmail] = useState('');
+
+  const handleEmailChange = (text) => {
+    setEmail(text);
+  };
+
+
+
   return (
     <ImageBackground
       source={require("../assets/img_background_login.png")}
@@ -23,11 +32,17 @@ const LogIn = () => {
           style={styles.logo}
           source={require("../assets/logo_litle_hompeage.png")}
         />
-         <Text style={styles.title}>Log in</Text>
+         <Text style={styles.title}>Sign Up</Text>
       </View>
      
 
       <View style={styles.overlay}>
+      <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={handleEmailChange}
+          />
         <TextInput style={styles.input} placeholder="Username" />
         <TextInput
           style={styles.input}
@@ -117,7 +132,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogIn;
+export default SignUp;
 
 {
   /* 
