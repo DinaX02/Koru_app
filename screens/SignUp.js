@@ -11,14 +11,11 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 
 const SignUp = () => {
-
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   const handleEmailChange = (text) => {
     setEmail(text);
   };
-
-
 
   return (
     <ImageBackground
@@ -27,32 +24,37 @@ const SignUp = () => {
       imageStyle={styles.imageStyle}
     >
       <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/logo_litle_hompeage.png")}
-        />
-         <Text style={styles.title}>Sign Up</Text>
-      </View>
-     
+        <View style={styles.logoContainer}>
+          <Image
+            style={styles.logo}
+            source={require("../assets/logo_litle_hompeage.png")}
+          />
+          <Text style={styles.title}>Sign Up</Text>
+        </View>
 
-      <View style={styles.overlay}>
-      <TextInput
+        <View style={styles.overlay}>
+          <TextInput
             style={styles.input}
             placeholder="Email"
             value={email}
             onChangeText={handleEmailChange}
           />
-        <TextInput style={styles.input} placeholder="Username" />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-        />
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
+          <TextInput style={styles.input} placeholder="Username" />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+          />
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Continue</Text>
+          </TouchableOpacity>
+        </View>
       </View>
+      <View style={styles.setacontainer}>
+        <Image
+          style={styles.seta}
+          source={require("../assets/seta_back.png")}
+        />
       </View>
     </ImageBackground>
   );
@@ -64,32 +66,40 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
+  setacontainer: {
+    marginBottom: 50,
+    alignItems: "center",
+  },
+  seta: {
+    width: 30,
+    height: 30,
+  },
   logoContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: "7%",
     left: 0,
     right: 0,
     alignItems: "flex-start",
     paddingTop: 20,
-    marginLeft:20,
+    marginLeft: 20,
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     width: 86,
     height: 23,
   },
   overlay: {
-    backgroundColor: 'rgba(217, 217, 217, 0.6)',
+    backgroundColor: "rgba(217, 217, 217, 0.6)",
     paddingHorizontal: 20,
     paddingVertical: 40,
     borderRadius: 20,
-    width: '90%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    width: "90%",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 100,
   },
   alignoverlay: {
@@ -101,9 +111,9 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop:120,
+    marginTop: 120,
     marginBottom: 20,
-    textAlign: 'left',
+    textAlign: "left",
   },
   logintext: {
     textAlign: "left",

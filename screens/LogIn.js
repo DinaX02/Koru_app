@@ -39,6 +39,12 @@ const LogIn = () => {
         </TouchableOpacity>
       </View>
       </View>
+      <View style={styles.setacontainer}>
+        <Image
+          style={styles.seta}
+          source={require("../assets/seta_back.png")}
+        />
+      </View>
     </ImageBackground>
   );
 };
@@ -62,6 +68,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },  setacontainer: {
+    marginBottom: 50,
+    alignItems: "center",
+  },
+  seta: {
+    width: 30,
+    height: 30,
   },
   logo: {
     width: 86,
