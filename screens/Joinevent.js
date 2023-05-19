@@ -8,27 +8,26 @@ import {
   Image,
 } from "react-native";
 
-
 const JoinEventAfterScan = () => {
-
-
   return (
     <ImageBackground
       source={require("../assets/background.png")}
       style={styles.backgroundImage}
       imageStyle={styles.imageStyle}
     >
-
-<View style={styles.logoutBtn}>
-        <Image
-          style={styles.logOut}
-          source={require("../assets/seta_back.png")}
-        />
+      <View style={styles.logoutBtn}>
+        <TouchableOpacity>
+          <Image
+            style={styles.logOut}
+            source={require("../assets/seta_back.png")}
+          />
+        </TouchableOpacity>
       </View>
+
       <View style={styles.logoContainer}>
         <Image
           style={styles.logo}
-          source={require("../assets/logo_litle_hompeage.png")} 
+          source={require("../assets/logo_litle_hompeage.png")}
         />
       </View>
 
@@ -43,19 +42,17 @@ const JoinEventAfterScan = () => {
         <Text style={styles.eventName}>Event Name</Text>
 
         <Text style={styles.eventDescription}>
-        Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles. 
-
-All the projects were selected by a jury, based on the proposals presented by the students.
+          Media Play is an event organized by DeCA, where the students present
+          the best projects developed in the DeCA's Communication Sciences and
+          Technologies courses, covering all study cycles. All the projects were
+          selected by a jury, based on the proposals presented by the students.
         </Text>
 
         <TouchableOpacity style={styles.joinButton}>
           <Text style={styles.joinButtonText}>Join</Text>
         </TouchableOpacity>
       </View>
-
-
     </ImageBackground>
-
   );
 };
 
@@ -86,15 +83,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#2F2E5F",
     padding: 10,
     borderRadius: 20,
-    width:150,
-    marginTop:30,
+    width: 150,
+    marginTop: 30,
   },
   joinButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  
   },
   imageContainer: {
     width: 100,
@@ -116,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   eventDescription: {
-    marginTop:20,
+    marginTop: 20,
     width: "100%",
     textAlign: "left",
   },
@@ -126,12 +122,10 @@ const styles = StyleSheet.create({
     left: 20,
   },
   logOut: {
-    marginTop:30,
+    marginTop: 30,
     width: 30,
     height: 30,
   },
 });
 
 export default JoinEventAfterScan;
-
-
