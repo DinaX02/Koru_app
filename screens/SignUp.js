@@ -19,7 +19,7 @@ const SignUp = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/img_background_login.png")}
+      source={require("../assets/background_homepage.png")}
       style={styles.backgroundImage}
       imageStyle={styles.imageStyle}
     >

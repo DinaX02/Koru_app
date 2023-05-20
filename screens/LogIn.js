@@ -13,7 +13,7 @@ import { LinearGradient } from "expo-linear-gradient";
 const LogIn = () => {
   return (
     <ImageBackground
-      source={require("../assets/img_background_login.png")}
+      source={require("../assets/background_homepage.png")}
       style={styles.backgroundImage}
       imageStyle={styles.imageStyle}
     >
