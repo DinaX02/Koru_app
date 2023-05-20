@@ -32,11 +32,13 @@ const JoinEventAfterScan = () => {
       </View>
 
       <View style={styles.eventContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.eventImage}
-            source={require("../assets/logo_litle_hompeage.png")} // colocar img do evento
-          />
+        <View>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
+            <Image
+              style={styles.eventImage}
+              source={require("../assets/event_join.png")} //img do evento
+            />
+          </View>
         </View>
 
         <Text style={styles.eventName}>Event Name</Text>
@@ -93,18 +95,20 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   imageContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     backgroundColor: "lightgray",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
+    flex: 1,
   },
   eventImage: {
-    width: 80,
-    height: 80,
+    width: 90,
+    height: 90,
     borderRadius: 40,
+    alignSelf: "center",
   },
   eventName: {
     fontSize: 20,
