@@ -10,6 +10,7 @@ import SignUp from './screens/SignUp';
 import Profile from './screens/Profile';
 import JoinEventAfterScan from './screens/Joinevent';
 import ScanQrCode from './screens/ScanQrCode';
+
  {/* <NavigationContainer>
       <Stack.Navigator initialRouteName="Homepage" screenOptions={{ header: () => null }}>
       

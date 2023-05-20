@@ -8,6 +8,7 @@ import {
   Image,Dimensions,
 } from "react-native";
 
+import QrCodeReader from "../components/QrCodeReader";
 //import { RNCamera } from "react-native-camera";
 
 const ScanQrCode = () => {
@@ -43,8 +44,8 @@ const ScanQrCode = () => {
        <Text style={styles.scanText}>Scan the QR code</Text>
     </View>
 
-    <View style={styles.contentContainer}>
-    </View>
+    <QrCodeReader/>
+
   </ImageBackground>
 );
 };
