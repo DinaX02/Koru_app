@@ -9,14 +9,18 @@ import Profile from './screens/Profile';
 import JoinEventAfterScan from './screens/Joinevent';
 import ScanQrCode from './screens/ScanQrCode';
 import Eventinfo from './screens/event_info';
-import FooterMenu from './components/MenuFooter';
+import Eventvoting from './screens/event_voting';
+
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
+        <Eventvoting/>
+  );
+}
 
-    <NavigationContainer>
+{/*<NavigationContainer>
       <Stack.Navigator
        screenOptions={{
         headerShown: false, // Oculta o cabeçalho em todas as telas
@@ -30,6 +34,4 @@ export default function App() {
         <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
-    </NavigationContainer>
-  );
-}
+    </NavigationContainer>*/}

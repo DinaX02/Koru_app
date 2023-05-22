@@ -1,0 +1,332 @@
+Index: babel.config.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>module.exports = function(api) {\r\n  api.cache(true);\r\n  return {\r\n    presets: ['babel-preset-expo'],\r\n  };\r\n};\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/babel.config.js b/babel.config.js
+--- a/babel.config.js	(revision f288c6b5b1debb85368d98442963cfe3d82e1e26)
++++ b/babel.config.js	(date 1684784374155)
+@@ -2,5 +2,6 @@
+   api.cache(true);
+   return {
+     presets: ['babel-preset-expo'],
++    plugins: ['react-native-reanimated/plugin'],
+   };
+ };
+Index: App.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from 'react';\r\nimport { NavigationContainer } from '@react-navigation/native';\r\nimport { createStackNavigator } from '@react-navigation/stack';\r\nimport Homepage from './screens/Homepage';\r\nimport Welcome from './screens/Welcome';\r\nimport LogIn from './screens/LogIn';\r\nimport SignUp from './screens/SignUp';\r\nimport Profile from './screens/Profile';\r\nimport JoinEventAfterScan from './screens/Joinevent';\r\nimport ScanQrCode from './screens/ScanQrCode';\r\nimport Eventinfo from './screens/event_info';\r\n {/* <NavigationContainer>\r\n      <Stack.Navigator initialRouteName=\"Homepage\" screenOptions={{ header: () => null }}>\r\n      \r\n        <Stack.Screen name=\"Homepage\" component={Homepage} />\r\n      </Stack.Navigator>\r\n    </NavigationContainer>*/} \r\n\r\n\r\nconst Stack = createStackNavigator();\r\n\r\nexport default function App() {\r\n  return (\r\n    <Eventinfo/>  \r\n  );\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/App.js b/App.js
+--- a/App.js	(revision f288c6b5b1debb85368d98442963cfe3d82e1e26)
++++ b/App.js	(date 1684784400869)
+@@ -9,18 +9,20 @@
+ import JoinEventAfterScan from './screens/Joinevent';
+ import ScanQrCode from './screens/ScanQrCode';
+ import Eventinfo from './screens/event_info';
+- {/* <NavigationContainer>
++import Eventvoting from './screens/event_voting';
++{/* <NavigationContainer>
+       <Stack.Navigator initialRouteName="Homepage" screenOptions={{ header: () => null }}>
+       
+         <Stack.Screen name="Homepage" component={Homepage} />
+       </Stack.Navigator>
+-    </NavigationContainer>*/} 
++    </NavigationContainer>*/
++}
+ 
+ 
+ const Stack = createStackNavigator();
+ 
+ export default function App() {
+   return (
+-    <Eventinfo/>  
++    <Eventvoting/>
+   );
+ }
+Index: package.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"name\": \"koru_app\",\r\n  \"version\": \"1.0.0\",\r\n  \"main\": \"node_modules/expo/AppEntry.js\",\r\n  \"scripts\": {\r\n    \"start\": \"expo start\",\r\n    \"android\": \"expo start --android\",\r\n    \"ios\": \"expo start --ios\",\r\n    \"web\": \"expo start --web\"\r\n  },\r\n  \"dependencies\": {\r\n    \"@react-navigation/native\": \"^6.1.6\",\r\n    \"@react-navigation/stack\": \"^6.3.16\",\r\n    \"expo\": \"~48.0.15\",\r\n    \"expo-linear-gradient\": \"~12.1.2\",\r\n    \"expo-status-bar\": \"~1.4.4\",\r\n    \"react\": \"18.2.0\",\r\n    \"react-native\": \"0.71.7\",\r\n    \"react-native-camera\": \"^4.2.1\",\r\n    \"react-native-linear-gradient\": \"^2.6.2\",\r\n    \"react-native-qrcode-scanner\": \"^1.5.5\",\r\n    \"react-native-snap-carousel\": \"^3.9.1\",\r\n    \"react-native-svg\": \"^13.9.0\",\r\n    \"expo-barcode-scanner\": \"~12.3.2\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"@babel/core\": \"^7.20.0\"\r\n  },\r\n  \"private\": true\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package.json b/package.json
+--- a/package.json	(revision f288c6b5b1debb85368d98442963cfe3d82e1e26)
++++ b/package.json	(date 1684784392184)
+@@ -12,16 +12,18 @@
+     "@react-navigation/native": "^6.1.6",
+     "@react-navigation/stack": "^6.3.16",
+     "expo": "~48.0.15",
++    "expo-barcode-scanner": "~12.3.2",
+     "expo-linear-gradient": "~12.1.2",
+     "expo-status-bar": "~1.4.4",
+     "react": "18.2.0",
+     "react-native": "0.71.7",
+     "react-native-camera": "^4.2.1",
++    "react-native-gesture-handler": "^2.10.1",
+     "react-native-linear-gradient": "^2.6.2",
+     "react-native-qrcode-scanner": "^1.5.5",
++    "react-native-reanimated": "~2.14.4",
+     "react-native-snap-carousel": "^3.9.1",
+-    "react-native-svg": "^13.9.0",
+-    "expo-barcode-scanner": "~12.3.2"
++    "react-native-svg": "^13.9.0"
+   },
+   "devDependencies": {
+     "@babel/core": "^7.20.0"
+Index: package-lock.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/package-lock.json b/package-lock.json
+--- a/package-lock.json	(revision f288c6b5b1debb85368d98442963cfe3d82e1e26)
++++ b/package-lock.json	(date 1684784392294)
+@@ -17,8 +17,10 @@
+         "react": "18.2.0",
+         "react-native": "0.71.7",
+         "react-native-camera": "^4.2.1",
++        "react-native-gesture-handler": "^2.10.1",
+         "react-native-linear-gradient": "^2.6.2",
+         "react-native-qrcode-scanner": "^1.5.5",
++        "react-native-reanimated": "~2.14.4",
+         "react-native-snap-carousel": "^3.9.1",
+         "react-native-svg": "^13.9.0"
+       },
+@@ -1298,6 +1300,20 @@
+         "@babel/core": "^7.0.0-0"
+       }
+     },
++    "node_modules/@babel/plugin-transform-object-assign": {
++      "version": "7.18.6",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.18.6.tgz",
++      "integrity": "sha512-mQisZ3JfqWh2gVXvfqYCAAyRs6+7oev+myBsTwW5RnPhYXOTuCEw2oe3YgxlXMViXUS53lG8koulI7mJ+8JE+A==",
++      "dependencies": {
++        "@babel/helper-plugin-utils": "^7.18.6"
++      },
++      "engines": {
++        "node": ">=6.9.0"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0"
++      }
++    },
+     "node_modules/@babel/plugin-transform-object-super": {
+       "version": "7.18.6",
+       "resolved": "https://registry.npmjs.org/@babel/plugin-transform-object-super/-/plugin-transform-object-super-7.18.6.tgz",
+@@ -1788,7 +1804,6 @@
+       "version": "2.0.17",
+       "resolved": "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz",
+       "integrity": "sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==",
+-      "peer": true,
+       "dependencies": {
+         "@types/hammerjs": "^2.0.36"
+       },
+@@ -4789,8 +4804,7 @@
+     "node_modules/@types/hammerjs": {
+       "version": "2.0.41",
+       "resolved": "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz",
+-      "integrity": "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==",
+-      "peer": true
++      "integrity": "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA=="
+     },
+     "node_modules/@types/istanbul-lib-coverage": {
+       "version": "2.0.4",
+@@ -7739,7 +7753,6 @@
+       "version": "3.3.2",
+       "resolved": "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz",
+       "integrity": "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==",
+-      "peer": true,
+       "dependencies": {
+         "react-is": "^16.7.0"
+       }
+@@ -7747,8 +7760,7 @@
+     "node_modules/hoist-non-react-statics/node_modules/react-is": {
+       "version": "16.13.1",
+       "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+-      "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==",
+-      "peer": true
++      "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
+     },
+     "node_modules/hosted-git-info": {
+       "version": "3.0.8",
+@@ -9239,6 +9251,11 @@
+       "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz",
+       "integrity": "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
+     },
++    "node_modules/lodash.isequal": {
++      "version": "4.5.0",
++      "resolved": "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz",
++      "integrity": "sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ=="
++    },
+     "node_modules/lodash.throttle": {
+       "version": "4.1.1",
+       "resolved": "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz",
+@@ -11471,10 +11488,9 @@
+       }
+     },
+     "node_modules/react-native-gesture-handler": {
+-      "version": "2.10.0",
+-      "resolved": "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.10.0.tgz",
+-      "integrity": "sha512-vuNupfa8+6MAUMgbZMk5jSxrmqWyNnR/gR77/iuhdx6cPg1z2MJeeJNmqEtKQcF0InvHp45dOoyRK62peqTJ3Q==",
+-      "peer": true,
++      "version": "2.10.1",
++      "resolved": "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.10.1.tgz",
++      "integrity": "sha512-vDJx3KnheMLEPg35chQW6aiNGqfv3tmWGRRzmfVvqnvvIt5pNkxXe8+x7CYpfIAAnqNLaK1xiozvMkzZPRw1vw==",
+       "dependencies": {
+         "@egjs/hammerjs": "^2.0.17",
+         "hoist-non-react-statics": "^3.3.0",
+@@ -11527,6 +11543,25 @@
+         "react-native-camera": ">=1.0.2"
+       }
+     },
++    "node_modules/react-native-reanimated": {
++      "version": "2.14.4",
++      "resolved": "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz",
++      "integrity": "sha512-DquSbl7P8j4SAmc+kRdd75Ianm8G+IYQ9T4AQ6lrpLVeDkhZmjWI0wkutKWnp6L7c5XNVUrFDUf69dwETLCItQ==",
++      "dependencies": {
++        "@babel/plugin-transform-object-assign": "^7.16.7",
++        "@babel/preset-typescript": "^7.16.7",
++        "convert-source-map": "^1.7.0",
++        "invariant": "^2.2.4",
++        "lodash.isequal": "^4.5.0",
++        "setimmediate": "^1.0.5",
++        "string-hash-64": "^1.0.3"
++      },
++      "peerDependencies": {
++        "@babel/core": "^7.0.0-0",
++        "react": "*",
++        "react-native": "*"
++      }
++    },
+     "node_modules/react-native-safe-area-context": {
+       "version": "4.5.2",
+       "resolved": "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.5.2.tgz",
+@@ -12633,6 +12668,11 @@
+         "safe-buffer": "~5.1.0"
+       }
+     },
++    "node_modules/string-hash-64": {
++      "version": "1.0.3",
++      "resolved": "https://registry.npmjs.org/string-hash-64/-/string-hash-64-1.0.3.tgz",
++      "integrity": "sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw=="
++    },
+     "node_modules/string-width": {
+       "version": "4.2.3",
+       "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
+@@ -14613,6 +14653,14 @@
+       "integrity": "sha512-DjwFA/9Iu3Z+vrAn+8pBUGcjhxKguSMlsFqeCKbhb9BAV756v0krzVK04CRDi/4aqmk8BsHb4a/gFcaA5joXRw==",
+       "requires": {
+         "@babel/helper-plugin-utils": "^7.18.6"
++      }
++    },
++    "@babel/plugin-transform-object-assign": {
++      "version": "7.18.6",
++      "resolved": "https://registry.npmjs.org/@babel/plugin-transform-object-assign/-/plugin-transform-object-assign-7.18.6.tgz",
++      "integrity": "sha512-mQisZ3JfqWh2gVXvfqYCAAyRs6+7oev+myBsTwW5RnPhYXOTuCEw2oe3YgxlXMViXUS53lG8koulI7mJ+8JE+A==",
++      "requires": {
++        "@babel/helper-plugin-utils": "^7.18.6"
+       }
+     },
+     "@babel/plugin-transform-object-super": {
+@@ -14958,7 +15006,6 @@
+       "version": "2.0.17",
+       "resolved": "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz",
+       "integrity": "sha512-XQsZgjm2EcVUiZQf11UBJQfmZeEmOW8DpI1gsFeln6w0ae0ii4dMQEQ0kjl6DspdWX1aGY1/loyXnP0JS06e/A==",
+-      "peer": true,
+       "requires": {
+         "@types/hammerjs": "^2.0.36"
+       }
+@@ -17255,8 +17302,7 @@
+     "@types/hammerjs": {
+       "version": "2.0.41",
+       "resolved": "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz",
+-      "integrity": "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA==",
+-      "peer": true
++      "integrity": "sha512-ewXv/ceBaJprikMcxCmWU1FKyMAQ2X7a9Gtmzw8fcg2kIePI1crERDM818W+XYrxqdBBOdlf2rm137bU+BltCA=="
+     },
+     "@types/istanbul-lib-coverage": {
+       "version": "2.0.4",
+@@ -19509,7 +19555,6 @@
+       "version": "3.3.2",
+       "resolved": "https://registry.npmjs.org/hoist-non-react-statics/-/hoist-non-react-statics-3.3.2.tgz",
+       "integrity": "sha512-/gGivxi8JPKWNm/W0jSmzcMPpfpPLc3dY/6GxhX2hQ9iGj3aDfklV4ET7NjKpSinLpJ5vafa9iiGIEZg10SfBw==",
+-      "peer": true,
+       "requires": {
+         "react-is": "^16.7.0"
+       },
+@@ -19517,8 +19562,7 @@
+         "react-is": {
+           "version": "16.13.1",
+           "resolved": "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz",
+-          "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==",
+-          "peer": true
++          "integrity": "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
+         }
+       }
+     },
+@@ -20641,6 +20685,11 @@
+       "resolved": "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz",
+       "integrity": "sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow=="
+     },
++    "lodash.isequal": {
++      "version": "4.5.0",
++      "resolved": "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz",
++      "integrity": "sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ=="
++    },
+     "lodash.throttle": {
+       "version": "4.1.1",
+       "resolved": "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz",
+@@ -22373,10 +22422,9 @@
+       }
+     },
+     "react-native-gesture-handler": {
+-      "version": "2.10.0",
+-      "resolved": "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.10.0.tgz",
+-      "integrity": "sha512-vuNupfa8+6MAUMgbZMk5jSxrmqWyNnR/gR77/iuhdx6cPg1z2MJeeJNmqEtKQcF0InvHp45dOoyRK62peqTJ3Q==",
+-      "peer": true,
++      "version": "2.10.1",
++      "resolved": "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-2.10.1.tgz",
++      "integrity": "sha512-vDJx3KnheMLEPg35chQW6aiNGqfv3tmWGRRzmfVvqnvvIt5pNkxXe8+x7CYpfIAAnqNLaK1xiozvMkzZPRw1vw==",
+       "requires": {
+         "@egjs/hammerjs": "^2.0.17",
+         "hoist-non-react-statics": "^3.3.0",
+@@ -22412,6 +22460,20 @@
+         "react-native-permissions": "^2.0.2"
+       }
+     },
++    "react-native-reanimated": {
++      "version": "2.14.4",
++      "resolved": "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.14.4.tgz",
++      "integrity": "sha512-DquSbl7P8j4SAmc+kRdd75Ianm8G+IYQ9T4AQ6lrpLVeDkhZmjWI0wkutKWnp6L7c5XNVUrFDUf69dwETLCItQ==",
++      "requires": {
++        "@babel/plugin-transform-object-assign": "^7.16.7",
++        "@babel/preset-typescript": "^7.16.7",
++        "convert-source-map": "^1.7.0",
++        "invariant": "^2.2.4",
++        "lodash.isequal": "^4.5.0",
++        "setimmediate": "^1.0.5",
++        "string-hash-64": "^1.0.3"
++      }
++    },
+     "react-native-safe-area-context": {
+       "version": "4.5.2",
+       "resolved": "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.5.2.tgz",
+@@ -23276,6 +23338,11 @@
+         "safe-buffer": "~5.1.0"
+       }
+     },
++    "string-hash-64": {
++      "version": "1.0.3",
++      "resolved": "https://registry.npmjs.org/string-hash-64/-/string-hash-64-1.0.3.tgz",
++      "integrity": "sha512-D5OKWKvDhyVWWn2x5Y9b+37NUllks34q1dCDhk/vYcso9fmhs+Tl3KR/gE4v5UNj2UA35cnX4KdVVGkG1deKqw=="
++    },
+     "string-width": {
+       "version": "4.2.3",
+       "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
