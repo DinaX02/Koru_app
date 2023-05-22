@@ -9,18 +9,27 @@ import Profile from './screens/Profile';
 import JoinEventAfterScan from './screens/Joinevent';
 import ScanQrCode from './screens/ScanQrCode';
 import Eventinfo from './screens/event_info';
- {/* <NavigationContainer>
-      <Stack.Navigator initialRouteName="Homepage" screenOptions={{ header: () => null }}>
-      
-        <Stack.Screen name="Homepage" component={Homepage} />
-      </Stack.Navigator>
-    </NavigationContainer>*/} 
-
+import FooterMenu from './components/MenuFooter';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <Eventinfo/>  
+
+    <NavigationContainer>
+      <Stack.Navigator
+       screenOptions={{
+        headerShown: false, // Oculta o cabeçalho em todas as telas
+       }}
+     initialRouteName="Welcome" // screen inicial "Welcome"
+       >
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="Login" component={LogIn} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Homepage" component={Homepage} />
+        <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
+       <Stack.Screen name="Profile" component={Profile} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

@@ -8,6 +8,7 @@ import {
   Image,ScrollView, 
 } from "react-native";
 
+import FooterMenu from "../components/MenuFooter";
 
 const Eventinfo = () => {
   const [selectedTab, setSelectedTab] = useState("about");
@@ -183,6 +184,7 @@ const Eventinfo = () => {
   </View>
 </View>
 </ScrollView>
+<FooterMenu/>
     </ImageBackground>
   </View>
 

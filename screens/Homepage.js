@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ImageBackground, Image, Text, TouchableOpacity, Dimensions } from "react-native";
-
-const Homepage = () => {
+import FooterMenu from "../components/MenuFooter";
+const Homepage = ({navigation}) => {
 
 
   return (
@@ -26,13 +26,16 @@ const Homepage = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonHome}>
+        <TouchableOpacity style={styles.buttonHome}
+          onPress={() => navigation.navigate('ScanQrCode')}
+        >
           <View style={styles.buttonContent}>
             <Image source={require('../assets/icon_scan.png')} style={styles.icon} />
             <Text style={styles.buttonText}>Join new event</Text>
           </View>
         </TouchableOpacity>
       </View>
+      <FooterMenu/>
     </ImageBackground>
   );
 };
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },  
   icon1: {
-    width: 85,
+    width: 86,
     height: 71,
     marginBottom: 10,
   },

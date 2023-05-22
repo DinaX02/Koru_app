@@ -5,49 +5,39 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Image,Dimensions,
+  Image,
+  Dimensions,
 } from "react-native";
 
 import QrCodeReader from "../components/QrCodeReader";
-//import { RNCamera } from "react-native-camera";
 
-const ScanQrCode = () => {
+const ScanQrCode = ({ navigation }) => {
   const { height, width } = Dimensions.get("window");
-  //const [scannedData, setScannedData] = useState(null);
-  //const handleBarCodeScanned = ({ data }) => {
-    //setScannedData(data);
-  //};
 
   return (
     <ImageBackground
-    source={require("../assets/background.png")}
-    style={styles.backgroundImage}
-    imageStyle={styles.imageStyle}
-  >
+      source={require("../assets/background.png")}
+      style={styles.backgroundImage}
+      imageStyle={styles.imageStyle}
+    >
+      <TouchableOpacity style={styles.logoutBtn}    onPress={() => navigation.navigate('Homepage')}>
+          <Image
+            style={styles.logOut}
+            source={require("../assets/seta_back.png")}
+          />
+      </TouchableOpacity>
 
-
-    <View style={styles.logoutBtn}>
-    <TouchableOpacity>
+      <View style={styles.logoContainer}>
         <Image
-          style={styles.logOut}
-          source={require("../assets/seta_back.png")}
+          style={styles.logo}
+          source={require("../assets/logo_litle_hompeage.png")}
         />
-        </TouchableOpacity>
+        <Text style={styles.scanText}>Scan the QR code</Text>
       </View>
 
-
-    <View style={styles.logoContainer}>
-      <Image
-        style={styles.logo}
-        source={require("../assets/logo_litle_hompeage.png")}
-      />
-       <Text style={styles.scanText}>Scan the QR code</Text>
-    </View>
-
-    <QrCodeReader/>
-
-  </ImageBackground>
-);
+      <QrCodeReader />
+    </ImageBackground>
+  );
 };
 
 const styles = StyleSheet.create({

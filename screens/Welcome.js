@@ -1,11 +1,11 @@
 import React, { useState }  from 'react';
-import { View, Text, Image, StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
+import { View, Text, Image,Button, StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const { height, width } = Dimensions.get('window');
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
    
   return (
     <View style={styles.container}>
@@ -19,12 +19,18 @@ const Welcome = () => {
       <Text style={styles.paragraph}>
         Join events and use coins to vote for the best project
       </Text>
+     
     </View>
     <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.buttonLogin}>
-        <Text style={styles.buttonTextLogIN}>Log In</Text>
+      <TouchableOpacity style={styles.buttonLogin}
+      title="Login"
+       onPress={() => navigation.navigate('Login')}>
+         <Text style={styles.buttonTextLogIN}>Log In</Text>
+       
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonSignUP}>
+      <TouchableOpacity style={styles.buttonSignUP}
+      title="SignUp"
+      onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.buttonTextSignUP}>Sign Up</Text>
       </TouchableOpacity>
     </View>

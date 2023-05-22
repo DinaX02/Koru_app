@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-const SignUp = () => {
+const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState("");
 
   const handleEmailChange = (text) => {
@@ -45,17 +45,21 @@ const SignUp = () => {
             placeholder="Password"
             secureTextEntry
           />
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button}
+            onPress={() => navigation.navigate('Homepage')}
+          >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.setacontainer}>
+      <TouchableOpacity style={styles.setacontainer}
+      onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+      >
         <Image
           style={styles.seta}
           source={require("../assets/seta_back.png")}
         />
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 };

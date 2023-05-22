@@ -8,8 +8,9 @@ import {
   Image,
 } from "react-native";
 
+import FooterMenu from "../components/MenuFooter";
 
-const Profile = () => {
+const Profile = ({navigation}) => {
 
 
   return (
@@ -45,16 +46,19 @@ const Profile = () => {
          <TouchableOpacity><Text style={styles.titleOVerlayBlueLinks}>Delete Account</Text></TouchableOpacity>
          </View>
 
-         <View style={styles.logout_btn}>
+         <TouchableOpacity style={styles.logout_btn}
+             onPress={() => navigation.navigate('Welcome')}
+         >
         <Image
             style={styles.log_out}
             source={require("../assets/log_out.png")}
           />
-        </View>
+        </TouchableOpacity>
 
         </View>
 
       </View>
+      <FooterMenu/>
     </ImageBackground>
   );
 };
