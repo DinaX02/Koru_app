@@ -21,6 +21,6 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <Homepage/>  
+    <Eventinfo/>  
   );
 }

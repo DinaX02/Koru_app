@@ -11,23 +11,23 @@ import {
 
 const Eventinfo = () => {
   const [selectedTab, setSelectedTab] = useState("about");
-  const [selectedStatus, setSelectedStatus] = useState("Ongoing");
+  const [selectedStatus, setSelectedStatus] = useState("Closed");
   const handleTabPress = (tabName) => {
     setSelectedTab(tabName);
   };
 
- // const getImageSource = () => {
-   // if (selectedStatus === "ongoing") {
-    //  return require("../assets/ongoing_green.png");
-   // } else if (selectedStatus === "closed") {
-    //  return require("../assets/Closed_red.png");
-   // } else if (selectedStatus === "upcoming") {
-   //   return require("../assets/upcoming_yellow.png");
-   // }
+ const getImageSource = () => {
+   if (selectedStatus === "Ongoing") {
+     return require("../assets/ongoing_green.png");
+   } else if (selectedStatus === "Closed") {
+     return require("../assets/Closed_red.png");
+   } else if (selectedStatus === "Upcoming") {
+     return require("../assets/upcoming_yellow.png");
+   }
 
- //   return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
-//  }; 
-//
+   return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
+ }; 
+
   return (
    
     <View style={styles.container}>
@@ -126,9 +126,9 @@ const Eventinfo = () => {
         </View>
 
         <View style={styles.ongoingContainer}>
-          <Text style={styles.ongoingText}>Ongoing</Text>
+          <Text style={styles.ongoingText}>{selectedStatus}</Text>
           <Image
-            source={require("../assets/ongoing_green.png")}
+            source={getImageSource()}
             style={styles.ongoingImage}
           />
         </View>
