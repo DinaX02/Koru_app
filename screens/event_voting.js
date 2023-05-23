@@ -270,7 +270,9 @@ const Eventvoting = () => {
               event, where participants have coins they can invest in the
               projects they like the most. Link: Koru_link.com
             </Text>
-
+            <Text style={styles.LinkVote}>
+            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com
+            </Text>
             <TouchableOpacity style={styles.joinButton}>
           <Text style={styles.joinButtonText}>Vote</Text>
         </TouchableOpacity>
@@ -285,7 +287,7 @@ const Eventvoting = () => {
 
 const styles = StyleSheet.create({
   sliderdescription: {
-    width: "90%",
+    width: "95%",
   },
   slidertitle: {
     color:"#2F2E5F",
@@ -297,7 +299,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     width: 150,
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 20,
   },  joinButtonText: {
     color: "white",
@@ -311,6 +313,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     overflow: "scroll",
   },
+  LinkVote:{    
+    width: "90%", 
+    marginTop: 5,},
+    Linkbold:{
+      color:"#2F2E5F",
+      fontWeight:"bold",
+    },
   sliderline: {
     width: 75,
     height: 4,
