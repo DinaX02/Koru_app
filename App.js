@@ -10,13 +10,14 @@ import JoinEventAfterScan from './screens/Joinevent';
 import ScanQrCode from './screens/ScanQrCode';
 import Eventinfo from './screens/event_info';
 import Eventvoting from './screens/event_voting';
+import Eventliveranking from './screens/event_liveranking';
 
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-        <Eventvoting/>
+        <Profile/>
   );
 }
 

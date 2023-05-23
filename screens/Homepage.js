@@ -22,7 +22,7 @@ const Homepage = ({navigation}) => {
         <TouchableOpacity style={styles.buttonHome}>
           <View style={styles.buttonContent}>
             <Image source={require('../assets/list_icon.png')} style={styles.icon1} />
-            <Text style={styles.buttonText}>My List</Text>
+            <Text style={styles.buttonText}>My Event List</Text>
           </View>
         </TouchableOpacity>
 

@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   wallettitle: {
     color: "white",
     marginBottom: 10,
-    fontStyle: "bold",
+    fontWeight: "bold",
   },
   wallet: {
     flexDirection: "row",
@@ -362,74 +362,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   status: {
-    borderTop: "solid 2px grey",
     backgroundColor: "white",
     padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-  },
-  totalContainer: {
-    marginTop: 20,
-  },
-  COinsss: {
-    marginTop: 10,
-  },
-  totalItem: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    marginBottom: 10,
-  },
-  totalTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#2F2E5F",
-  },
-  totalValue: {
-    fontSize: 14,
-    color: "#fff",
-  },
-  votingContainer: {
-    marginTop: 20,
-  },
-  votingTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#2F2E5F",
-  },
-  votingContent: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  votingItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  votingItemTitle: {
-    marginRight: 5,
-    fontSize: 14,
-    color: "white",
-    fontWeight: "bold",
-  },
-  votingItemValue: {
-    fontSize: 14,
-    color: "#fff",
-    fontWeight: "normal",
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  overviewTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#2F2E5F",
-  },
-  overviewText: {
-    fontSize: 14,
-    color: "#fff",
   },
   container: {
     flex: 1,
@@ -482,82 +418,6 @@ const styles = StyleSheet.create({
   },
   selectedNavButtonText: {
     fontWeight: "bold",
-  },
-  contentContainer: {
-    backgroundColor: "white",
-    borderTopColor: "#AEAEAE",
-    borderTopWidth: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  dateContainer: {
-    flexDirection: "column",
-    marginRight: 15,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  dateDay: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#2F2E5F",
-  },
-  dateMonth: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#2F2E5F",
-  },
-  separator: {
-    height: "95%",
-    width: 2.5,
-    backgroundColor: "#AEAEAEAE",
-    marginHorizontal: 15,
-    borderRadius: 20,
-  },
-  eventDetailsContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  eventTitleContainer: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  eventTitleText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    marginBottom: 5,
-    color: "#2F2E5F",
-  },
-  organizedByText: {
-    color: "#AEAEAE",
-    fontSize: 12,
-  },
-  organizerName: {
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#2F2E5F",
-  },
-  eventHours: {
-    marginTop: 10,
-    fontSize: 12,
-    color: "#2F2E5F",
-  },
-  ongoingContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  ongoingText: {
-    fontSize: 14,
-    fontWeight: "bold",
-    marginRight: 5,
-  },
-  ongoingImage: {
-    width: 10,
-    height: 10,
   },
 });
 
