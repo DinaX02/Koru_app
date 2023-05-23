@@ -162,7 +162,7 @@ const Eventvoting = () => {
           </View>
 
           <Text style={styles.statustexttags}>
-            <Text style={styles.statusgrey}>closes at:</Text> 18:30
+            <Text style={styles.statusgrey}>Closes at:</Text> 18:30
           </Text>
         </View>
         <View style={styles.wallet}>
@@ -183,10 +183,10 @@ const Eventvoting = () => {
               <Text style={styles.cointitle}>Public</Text>
             </View>
           </View>
+          <View style={styles.walletContainer}>
           <Image
-            style={styles.walleticon}
-            source={require("../assets/log_out.png")}
-          ></Image>
+            source={require("../assets/wallet.png")}
+          ></Image></View>
         </View>
         <ScrollView contentContainerStyle={styles.projects}>
           <TouchableOpacity
@@ -283,6 +283,9 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   slidertitle: {
+    color:"#2F2E5F",
+    fontSize:18,
+    fontWeight:"bold",
     margin: 20,
   },
   slidercontent: {
@@ -331,9 +334,9 @@ const styles = StyleSheet.create({
     width: "90%",
     borderRadius: 10,
   },
-  walleticon: {
+  walletContainer:{
     backgroundColor: "white",
-    padding: 20,
+    padding: 15,
     borderRadius: 25,
   },
   wallettitle: {
@@ -349,6 +352,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#2F2E5F",
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    shadowRadius: 6,
+    elevation: 5,
   },
   statusgrey: {
     color: "grey",
@@ -362,6 +370,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   status: {
+    borderTopColor: "#AEAEAE",
+    borderTopWidth: 1,
     backgroundColor: "white",
     padding: 10,
     flexDirection: "row",

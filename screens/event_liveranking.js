@@ -361,6 +361,8 @@ const styles = StyleSheet.create({
         marginLeft: 12,
     },
     filter: {
+        borderTopColor: "#AEAEAE",
+        borderTopWidth: 1,
         backgroundColor: "white",
         padding: 10,
         flexDirection: "row",

@@ -10,7 +10,7 @@ const FooterMenu = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styles.shadowContainer]}>
       <TouchableOpacity
         style={styles.tab}
         onPress={() => handleTabPress('home')}
@@ -65,6 +65,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  shadowContainer: {
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: -5 },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 10,
   },
   tab: {
     alignItems: 'center',
@@ -127,10 +134,7 @@ export default FooterMenu;
 
 
 
-
-
-
-
+ 
 
 
 // import React, { useState } from 'react';

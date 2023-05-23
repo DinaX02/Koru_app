@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 
-const JoinEventAfterScan = () => {
+const JoinEventAfterScan = ({navigation}) => {
   return (
     <ImageBackground
       source={require("../assets/background.png")}
@@ -16,7 +16,8 @@ const JoinEventAfterScan = () => {
       imageStyle={styles.imageStyle}
     >
       <View style={styles.logoutBtn}>
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={() => navigation.goBack()} >
           <Image
             style={styles.logOut}
             source={require("../assets/seta_back.png")}
