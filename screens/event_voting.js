@@ -270,6 +270,11 @@ const Eventvoting = () => {
               event, where participants have coins they can invest in the
               projects they like the most. Link: Koru_link.com
             </Text>
+
+            <TouchableOpacity style={styles.joinButton}>
+          <Text style={styles.joinButtonText}>Vote</Text>
+        </TouchableOpacity>
+
           </View>
         </Animated.View>
       </PanGestureHandler>
@@ -287,6 +292,18 @@ const styles = StyleSheet.create({
     fontSize:18,
     fontWeight:"bold",
     margin: 20,
+  },  joinButton: {
+    backgroundColor: "#2F2E5F",
+    padding: 10,
+    borderRadius: 20,
+    width: 150,
+    marginTop: 20,
+    marginBottom: 20,
+  },  joinButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
   slidercontent: {
     width: "100%",
