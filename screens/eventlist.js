@@ -11,15 +11,9 @@ import {
 } from "react-native";
 
 import FooterMenu from "../components/MenuFooter";
-import {withSpring} from "react-native-reanimated";
 
 
 const Eventlist = () => {
-    const [selectedTab, setSelectedTab] = useState("about");
-    const [selectedStatus, setSelectedStatus] = useState("Ongoing");
-    const handleTabPress = (tabName) => {
-        setSelectedTab(tabName);
-    };
 
 
     return (
@@ -39,7 +33,7 @@ const Eventlist = () => {
                         <Text style={styles.filteroption}>Active</Text>
                         <Text style={styles.filteroptionselected}>Inactive</Text>
                     </View>
-                    <View style={styles.selectall}></View>
+                    <View style={styles.selectall}/>
 
                 </View>
                 <View style={styles.newevent}>
@@ -61,7 +55,7 @@ const Eventlist = () => {
                             />
                             <Text>Media Play 2023</Text>
                         </View>
-                        <View style={styles.circle}></View>
+                        <View style={styles.circle}/>
 
                     </TouchableOpacity>
                 </ScrollView>

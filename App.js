@@ -12,13 +12,14 @@ import Eventinfo from './screens/event_info';
 import Eventvoting from './screens/event_voting';
 import Eventliveranking from './screens/event_liveranking';
 import Eventlist from './screens/eventlist';
+import Eventschedule from './screens/event_schedule';
 import Loading from './screens/animationINTRO';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-<SignUp/>
+<Eventschedule/>
   );
 }
 
