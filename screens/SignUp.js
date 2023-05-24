@@ -7,7 +7,10 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
+
 } from "react-native";
+
 import { LinearGradient } from "expo-linear-gradient";
 
 const SignUp = ({ navigation }) => {
@@ -29,10 +32,12 @@ const SignUp = ({ navigation }) => {
             style={styles.logo}
             source={require("../assets/logo_litle_hompeage.png")}
           />
-          <Text style={styles.title}>Sign Up</Text>
+       
         </View>
 
-        <View style={styles.overlay}>
+        <KeyboardAvoidingView style={styles.overlay}>
+          <View style={styles.TextnamePage}>
+        <Text style={styles.title}>Sign Up</Text></View>
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -50,7 +55,11 @@ const SignUp = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
-        </View>
+
+
+        </KeyboardAvoidingView>
+
+
       </View>
       <TouchableOpacity style={styles.setacontainer}
       onPress={() => navigation.goBack()} // Função para voltar para a página anterior
@@ -75,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   seta: {
-    marginTop:10,
+    marginTop:40,
     width: 30,
     height: 30,
   },
@@ -105,8 +114,12 @@ const styles = StyleSheet.create({
     width: "90%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 100,
+    marginTop: 120,
   },
+  TextnamePage:{
+  justifyContent: "flex-start",
+  alignItems: "flex-start",
+},
   alignoverlay: {
     flex: 1,
     justifyContent: "center",
@@ -116,7 +129,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 120,
     marginBottom: 20,
     textAlign: "left",
   },
@@ -141,6 +153,7 @@ const styles = StyleSheet.create({
     width: "90%",
   },
   buttonText: {
+    marginBottom:10,
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
