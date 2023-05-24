@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
+  Image,KeyboardAvoidingView,
 } from "react-native";
 
 const LogIn = ({ navigation }) => {
@@ -25,11 +25,12 @@ const LogIn = ({ navigation }) => {
           style={styles.logo}
           source={require("../assets/logo_litle_hompeage.png")}
         />
-         <Text style={styles.title}>Log in</Text>
       </View>
      
 
-      <View style={styles.overlay}>
+      <KeyboardAvoidingView style={styles.overlay}>
+      <View style={styles.TextnamePage}>
+        <Text style={styles.title}>Sign Up</Text></View>
         <TextInput style={styles.input} placeholder="Username" />
         <TextInput
           style={styles.input}
@@ -41,7 +42,7 @@ const LogIn = ({ navigation }) => {
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
       </View>
       <TouchableOpacity style={styles.setacontainer}
        onPress={() => navigation.goBack()} // Função para voltar para a página anterior
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     width: '90%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 100,
+    marginTop: 120,
   },
   alignoverlay: {
     flex: 1,
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop:120,
     marginBottom: 20,
     textAlign: 'left',
   },
