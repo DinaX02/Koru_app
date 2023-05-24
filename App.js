@@ -11,6 +11,7 @@ import ScanQrCode from './screens/ScanQrCode';
 import Eventinfo from './screens/event_info';
 import Eventvoting from './screens/event_voting';
 import Eventliveranking from './screens/event_liveranking';
+import Eventlist from './screens/eventlist';
 import Loading from './screens/animationINTRO';
 
 const Stack = createStackNavigator();

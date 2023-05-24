@@ -33,10 +33,62 @@ import FooterMenu from "../components/MenuFooter";
 
 const Eventvoting = () => {
   const [selectedTab, setSelectedTab] = useState("about");
+  const [projectName, setProjectName] = useState("koru");
   const [selectedStatus, setSelectedStatus] = useState("Ongoing");
   const handleTabPress = (tabName) => {
     setSelectedTab(tabName);
   };
+
+  const json = [
+    {
+      "id": 1,
+      "name": "Project 1"
+    },
+    {
+      "id": 2,
+      "name": "Project 2"
+    },
+    {
+      "id": 3,
+      "name": "Project 3"
+    },
+    {
+      "id": 4,
+      "name": "Project 4"
+    },
+    {
+      "id": 5,
+      "name": "Project 5"
+    },
+    {
+      "id": 6,
+      "name": "Project 6"
+    },
+    {
+      "id": 7,
+      "name": "Project 7"
+    },
+    {
+      "id": 8,
+      "name": "Project 8"
+    },
+    {
+      "id": 9,
+      "name": "Project 9"
+    },
+    {
+      "id": 10,
+      "name": "Project 10"
+    },
+    {
+      "id": 11,
+      "name": "Project 11"
+    },
+    {
+      "id": 12,
+      "name": "Project 12"
+    }
+  ];
 
   const SLIDERTOP = 330;
 
@@ -169,59 +221,46 @@ const Eventvoting = () => {
           <View>
             <Text style={styles.wallettitle}>Your Wallet</Text>
             <View style={styles.coindiv}>
-              <Image source={require("../assets/coin.png")}></Image>
-              <Text style={styles.cointitle}>Public</Text>
+              <Image source={require("../assets/coin.png")}/>
+              <Text style={styles.cointitle}>Public</Text><Text style={styles.coinvalue}>500</Text>
             </View>
 
             <View style={styles.coindiv}>
-              <Image source={require("../assets/coin.png")}></Image>
-              <Text style={styles.cointitle}>Public</Text>
+              <Image source={require("../assets/coin_red.png")}/>
+              <Text style={styles.cointitle}>Directors</Text><Text style={styles.coinvalue}>80</Text>
             </View>
 
             <View style={styles.coindiv}>
-              <Image source={require("../assets/coin.png")}></Image>
-              <Text style={styles.cointitle}>Public</Text>
+              <Image source={require("../assets/coin_yellow.png")}/>
+              <Text style={styles.cointitle}>Companies</Text><Text style={styles.coinvalue}>0</Text>
             </View>
           </View>
           <View style={styles.walletContainer}>
-          <Image
-            source={require("../assets/wallet.png")}
-          ></Image></View>
+            <Image source={require("../assets/wallet.png")}/>
+          </View>
         </View>
         <ScrollView contentContainerStyle={styles.projects}>
-          <TouchableOpacity
-            onPress={() => {
-              top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-            }}
-            style={styles.project}
-          >
-            <Image
-              style={styles.projectimage}
-              source={require("../assets/event_join.png")}
-            ></Image>
-            <Text>Koru</Text>
-          </TouchableOpacity>
-          <View style={styles.project}>
-            <Image
-              style={styles.projectimage}
-              source={require("../assets/event_join.png")}
-            ></Image>
-            <Text>Zetflicks</Text>
-          </View>
-          <View style={styles.project}>
-            <Image
-              style={styles.projectimage}
-              source={require("../assets/event_join.png")}
-            ></Image>
-            <Text>Officium</Text>
-          </View>
-          <View style={styles.project}>
-            <Image
-              style={styles.projectimage}
-              source={require("../assets/event_join.png")}
-            ></Image>
-            <Text>Composto</Text>
-          </View>
+          {json &&
+          json.map((project) => (
+              <TouchableOpacity
+                  key={project.id}
+                  onPress={() => {
+                    setProjectName(project.name)
+                    top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                  }}
+                  style={styles.project}
+              >
+                <View style={styles.projectcontent}>
+                  <Image
+                      style={styles.projectimage}
+                      source={require("../assets/event_join.png")}
+                  />
+                  <Text>{project.name}</Text>
+                </View>
+                <View style={styles.circle}/>
+
+              </TouchableOpacity>
+          ))}
         </ScrollView>
       </ImageBackground>
       <PanGestureHandler onGestureEvent={gestureHandler}>
@@ -261,7 +300,7 @@ const Eventvoting = () => {
               }}
               source={require("../assets/image_welcome.png")}
             />
-            <Text style={styles.slidertitle}>Koru</Text>
+            <Text style={styles.slidertitle}>{projectName}</Text>
             <Text style={styles.sliderdescription}>
               Koru is an event tracking platform that allows organizers to
               create and manage events efficiently, while providing event
@@ -286,6 +325,17 @@ const Eventvoting = () => {
 };
 
 const styles = StyleSheet.create({
+  circle:{
+    width: 9,
+    height: 9,
+    borderRadius: 5,
+    backgroundColor: "#2F2E5F",
+    marginRight: 20,
+  },
+  projectcontent:{
+    flexDirection: "row",
+    alignItems: "center",
+  },
   sliderdescription: {
     width: "95%",
   },
@@ -329,6 +379,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 20,
   },
+  coinvalue:{
+    color: "white",
+    marginLeft: 10,
+    fontWeight: 700,
+  },
   cointitle: {
     marginLeft: 5,
     color: "white",
@@ -350,6 +405,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flexDirection: "column",
     alignItems: "center",
+    paddingBottom: 100,
   },
   project: {
     flexDirection: "row",
@@ -359,6 +415,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: "90%",
     borderRadius: 10,
+    justifyContent: "space-between",
   },
   walletContainer:{
     backgroundColor: "white",
@@ -449,8 +506,8 @@ const styles = StyleSheet.create({
   selectedNavButton: {
     borderBottomWidth: 5,
     borderBottomColor: "#2F2E5F",
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
   },
   selectedNavButtonText: {
     fontWeight: "bold",

@@ -38,7 +38,7 @@ const Eventliveranking = () => {
         setSelectedTab(tabName);
     };
 
-    const SLIDERTOP = 330;
+    const SLIDERTOP = 394;
 
     const dimensions = useWindowDimensions();
 
@@ -192,48 +192,6 @@ const Eventliveranking = () => {
                         />
                         <Text>Koru</Text>
                     </TouchableOpacity>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Zetflicks</Text>
-                    </View>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Officium</Text>
-                    </View>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Composto</Text>
-                    </View>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Composto</Text>
-                    </View>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Composto</Text>
-                    </View>
-                    <View style={styles.project}>
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Composto</Text>
-                    </View>
                 </ScrollView>
             </ImageBackground>
             <PanGestureHandler onGestureEvent={gestureHandler}>
@@ -377,6 +335,7 @@ const styles = StyleSheet.create({
         width: "100%",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "center",
         overflow: "scroll",
     },
     sliderline: {
@@ -404,8 +363,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "white",
         padding: 5,
-        borderColor: "lightgrey",
-        borderWidth: 1,
+        borderBottomColor: "#9A9A9A",
+        borderBottomWidth: 1,
         width: "100%",
     },
 
