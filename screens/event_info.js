@@ -197,6 +197,7 @@ const styles = StyleSheet.create({
   },
   COinsss:{
     marginTop:10,
+    paddingBottom:80,
   },
   totalItem: {
     flexDirection: "column",
@@ -207,11 +208,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#2F2E5F",
+    color: "#fff",
   },
   totalValue: {
     fontSize: 14,
-    color: "#fff",
+    color: "#E9E7E7",
   },
   votingContainer: {
     marginTop: 20,
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#2F2E5F",
+    color: "#fff",
   },
   votingContent: {
     flexDirection: "row",
@@ -238,7 +239,7 @@ const styles = StyleSheet.create({
   },
   votingItemValue: {
     fontSize: 14,
-    color: "#fff",
+    color: "#E9E7E7",
     fontWeight : "normal",
   },
   content: {
@@ -249,11 +250,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#2F2E5F",
+    color: "#fff",
   },
   overviewText: {
     fontSize: 14,
-    color: "#fff",
+    color: "#E9E7E7",
   },
   container: {
     flex: 1,

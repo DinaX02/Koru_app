@@ -9,6 +9,7 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
+
 import Animated, {
   useAnimatedGestureHandler,
   useSharedValue,

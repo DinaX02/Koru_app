@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { MenuContext } from './AtualizaIcon';
 
 const FooterMenu = () => {
-  const [activeTab, setActiveTab] = useState('home');
+  const { activeTab, setMenuActiveTab } = useContext(MenuContext);
+  const navigation = useNavigation();
 
   const handleTabPress = (tab) => {
-    setActiveTab(tab);
-    // Adicione aqui a lógica para navegar para a página correspondente
+    setMenuActiveTab(tab);
+
+    if (tab === 'home') {
+      navigation.navigate('Homepage');
+    } else if (tab === 'list') {
+      navigation.navigate('Eventlist');
+    } else if (tab === 'profile') {
+      navigation.navigate('Profile');
+    }
   };
 
   return (
@@ -54,6 +64,7 @@ const FooterMenu = () => {
   );
 };
 
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -90,40 +101,6 @@ const styles = StyleSheet.create({
 });
 
 export default FooterMenu;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

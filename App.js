@@ -14,12 +14,37 @@ import Eventliveranking from './screens/event_liveranking';
 import Eventlist from './screens/eventlist';
 import Eventschedule from './screens/event_schedule';
 import Loading from './screens/animationINTRO';
+import { MenuProvider } from './components/AtualizaIcon';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-<Eventschedule/>
+ <MenuProvider>
+    <NavigationContainer>
+    <Stack.Navigator
+     screenOptions={{
+      headerShown: false, // Oculta o cabeçalho em todas as telas
+     }}
+   initialRouteName="Loading" // screen inicial "Welcome"
+     >
+      <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Screen name="Loading" component={Loading} />
+      <Stack.Screen name="Login" component={LogIn} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Homepage" component={Homepage} />
+      <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
+     <Stack.Screen name="Profile" component={Profile} />
+     <Stack.Screen name="JoinEventAfterScan" component={JoinEventAfterScan} />
+     <Stack.Screen name="Eventlist" component={Eventlist} />
+    
+     <Stack.Screen name="FooterMenu">
+      {props => <FooterMenu {...props} />}
+    </Stack.Screen>
+    </Stack.Navigator>
+</NavigationContainer>
+</MenuProvider>
+
   );
 }
 
@@ -41,7 +66,7 @@ export default function App() {
      <Stack.Screen name="Profile" component={Profile} />
      <Stack.Screen name="JoinEventAfterScan" component={JoinEventAfterScan} />
     </Stack.Navigator>
-  </NavigationContainer>
+</NavigationContainer>
 
 
 
@@ -59,4 +84,5 @@ export default function App() {
         <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
-    </NavigationContainer>*/}
+    </NavigationContainer>*/
+  }

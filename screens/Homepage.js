@@ -19,7 +19,8 @@ const Homepage = ({navigation}) => {
       </View>
 
       <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.buttonHome}>
+        <TouchableOpacity style={styles.buttonHome}
+        onPress={() => navigation.navigate('Eventlist')}>
           <View style={styles.buttonContent}>
             <Image source={require('../assets/list_icon.png')} style={styles.icon1} />
             <Text style={styles.buttonText}>My Event List</Text>

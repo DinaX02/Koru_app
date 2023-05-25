@@ -13,7 +13,7 @@ import {
 import FooterMenu from "../components/MenuFooter";
 
 
-const Eventlist = () => {
+const Eventlist = ({navigation}) => {
 
 
     return (
@@ -41,7 +41,9 @@ const Eventlist = () => {
                     <View style={styles.scanview}>
                         <Text style={styles.eventtext}>Scan here</Text>
                         <View style={styles.qrcodeview}>
-                            <Image style={styles.qrcode} source={require("../assets/qr_code.png")}/>
+                            <TouchableOpacity
+                            onPress={() => navigation.navigate('ScanQrCode')}>
+                            <Image style={styles.qrcode} source={require("../assets/qr_code.png")}/></TouchableOpacity>
                         </View>
 
                     </View>
