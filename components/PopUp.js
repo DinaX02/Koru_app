@@ -11,6 +11,9 @@ import {
 const PopUp = ({ visible, onClose }) => {
   const [amount, setAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(100);
+  const [button1Selected, setButton1Selected] = useState(false);
+  const [button2Selected, setButton2Selected] = useState(false);
+  const [button3Selected, setButton3Selected] = useState(false);
 
   useEffect(() => {
     if (!visible) {
@@ -33,16 +36,25 @@ const PopUp = ({ visible, onClose }) => {
   const setMaxAmount100 = () => {
     setMaxAmount(100);
     setAmount(100);
+    setButton1Selected(true);
+    setButton2Selected(false);
+    setButton3Selected(false);
   };
 
   const setMaxAmount50 = () => {
     setMaxAmount(50);
     setAmount(50);
+    setButton1Selected(false);
+    setButton2Selected(true);
+    setButton3Selected(false);
   };
 
   const setMaxAmount10 = () => {
     setMaxAmount(10);
     setAmount(10);
+    setButton1Selected(false);
+    setButton2Selected(false);
+    setButton3Selected(true);
   };
 
   return (
@@ -62,33 +74,63 @@ const PopUp = ({ visible, onClose }) => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 onPress={setMaxAmount100}
-                style={styles.maxAmountButton}
+                style={[
+                  styles.maxAmountButton,
+                  button1Selected && styles.maxAmountButtonSelected,
+                ]}
               >
                 <Image
                   style={styles.img_coins_vote}
                   source={require("../assets/coin.png")}
                 />
-                <Text style={styles.maxAmountButtonText}>100</Text>
+                <Text
+                  style={[
+                    styles.maxAmountButtonText,
+                    button1Selected && styles.maxAmountButtonSelectedText,
+                  ]}
+                >
+                  100
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={setMaxAmount50}
-                style={styles.maxAmountButton}
+                style={[
+                  styles.maxAmountButton,
+                  button2Selected && styles.maxAmountButtonSelected,
+                ]}
               >
                 <Image
                   style={styles.img_coins_vote}
                   source={require("../assets/coin_red.png")}
                 />
-                <Text style={styles.maxAmountButtonText}>50</Text>
+                <Text
+                  style={[
+                    styles.maxAmountButtonText,
+                    button2Selected && styles.maxAmountButtonSelectedText,
+                  ]}
+                >
+                  50
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={setMaxAmount10}
-                style={styles.maxAmountButton}
+                style={[
+                  styles.maxAmountButton,
+                  button3Selected && styles.maxAmountButtonSelected,
+                ]}
               >
                 <Image
                   style={styles.img_coins_vote}
                   source={require("../assets/coin_yellow.png")}
                 />
-                <Text style={styles.maxAmountButtonText}>10</Text>
+                <Text
+                  style={[
+                    styles.maxAmountButtonText,
+                    button3Selected && styles.maxAmountButtonSelectedText,
+                  ]}
+                >
+                  10
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -114,8 +156,9 @@ const PopUp = ({ visible, onClose }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
-   container: {
+  container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -151,7 +194,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   textProj: {
-   textAlign: "center",
+    textAlign: "center",
     fontWeight: "bold",
     fontSize: 16,
     marginBottom: 10,
@@ -159,8 +202,7 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: "row",
-    justifyContent:"center",
-    
+    justifyContent: "center",
   },
   buttonpopUpVote: {
     backgroundColor: "#2F2E5F",
@@ -180,12 +222,7 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "#2F2E5F",
     color: "white",
-  },
-  amountContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
+    alignSelf: "center",
   },
   amountButton: {
     borderRadius: 20,
@@ -199,25 +236,34 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 16,
+    marginLeft: 10,
   },
   buttonContainer: {
     flexDirection: "row",
     marginTop: 40,
     marginBottom: 10,
-    marginLeft:15,
+    marginLeft: 15,
     flex: 1,
     alignItems: "center",
   },
   maxAmountButton: {
-    backgroundColor: "#2F2E5F",
+    backgroundColor: "white",
     borderRadius: 15,
     padding: 10,
     marginRight: 10,
     flexDirection: "row",
     alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#2F2E5F",
   },
   maxAmountButtonText: {
     fontWeight: "bold",
+    color: "#2F2E5F",
+  },
+  maxAmountButtonSelected: {
+    backgroundColor: "#2F2E5F",
+  },
+  maxAmountButtonSelectedText: {
     color: "white",
   },
   amountContainer: {
@@ -225,7 +271,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 20,
-    marginLeft: 10, }
+    paddingHorizontal: 10,
+  },
 });
 
 
