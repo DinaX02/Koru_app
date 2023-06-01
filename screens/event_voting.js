@@ -10,6 +10,8 @@ import {
   useWindowDimensions,
 } from "react-native";
 
+import PopUp from "../components/PopUp";
+
 import Animated, {
   useAnimatedGestureHandler,
   useSharedValue,
@@ -33,6 +35,17 @@ import FooterMenu from "../components/MenuFooter";
 
 
 const Eventvoting = () => {
+
+  const [popupVisible, setPopupVisible] = useState(false);
+
+  const openPopup = () => {
+    setPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
+
   const [selectedTab, setSelectedTab] = useState("about");
   const [projectName, setProjectName] = useState("koru");
   const [selectedStatus, setSelectedStatus] = useState("Ongoing");
@@ -308,15 +321,15 @@ const Eventvoting = () => {
               attendees with a personalized and interactive experience. The app
               focuses on the dynamics of voting on projects displayed at the
               event, where participants have coins they can invest in the
-              projects they like the most. Link: Koru_link.com
+              projects they like the most.
             </Text>
             <Text style={styles.LinkVote}>
             <Text style={styles.Linkbold}>Link: </Text>Koru_link.com
             </Text>
-            <TouchableOpacity style={styles.joinButton}>
+            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
           <Text style={styles.joinButtonText}>Vote</Text>
         </TouchableOpacity>
-
+        <PopUp visible={popupVisible} onClose={closePopup} />
           </View>
         </Animated.View>
       </PanGestureHandler>

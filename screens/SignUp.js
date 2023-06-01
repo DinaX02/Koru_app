@@ -149,11 +149,11 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
     alignItems: "center",
+    textAlign:"center",
     marginTop: 20,
     width: "90%",
   },
   buttonText: {
-    marginBottom:10,
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",

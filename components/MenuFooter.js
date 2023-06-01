@@ -1,30 +1,32 @@
-import React, { useContext } from 'react';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { MenuContext } from './AtualizaIcon';
 
-const FooterMenu = () => {
-  const { activeTab, setMenuActiveTab } = useContext(MenuContext);
-  const navigation = useNavigation();
+import React, { useState } from 'react';
+import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+  
+
+const FooterMenu = ({navigation}) => {
+  const [activeTab, setActiveTab] = useState('home');
+
 
   const handleTabPress = (tab) => {
-    setMenuActiveTab(tab);
+    setActiveTab(tab);
 
-    if (tab === 'home') {
-      navigation.navigate('Homepage');
-    } else if (tab === 'list') {
-      navigation.navigate('Eventlist');
-    } else if (tab === 'profile') {
-      navigation.navigate('Profile');
-    }
+    // if (tab === 'home') {
+    //   navigation.navigate('Homepage');   {/*  onPress={() => handleTabPress('home')} */}
+    // } else if (tab === 'list') {
+    //   navigation.navigate('List');
+    // } else if (tab === 'profile') {    {/* onPress={() => handleTabPress('profile')}*/}
+    //   navigation.navigate('Profile');
+    // }   
   };
 
   return (
-    <View style={[styles.container, styles.shadowContainer]}>
+    <View style={styles.container}>
       <TouchableOpacity
         style={styles.tab}
-        onPress={() => handleTabPress('home')}
-      >
+   
+      >   
+
+
         <Image
           source={require('../assets/home.png')}
           style={[
@@ -49,8 +51,11 @@ const FooterMenu = () => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.tab}
-        onPress={() => handleTabPress('profile')}
+       
       >
+
+
+
         <Image
           source={require('../assets/profile.png')}
           style={[
@@ -64,7 +69,6 @@ const FooterMenu = () => {
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
@@ -76,13 +80,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  shadowContainer: {
-    shadowColor: 'black',
-    shadowOffset: { width: 0, height: -5 },
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    elevation: 10,
   },
   tab: {
     alignItems: 'center',
@@ -104,44 +101,33 @@ export default FooterMenu;
 
 
 
-
-
-
-
-
-
-
- 
-
-
-// import React, { useState } from 'react';
+// import React, { useContext } from 'react';
 // import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
-  
+// import { useNavigation } from '@react-navigation/native';
+// import { MenuContext } from './AtualizaIcon';
 
-// const FooterMenu = ({navigation}) => {
-//   const [activeTab, setActiveTab] = useState('home');
-
+// const FooterMenu = () => {
+//   const { activeTab, setMenuActiveTab } = useContext(MenuContext);
+//   const navigation = useNavigation();
 
 //   const handleTabPress = (tab) => {
-//     setActiveTab(tab);
+//     setMenuActiveTab(tab);
 
-//     // if (tab === 'home') {
-//     //   navigation.navigate('Homepage');   {/*  onPress={() => handleTabPress('home')} */}
-//     // } else if (tab === 'list') {
-//     //   navigation.navigate('List');
-//     // } else if (tab === 'profile') {    {/* onPress={() => handleTabPress('profile')}*/}
-//     //   navigation.navigate('Profile');
-//     // }   
+//     if (tab === 'home') {
+//       navigation.navigate('Homepage');
+//     } else if (tab === 'list') {
+//       navigation.navigate('Eventlist');
+//     } else if (tab === 'profile') {
+//       navigation.navigate('Profile');
+//     }
 //   };
 
 //   return (
-//     <View style={styles.container}>
+//     <View style={[styles.container, styles.shadowContainer]}>
 //       <TouchableOpacity
 //         style={styles.tab}
-   
-//       >   
-
-
+//         onPress={() => handleTabPress('home')}
+//       >
 //         <Image
 //           source={require('../assets/home.png')}
 //           style={[
@@ -166,11 +152,8 @@ export default FooterMenu;
 //       </TouchableOpacity>
 //       <TouchableOpacity
 //         style={styles.tab}
-       
+//         onPress={() => handleTabPress('profile')}
 //       >
-
-
-
 //         <Image
 //           source={require('../assets/profile.png')}
 //           style={[
@@ -184,6 +167,7 @@ export default FooterMenu;
 //   );
 // };
 
+
 // const styles = StyleSheet.create({
 //   container: {
 //     flexDirection: 'row',
@@ -195,6 +179,13 @@ export default FooterMenu;
 //     bottom: 0,
 //     left: 0,
 //     right: 0,
+//   },
+//   shadowContainer: {
+//     shadowColor: 'black',
+//     shadowOffset: { width: 0, height: -5 },
+//     shadowOpacity: 1,
+//     shadowRadius: 10,
+//     elevation: 10,
 //   },
 //   tab: {
 //     alignItems: 'center',
@@ -213,3 +204,15 @@ export default FooterMenu;
 // });
 
 // export default FooterMenu;
+
+
+
+
+
+
+
+
+
+
+ 
+
