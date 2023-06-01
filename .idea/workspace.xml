@@ -1,12 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="...">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" afterDir="false" />
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="schedule">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/LogIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LogIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Profile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/SignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Welcome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/animationINTRO.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/animationINTRO.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +74,13 @@
       <workItem from="1684762795470" duration="26058000" />
       <workItem from="1684877325018" duration="14570000" />
       <workItem from="1684923908109" duration="5347000" />
-      <workItem from="1684933700886" duration="3135000" />
+      <workItem from="1684933700886" duration="3163000" />
+      <workItem from="1684940839356" duration="2891000" />
+      <workItem from="1685030062761" duration="625000" />
+      <workItem from="1685370598611" duration="16895000" />
+      <workItem from="1685456994593" duration="113000" />
+      <workItem from="1685552846715" duration="700000" />
+      <workItem from="1685557106876" duration="26182000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -84,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1684898423371</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="schedule">
+      <created>1684938498385</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1684938498385</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,6 +132,7 @@
     <MESSAGE value="eventvoting" />
     <MESSAGE value="event voting event liveranking" />
     <MESSAGE value="..." />
-    <option name="LAST_COMMIT_MESSAGE" value="..." />
+    <MESSAGE value="schedule" />
+    <option name="LAST_COMMIT_MESSAGE" value="schedule" />
   </component>
 </project>

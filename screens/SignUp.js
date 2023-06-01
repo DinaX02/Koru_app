@@ -10,10 +10,11 @@ import {
   KeyboardAvoidingView,
 
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
-import { LinearGradient } from "expo-linear-gradient";
+const SignUp = () => {
 
-const SignUp = ({ navigation }) => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState("");
 
   const handleEmailChange = (text) => {
