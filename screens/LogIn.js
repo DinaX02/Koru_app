@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   ImageBackground,
@@ -9,9 +9,11 @@ import {
   Image,KeyboardAvoidingView,
 } from "react-native";
 
-const LogIn = ({ navigation }) => {
+import { useNavigation } from '@react-navigation/native';
 
+const LogIn = () => {
 
+  const navigation = useNavigation();
 
   return (
     <ImageBackground
@@ -38,7 +40,7 @@ const LogIn = ({ navigation }) => {
           secureTextEntry
         />
         <TouchableOpacity style={styles.button}
-         onPress={() => navigation.navigate('Homepage')}
+         onPress={() => navigation.navigate('Home')}
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>

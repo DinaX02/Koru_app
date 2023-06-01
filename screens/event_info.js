@@ -5,14 +5,12 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Image,ScrollView, 
+  Image,ScrollView,
 } from "react-native";
-
-import FooterMenu from "../components/MenuFooter";
 
 const Eventinfo = () => {
   const [selectedTab, setSelectedTab] = useState("about");
-  const [selectedStatus, setSelectedStatus] = useState("Closed");
+  const [selectedStatus, setSelectedStatus] = useState("Upcoming");
   const handleTabPress = (tabName) => {
     setSelectedTab(tabName);
   };
@@ -32,83 +30,7 @@ const Eventinfo = () => {
   return (
    
     <View style={styles.container}>
-    <View style={styles.header}>
-      <Text style={styles.eventTitle}>Titulo do Evento</Text>
-      <Image
-        source={require("../assets/event_img_test.png")}
-        style={styles.eventImage}
-      />
-    </View>
 
-    <View style={styles.navigation}>
-      <TouchableOpacity
-        style={[
-          styles.navButton,
-          selectedTab === "about" && styles.selectedNavButton,
-        ]}
-        onPress={() => handleTabPress("about")}
-      >
-        <Text
-          style={[
-            styles.navButtonText,
-            selectedTab === "about" && styles.selectedNavButtonText,
-          ]}
-        >
-          About
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[
-          styles.navButton,
-          selectedTab === "voting" && styles.selectedNavButton,
-        ]}
-        onPress={() => handleTabPress("voting")}
-      >
-        <Text
-          style={[
-            styles.navButtonText,
-            selectedTab === "voting" && styles.selectedNavButtonText,
-          ]}
-        >
-          Voting
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[
-          styles.navButton,
-          selectedTab === "liveRanking" && styles.selectedNavButton,
-        ]}
-        onPress={() => handleTabPress("liveRanking")}
-      >
-        <Text
-          style={[
-            styles.navButtonText,
-            selectedTab === "liveRanking" && styles.selectedNavButtonText,
-          ]}
-        >
-          Live Ranking
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={[
-          styles.navButton,
-          selectedTab === "schedule" && styles.selectedNavButton,
-        ]}
-        onPress={() => handleTabPress("schedule")}
-      >
-        <Text
-          style={[
-            styles.navButtonText,
-            selectedTab === "schedule" && styles.selectedNavButtonText,
-          ]}
-        >
-          Schedule
-        </Text>
-      </TouchableOpacity>
-    </View>
 {/* info do evento em baixo */}
     <View style={styles.contentContainer}>
       <View style={styles.dateContainer}>
@@ -184,7 +106,6 @@ const Eventinfo = () => {
   </View>
 </View>
 </ScrollView>
-<FooterMenu/>
     </ImageBackground>
   </View>
 
@@ -310,8 +231,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     backgroundColor: "white",
-    borderTopColor: "#AEAEAE",
-    borderTopWidth: 1,
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 10,

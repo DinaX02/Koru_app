@@ -1,11 +1,13 @@
 import React, { useState }  from 'react';
 import { View, Text, Image,Button, StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 
 const { height, width } = Dimensions.get('window');
 
-const Welcome = ({ navigation }) => {
-   
+const Welcome = () => {
+
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
     <Image
@@ -23,7 +25,7 @@ const Welcome = ({ navigation }) => {
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.buttonLogin}
       title="Login"
-       onPress={() => navigation.navigate('Login')}>
+       onPress={() => navigation.navigate('LogIn')}>
          <Text style={styles.buttonTextLogIN}>Log In</Text>
        
       </TouchableOpacity>

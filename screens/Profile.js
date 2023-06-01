@@ -58,7 +58,6 @@ const Profile = ({navigation}) => {
         </View>
 
       </View>
-      <FooterMenu/>
     </ImageBackground>
   );
 };

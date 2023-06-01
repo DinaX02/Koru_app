@@ -91,7 +91,7 @@ const Eventvoting = () => {
     }
   ];
 
-  const SLIDERTOP = 330;
+  const SLIDERTOP = 195;
 
   const dimensions = useWindowDimensions();
 
@@ -125,83 +125,6 @@ const Eventvoting = () => {
         source={require("../assets/background.png")}
         style={styles.backgroundImage}
       >
-        <View style={styles.header}>
-          <Text style={styles.eventTitle}>Titulo do Evento</Text>
-          <Image
-            source={require("../assets/event_img_test.png")}
-            style={styles.eventImage}
-          />
-        </View>
-
-        <View style={styles.navigation}>
-          <TouchableOpacity
-            style={[
-              styles.navButton,
-              selectedTab === "about" && styles.selectedNavButton,
-            ]}
-            onPress={() => handleTabPress("about")}
-          >
-            <Text
-              style={[
-                styles.navButtonText,
-                selectedTab === "about" && styles.selectedNavButtonText,
-              ]}
-            >
-              About
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.navButton,
-              selectedTab === "voting" && styles.selectedNavButton,
-            ]}
-            onPress={() => handleTabPress("voting")}
-          >
-            <Text
-              style={[
-                styles.navButtonText,
-                selectedTab === "voting" && styles.selectedNavButtonText,
-              ]}
-            >
-              Voting
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.navButton,
-              selectedTab === "liveRanking" && styles.selectedNavButton,
-            ]}
-            onPress={() => handleTabPress("liveRanking")}
-          >
-            <Text
-              style={[
-                styles.navButtonText,
-                selectedTab === "liveRanking" && styles.selectedNavButtonText,
-              ]}
-            >
-              Live Ranking
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.navButton,
-              selectedTab === "schedule" && styles.selectedNavButton,
-            ]}
-            onPress={() => handleTabPress("schedule")}
-          >
-            <Text
-              style={[
-                styles.navButtonText,
-                selectedTab === "schedule" && styles.selectedNavButtonText,
-              ]}
-            >
-              Schedule
-            </Text>
-          </TouchableOpacity>
-        </View>
         {/* status */}
         <View style={styles.status}>
           <View style={styles.statustext}>
@@ -320,7 +243,6 @@ const Eventvoting = () => {
           </View>
         </Animated.View>
       </PanGestureHandler>
-      <FooterMenu/>
     </GestureHandlerRootView>
   );
 };
@@ -454,8 +376,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   status: {
-    borderTopColor: "#AEAEAE",
-    borderTopWidth: 1,
     backgroundColor: "white",
     padding: 10,
     flexDirection: "row",
@@ -489,29 +409,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 15,
-  },
-  navigation: {
-    flexDirection: "row",
-    backgroundColor: "white",
-    justifyContent: "space-around",
-    paddingTop: 5,
-  },
-  navButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 5,
-  },
-  navButtonText: {
-    fontSize: 14,
-    color: "#2F2E5F",
-  },
-  selectedNavButton: {
-    borderBottomWidth: 5,
-    borderBottomColor: "#2F2E5F",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-  },
-  selectedNavButtonText: {
-    fontWeight: "bold",
   },
 });
 

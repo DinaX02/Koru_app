@@ -32,83 +32,7 @@ const Eventschedule = () => {
     return (
 
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.eventTitle}>Titulo do Evento</Text>
-                <Image
-                    source={require("../assets/event_img_test.png")}
-                    style={styles.eventImage}
-                />
-            </View>
 
-            <View style={styles.navigation}>
-                <TouchableOpacity
-                    style={[
-                        styles.navButton,
-                        selectedTab === "about" && styles.selectedNavButton,
-                    ]}
-                    onPress={() => handleTabPress("about")}
-                >
-                    <Text
-                        style={[
-                            styles.navButtonText,
-                            selectedTab === "about" && styles.selectedNavButtonText,
-                        ]}
-                    >
-                        About
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={[
-                        styles.navButton,
-                        selectedTab === "voting" && styles.selectedNavButton,
-                    ]}
-                    onPress={() => handleTabPress("voting")}
-                >
-                    <Text
-                        style={[
-                            styles.navButtonText,
-                            selectedTab === "voting" && styles.selectedNavButtonText,
-                        ]}
-                    >
-                        Voting
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={[
-                        styles.navButton,
-                        selectedTab === "liveRanking" && styles.selectedNavButton,
-                    ]}
-                    onPress={() => handleTabPress("liveRanking")}
-                >
-                    <Text
-                        style={[
-                            styles.navButtonText,
-                            selectedTab === "liveRanking" && styles.selectedNavButtonText,
-                        ]}
-                    >
-                        Live Ranking
-                    </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={[
-                        styles.navButton,
-                        selectedTab === "schedule" && styles.selectedNavButton,
-                    ]}
-                    onPress={() => handleTabPress("schedule")}
-                >
-                    <Text
-                        style={[
-                            styles.navButtonText,
-                            selectedTab === "schedule" && styles.selectedNavButtonText,
-                        ]}
-                    >
-                        Schedule
-                    </Text>
-                </TouchableOpacity>
-            </View>
 
             <ImageBackground
                 source={require("../assets/background.png")}
@@ -152,7 +76,6 @@ const Eventschedule = () => {
                         </View>
                     </View>
                 </ScrollView>
-                <FooterMenu/>
             </ImageBackground>
         </View>
 

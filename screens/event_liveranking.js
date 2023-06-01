@@ -72,83 +72,7 @@ const Eventliveranking = () => {
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
             >
-                <View style={styles.header}>
-                    <Text style={styles.eventTitle}>Titulo do Evento</Text>
-                    <Image
-                        source={require("../assets/event_img_test.png")}
-                        style={styles.eventImage}
-                    />
-                </View>
 
-                <View style={styles.navigation}>
-                    <TouchableOpacity
-                        style={[
-                            styles.navButton,
-                            selectedTab === "about" && styles.selectedNavButton,
-                        ]}
-                        onPress={() => handleTabPress("about")}
-                    >
-                        <Text
-                            style={[
-                                styles.navButtonText,
-                                selectedTab === "about" && styles.selectedNavButtonText,
-                            ]}
-                        >
-                            About
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[
-                            styles.navButton,
-                            selectedTab === "voting" && styles.selectedNavButton,
-                        ]}
-                        onPress={() => handleTabPress("voting")}
-                    >
-                        <Text
-                            style={[
-                                styles.navButtonText,
-                                selectedTab === "voting" && styles.selectedNavButtonText,
-                            ]}
-                        >
-                            Voting
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[
-                            styles.navButton,
-                            selectedTab === "liveRanking" && styles.selectedNavButton,
-                        ]}
-                        onPress={() => handleTabPress("liveRanking")}
-                    >
-                        <Text
-                            style={[
-                                styles.navButtonText,
-                                selectedTab === "liveRanking" && styles.selectedNavButtonText,
-                            ]}
-                        >
-                            Live Ranking
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[
-                            styles.navButton,
-                            selectedTab === "schedule" && styles.selectedNavButton,
-                        ]}
-                        onPress={() => handleTabPress("schedule")}
-                    >
-                        <Text
-                            style={[
-                                styles.navButtonText,
-                                selectedTab === "schedule" && styles.selectedNavButtonText,
-                            ]}
-                        >
-                            Schedule
-                        </Text>
-                    </TouchableOpacity>
-                </View>
                 {/* filter*/}
 
                 <View style={styles.filter}>
@@ -186,6 +110,102 @@ const Eventliveranking = () => {
                         }}
                         style={styles.project}
                     >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    ><TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity><TouchableOpacity
+                        onPress={() => {
+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                        }}
+                        style={styles.project}
+                    >
+                        <Image
+                            style={styles.projectimage}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text>Koru</Text>
+                    </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                            }}
+                            style={styles.project}
+                        >
+                            <Image
+                                style={styles.projectimage}
+                                source={require("../assets/event_join.png")}
+                            />
+                            <Text>Koru</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                            }}
+                            style={styles.project}
+                        >
+                            <Image
+                                style={styles.projectimage}
+                                source={require("../assets/event_join.png")}
+                            />
+                            <Text>Koru</Text>
+                        </TouchableOpacity>
+
+
                         <Image
                             style={styles.projectimage}
                             source={require("../assets/event_join.png")}
@@ -243,7 +263,6 @@ const Eventliveranking = () => {
                     </View>
                 </Animated.View>
             </PanGestureHandler>
-            <FooterMenu/>
         </GestureHandlerRootView>
     );
 };
@@ -319,8 +338,6 @@ const styles = StyleSheet.create({
         marginLeft: 12,
     },
     filter: {
-        borderTopColor: "#AEAEAE",
-        borderTopWidth: 1,
         backgroundColor: "white",
         padding: 10,
         flexDirection: "row",
@@ -375,50 +392,6 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center",
-    },
-    header: {
-        paddingTop: 40,
-        paddingBottom: 10,
-        flexDirection: "row",
-        backgroundColor: "#2F2E5F",
-        alignItems: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-    },
-    eventTitle: {
-        flex: 1,
-        color: "white",
-        fontSize: 18,
-        fontWeight: "bold",
-        textAlign: "left",
-    },
-    eventImage: {
-        width: 50,
-        height: 50,
-        borderRadius: 15,
-    },
-    navigation: {
-        flexDirection: "row",
-        backgroundColor: "white",
-        justifyContent: "space-around",
-        paddingTop: 5,
-    },
-    navButton: {
-        paddingHorizontal: 15,
-        paddingVertical: 5,
-    },
-    navButtonText: {
-        fontSize: 14,
-        color: "#2F2E5F",
-    },
-    selectedNavButton: {
-        borderBottomWidth: 5,
-        borderBottomColor: "#2F2E5F",
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-    },
-    selectedNavButtonText: {
-        fontWeight: "bold",
     },
 });
 

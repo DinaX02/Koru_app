@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, ImageBackground, Image, Text, TouchableOpacity, Dimensions } from "react-native";
-import FooterMenu from "../components/MenuFooter";
-const Homepage = ({navigation}) => {
-
+import React from "react";
+import { StyleSheet, View, ImageBackground, Image, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+const Homepage = () => {
+  const navigation = useNavigation();
 
   return (
     <ImageBackground
@@ -36,7 +36,6 @@ const Homepage = ({navigation}) => {
           </View>
         </TouchableOpacity>
       </View>
-      <FooterMenu/>
     </ImageBackground>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, View, Image } from 'react-native';
+import {Animated, Easing, StyleSheet, View, Image, BackHandler} from 'react-native';
+import {useFocusEffect} from "@react-navigation/native";
 
 const Loading = ({ navigation }) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
@@ -15,7 +16,14 @@ const Loading = ({ navigation }) => {
       easing: Easing.easeIn,
       useNativeDriver: true,
     }).start(() => {
-      navigation.navigate('Welcome'); // Navegar para a página welcome depois da animação de loading
+
+      const onBackPress = () => {
+        return true; // Disable back button for Welcome page
+      };
+      BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      navigation.navigate('WelcomePage'); // Navegar para a página welcome depois da animação de loading
+
     });
   };
 

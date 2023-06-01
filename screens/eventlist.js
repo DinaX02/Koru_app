@@ -9,12 +9,12 @@ import {
     ScrollView,
     useWindowDimensions,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 
-import FooterMenu from "../components/MenuFooter";
 
+const Eventlist = () => {
 
-const Eventlist = ({navigation}) => {
-
+    const navigation = useNavigation();
 
     return (
         <View style={styles.container}>
@@ -22,20 +22,7 @@ const Eventlist = ({navigation}) => {
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
             >
-                <View style={styles.header}>
-                    <Text style={styles.eventTitle}>My Event List</Text>
-                </View>
 
-                {/* filter*/}
-
-                <View style={styles.filter}>
-                    <View style={styles.listoptions}>
-                        <Text style={styles.filteroption}>Active</Text>
-                        <Text style={styles.filteroptionselected}>Inactive</Text>
-                    </View>
-                    <View style={styles.selectall}/>
-
-                </View>
                 <View style={styles.newevent}>
                     <Text style={styles.eventtext}>Join a new Event</Text>
                     <View style={styles.scanview}>
@@ -48,8 +35,21 @@ const Eventlist = ({navigation}) => {
 
                     </View>
                 </View>
+                {/* filter*/}
+
+                <View style={styles.filter}>
+                    <View style={styles.listoptions}>
+                        <Text style={styles.filteroption}>Active</Text>
+                        <Text style={styles.filteroptionselected}>Inactive</Text>
+                    </View>
+                    <View style={styles.selectall}/>
+
+                </View>
                 <ScrollView contentContainerStyle={styles.projects}>
-                    <TouchableOpacity style={styles.project}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('Event')}
+                        style={styles.project}
+                    >
                         <View style={styles.projectcontent}>
                             <Image
                                 style={styles.projectimage}
@@ -65,7 +65,6 @@ const Eventlist = ({navigation}) => {
                 {/* podium*/}
 
             </ImageBackground>
-            <FooterMenu/>
         </View>
     );
 };
@@ -188,15 +187,6 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: "cover",
         justifyContent: "center",
-    },
-    header: {
-        paddingTop: 40,
-        paddingBottom: 10,
-        flexDirection: "row",
-        backgroundColor: "#2F2E5F",
-        alignItems: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 15,
     },
     eventTitle: {
         flex: 1,
