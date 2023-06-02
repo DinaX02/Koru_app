@@ -14,12 +14,28 @@ const PopUp = ({ visible, onClose }) => {
   const [button1Selected, setButton1Selected] = useState(false);
   const [button2Selected, setButton2Selected] = useState(false);
   const [button3Selected, setButton3Selected] = useState(false);
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [transactionVisible, setTransactionVisible] = useState(false);
+  const [PossibleVote, setPossibleVote] = useState(false); // pode votar ou n
 
   useEffect(() => {
     if (!visible) {
       setAmount(0);
     }
   }, [visible]);
+
+
+
+ useEffect(() => {
+    // Verificar se a quantidade é maior que 0 e pelo menos um botão foi selecionado
+    if (amount > 0 && (button1Selected || button2Selected || button3Selected)) {
+      setPossibleVote(true); // Habilitar o botão de voto
+    } else {
+      setPossibleVote(false); // Desabilitar o botão de voto
+    }
+  }, [amount, button1Selected, button2Selected, button3Selected]);
+
+
 
   const increaseAmount = () => {
     if (amount < maxAmount) {
@@ -56,106 +72,193 @@ const PopUp = ({ visible, onClose }) => {
     setButton2Selected(false);
     setButton3Selected(true);
   };
+  
+  const showConfirmation = () => {
+    if (PossibleVote) {
+      setConfirmVisible(true);
+    }
+  };
+
+
+  const hideConfirmation = () => {
+    setConfirmVisible(false);
+  };
+
+  const handleVote = () => {
+    setConfirmVisible(false);
+    setTransactionVisible(true);
+  };
+
+  
+ handleTransactionClose = () => {
+    setTransactionVisible(false);
+    onClose();
+  };
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.container}>
-        <View style={styles.popup}>
-          <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-            <Image
-              style={styles.closeButtonText}
-              source={require("../assets/exit.png")}
-            />
-          </TouchableOpacity>
+    <>
+      <Modal visible={visible} transparent animationType="fade">
+        <View style={styles.container}>
+          <View style={styles.popup}>
+            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+              <Image
+                style={styles.closeButtonText}
+                source={require("../assets/exit.png")}
+              />
+            </TouchableOpacity>
 
-          <Text style={styles.textProj}>Voting on Koru</Text>
-          <View style={styles.rowContainer}>
-            <Text style={styles.popupText}>Coin:</Text>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity
-                onPress={setMaxAmount100}
-                style={[
-                  styles.maxAmountButton,
-                  button1Selected && styles.maxAmountButtonSelected,
-                ]}
-              >
-                <Image
-                  style={styles.img_coins_vote}
-                  source={require("../assets/coin.png")}
-                />
-                <Text
+            <Text style={styles.textProj}>Voting on Koru</Text>
+            <View style={styles.rowContainer}>
+              <Text style={styles.popupText}>Coin:</Text>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  onPress={setMaxAmount100}
                   style={[
-                    styles.maxAmountButtonText,
-                    button1Selected && styles.maxAmountButtonSelectedText,
+                    styles.maxAmountButton,
+                    button1Selected && styles.maxAmountButtonSelected,
                   ]}
                 >
-                  100
-                </Text>
+                  <Image
+                    style={styles.img_coins_vote}
+                    source={require("../assets/coin.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.maxAmountButtonText,
+                      button1Selected && styles.maxAmountButtonSelectedText,
+                    ]}
+                  >
+                    100
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={setMaxAmount50}
+                  style={[
+                    styles.maxAmountButton,
+                    button2Selected && styles.maxAmountButtonSelected,
+                  ]}
+                >
+                  <Image
+                    style={styles.img_coins_vote}
+                    source={require("../assets/coin_red.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.maxAmountButtonText,
+                      button2Selected && styles.maxAmountButtonSelectedText,
+                    ]}
+                  >
+                    50
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={setMaxAmount10}
+                  style={[
+                    styles.maxAmountButton,
+                    button3Selected && styles.maxAmountButtonSelected,
+                  ]}
+                >
+                  <Image
+                    style={styles.img_coins_vote}
+                    source={require("../assets/coin_yellow.png")}
+                  />
+                  <Text
+                    style={[
+                      styles.maxAmountButtonText,
+                      button3Selected && styles.maxAmountButtonSelectedText,
+                    ]}
+                  >
+                    10
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+    
+            <View style={styles.rowContainer}>
+            <Text style={styles.popupText2}>Amount:</Text>
+            <View style={styles.amountContainer}>
+              <TouchableOpacity
+                onPress={decreaseAmount}
+                style={styles.amountButton}
+              >
+                <Text style={styles.amountButtonText}>-</Text>
+              </TouchableOpacity>
+              <Text style={styles.amountText}>{amount}</Text>
+              <TouchableOpacity
+                onPress={increaseAmount}
+                style={styles.amountButton}
+              >
+                <Text style={styles.amountButtonText}>+</Text>
+              </TouchableOpacity>
+            </View>
+            </View>
+            <View style={styles.viewButton}>
+  
+            <TouchableOpacity
+              onPress={showConfirmation}
+              style={[
+                styles.voteButton,
+                !PossibleVote && styles.voteButtonDisabled,
+              ]}
+              disabled={!PossibleVote}
+            >
+              <Text style={styles.voteButtonText}>Vote</Text>
+            </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+{/* popup confirmação yes or no*/}
+
+      <Modal visible={confirmVisible} transparent animationType="fade">
+        <View style={styles.container}>
+          <View style={styles.popup2}>
+            <Text style={styles.confirmationText}>
+              Are you sure you want to invest {amount} coins in Koru?
+            </Text>
+            <View style={styles.confirmationButtonsContainer}>
+              <TouchableOpacity
+                onPress={handleVote}
+                style={styles.confirmationButton}
+              >
+                <Text style={styles.confirmationButtonText}>Yes</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={setMaxAmount50}
-                style={[
-                  styles.maxAmountButton,
-                  button2Selected && styles.maxAmountButtonSelected,
-                ]}
+                onPress={hideConfirmation}
+                style={styles.confirmationButton}
               >
-                <Image
-                  style={styles.img_coins_vote}
-                  source={require("../assets/coin_red.png")}
-                />
-                <Text
-                  style={[
-                    styles.maxAmountButtonText,
-                    button2Selected && styles.maxAmountButtonSelectedText,
-                  ]}
-                >
-                  50
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={setMaxAmount10}
-                style={[
-                  styles.maxAmountButton,
-                  button3Selected && styles.maxAmountButtonSelected,
-                ]}
-              >
-                <Image
-                  style={styles.img_coins_vote}
-                  source={require("../assets/coin_yellow.png")}
-                />
-                <Text
-                  style={[
-                    styles.maxAmountButtonText,
-                    button3Selected && styles.maxAmountButtonSelectedText,
-                  ]}
-                >
-                  10
-                </Text>
+                <Text style={styles.confirmationButtonText}>No</Text>
               </TouchableOpacity>
             </View>
           </View>
-          <Text style={styles.popupText2}>Amount:</Text>
-          <View style={styles.amountContainer}>
-            <TouchableOpacity onPress={decreaseAmount} style={styles.amountButton}>
-              <Text style={styles.amountButtonText}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.amountText}>{amount}</Text>
-            <TouchableOpacity onPress={increaseAmount} style={styles.amountButton}>
-              <Text style={styles.amountButtonText}>+</Text>
-            </TouchableOpacity>
-          </View>
+        </View>
+      </Modal>
 
-          <View style={styles.viewButton}>
-            <TouchableOpacity style={styles.buttonpopUpVote}>
-              <Text style={styles.textbutoonPopup}>Vote</Text>
+{/* popup confirmação  que foi conluida a transaçaõ*/}
+
+      <Modal visible={transactionVisible} transparent animationType="fade">
+        <View style={styles.container}>
+          <View style={styles.popup}>
+            <Text style={styles.textProj}>Transaction complete</Text>
+            <Text style={styles.popupValidationFinal}>
+              Your coins went through!
+            </Text>
+            <TouchableOpacity
+              onPress={handleTransactionClose}
+              style={styles.closeButton}
+            >
+              <Image
+                style={styles.closeButtonText}
+                source={require("../assets/exit.png")}
+              />
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+    </>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -173,6 +276,15 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 20,
   },
+  popup2:{
+    backgroundColor: "white",
+    width: 300,
+    padding: 20,
+    borderRadius: 20,
+    height: 180,
+    justifyContent:"center",
+  },
+
   closeButton: {
     position: "absolute",
     top: 0,
@@ -183,6 +295,7 @@ const styles = StyleSheet.create({
   closeButtonText: {
     marginRight: 50,
   },
+  voteButtonText:{color:"white"},
   popupText: {
     marginTop: 50,
     color: "#2F2E5F",
@@ -192,8 +305,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "#2F2E5F",
     fontWeight: "bold",
+    justifyContent:"flex-start",
   },
-  textProj: {
+  popupValidationFinal:{   
+    marginTop: 20,
+    color: "#2F2E5F",
+  textAlign:"center"
+},
+ textProj: {
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 16,
@@ -203,7 +322,7 @@ const styles = StyleSheet.create({
   rowContainer: {
     flexDirection: "row",
     justifyContent: "center",
-  },
+  }, 
   buttonpopUpVote: {
     backgroundColor: "#2F2E5F",
     borderRadius: 20,
@@ -236,7 +355,8 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 16,
-    marginLeft: 10,
+    marginHorizontal: 20,
+    marginTop: 13,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -269,11 +389,33 @@ const styles = StyleSheet.create({
   amountContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 20,
-    paddingHorizontal: 10,
+    marginTop:5,
+    marginLeft:10,
+  },
+  confirmationText: {
+    color: "#2F2E5F",
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign:"center",
+  },
+  confirmationButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  confirmationButton: {
+    backgroundColor: "#2F2E5F",
+    borderRadius: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginHorizontal: 10,
+  },
+  confirmationButtonText: {
+    fontWeight: "bold",
+    color: "white",
+  }, 
+   voteButtonDisabled: {
+    backgroundColor: "#ccc",
   },
 });
-
 
 export default PopUp;

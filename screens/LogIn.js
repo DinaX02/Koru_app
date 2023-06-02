@@ -32,7 +32,7 @@ const LogIn = () => {
 
       <KeyboardAvoidingView style={styles.overlay}>
       <View style={styles.TextnamePage}>
-        <Text style={styles.title}>Sign Up</Text></View>
+        <Text style={styles.title}>Log In</Text></View>
         <TextInput style={styles.input} placeholder="Username" />
         <TextInput
           style={styles.input}
