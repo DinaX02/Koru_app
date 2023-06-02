@@ -9,6 +9,7 @@ import {
 } from "react-native";
 
 const PopUp = ({ visible, onClose }) => {
+
   const [amount, setAmount] = useState(0);
   const [maxAmount, setMaxAmount] = useState(100);
   const [button1Selected, setButton1Selected] = useState(false);
@@ -38,13 +39,13 @@ const PopUp = ({ visible, onClose }) => {
 
 
   const increaseAmount = () => {
-    if (amount < maxAmount) {
+    if ((amount < maxAmount) && (button1Selected || button2Selected || button3Selected)){
       setAmount(amount + 1);
     }
   };
 
   const decreaseAmount = () => {
-    if (amount > 0) {
+    if ((amount > 0)&& (button1Selected || button2Selected || button3Selected)) {
       setAmount(amount - 1);
     }
   };
@@ -108,7 +109,9 @@ const PopUp = ({ visible, onClose }) => {
             </TouchableOpacity>
 
             <Text style={styles.textProj}>Voting on Koru</Text>
+            <Text style={styles.textSelectaCoin}>Please select a coin</Text>
             <View style={styles.rowContainer}>
+  
               <Text style={styles.popupText}>Coin:</Text>
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -235,7 +238,7 @@ const PopUp = ({ visible, onClose }) => {
         </View>
       </Modal>
 
-{/* popup confirmação  que foi conluida a transaçaõ*/}
+{/* popup confirmação  que foi conluida a transação*/}
 
       <Modal visible={transactionVisible} transparent animationType="fade">
         <View style={styles.container}>
@@ -301,6 +304,11 @@ const styles = StyleSheet.create({
     color: "#2F2E5F",
     fontWeight: "bold",
   },
+  textSelectaCoin:{ 
+    color: "#2F2E5F",
+  textAlign:"center",
+  marginTop:10,
+},
   popupText2: {
     marginTop: 20,
     color: "#2F2E5F",
