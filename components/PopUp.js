@@ -242,7 +242,7 @@ const PopUp = ({ visible, onClose }) => {
 
       <Modal visible={transactionVisible} transparent animationType="fade">
         <View style={styles.container}>
-          <View style={styles.popup}>
+          <View style={styles.popup3}>
             <Text style={styles.textProj}>Transaction complete</Text>
             <Text style={styles.popupValidationFinal}>
               Your coins went through!
@@ -286,8 +286,15 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 180,
     justifyContent:"center",
+  },  
+  popup3:{
+    backgroundColor: "white",
+    width: 300,
+    padding: 20,
+    borderRadius: 20,
+    height: 180,
+    justifyContent:"center",
   },
-
   closeButton: {
     position: "absolute",
     top: 0,
@@ -298,12 +305,17 @@ const styles = StyleSheet.create({
   closeButtonText: {
     marginRight: 50,
   },
-  voteButtonText:{color:"white"},
+
+  voteButtonText:{
+    color:"white"
+  },
+
   popupText: {
     marginTop: 50,
     color: "#2F2E5F",
     fontWeight: "bold",
   },
+  
   textSelectaCoin:{ 
     color: "#2F2E5F",
   textAlign:"center",
@@ -340,7 +352,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "white",
   },
-  viewButton: {
+  voteButton: {
     width: "30%",
     justifyContent: "center",
     alignItems: "center",
@@ -363,7 +375,6 @@ const styles = StyleSheet.create({
   },
   amountText: {
     fontSize: 16,
-    marginHorizontal: 20,
     marginTop: 13,
   },
   buttonContainer: {
