@@ -141,21 +141,3 @@ const styles = StyleSheet.create({
 
 export default LogIn;
 
-{
-  /* 
-
-<LinearGradient 
-style={{
-height: height, 
-width: width, 
-paddingBottom:1000, 
-borderRadius: 5,
-backgroundImage: 'url(./assets/img_background_login.png))',
-}}
-
-colors={['#807DFF','#4E4D8D']}>
-
-
-<Text>Welcome</Text>
-</LinearGradient>*/
-}

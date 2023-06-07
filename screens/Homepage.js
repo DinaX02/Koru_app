@@ -32,7 +32,7 @@ const Homepage = () => {
         >
           <View style={styles.buttonContent}>
             <Image source={require('../assets/icon_scan.png')} style={styles.icon} />
-            <Text style={styles.buttonText}>Join new event</Text>
+            <Text style={styles.buttonText2}>Join new event</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -106,6 +106,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color:"#fff",
   },
+  buttonText2: {
+    marginTop:12,
+    fontSize: 16,
+    fontWeight: "bold",
+    color:"#fff",
+  },
+
   footer: {
     alignItems: "center",
     marginBottom: 20,

@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     color: "#2F2E5F",
     fontWeight: "bold",
   },
-  
+
   textSelectaCoin:{ 
     color: "#2F2E5F",
   textAlign:"center",
@@ -376,6 +376,7 @@ const styles = StyleSheet.create({
   amountText: {
     fontSize: 16,
     marginTop: 13,
+    paddingRight:7,
   },
   buttonContainer: {
     flexDirection: "row",
