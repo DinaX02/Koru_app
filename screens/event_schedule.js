@@ -64,7 +64,7 @@ const Eventschedule = () => {
                     <View style={styles.timestamp}>
                         <Text style={styles.number}>4</Text>
                         <View>
-                            <Text style={styles.hour}>12:00</Text>
+                            <Text style={styles.hour}>12:00 - 18:30</Text>
                             <Text style={styles.task}>Voting</Text>
                         </View>
                     </View>
