@@ -247,8 +247,9 @@ const Eventvoting = () => {
               projects they like the most.
             </Text>
             <Text style={styles.LinkVote}>
-            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com
-            </Text>
+              
+            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>
+
             <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
           <Text style={styles.joinButtonText}>Vote</Text>
         </TouchableOpacity>

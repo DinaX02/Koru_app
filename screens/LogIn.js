@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   seta: {
+    marginTop:20,
     width: 30,
     height: 30,
   },
