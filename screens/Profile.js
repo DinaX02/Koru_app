@@ -50,7 +50,7 @@ const Profile = ({ navigation }) => {
                   Change Password
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity>             
               <Text style={styles.titleOverlayBlueLinks}>Delete Account</Text>
               </TouchableOpacity>
             </View>
@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   logoContainer: {
-    top:"4%",
     alignItems: "flex-start",
     paddingTop: 20,
     marginLeft: 20,
@@ -97,20 +96,21 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     color: "#FFFFFF",
-    marginTop: 40,
+    marginTop: 20,
     marginBottom: 20,
     textAlign: "left",
   },
   paragraph: {
     fontSize: 14,
     color: "white",
-    marginBottom:30,
+    marginBottom:10,
   },
   scrollView: {
     borderRadius:20,
     width: "90%",
     marginTop: 20,
     marginBottom: 40,
+    maxHeight:540,
   },
   contentContainer: {
     backgroundColor: "rgba(217, 217, 217, 0.8)",
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "flex-start",
+    
   },
   titleOverlayBlue: {
     fontSize: 16,

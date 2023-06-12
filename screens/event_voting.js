@@ -159,17 +159,17 @@ const Eventvoting = () => {
             <Text style={styles.wallettitle}>Your Wallet</Text>
             <View style={styles.coindiv}>
               <Image source={require("../assets/coin.png")}/>
-              <Text style={styles.cointitle}>Public</Text><Text style={styles.coinvalue}>500</Text>
+              <Text style={styles.cointitle}>Public</Text><Text style={styles.coinvalue}>100</Text>
             </View>
 
             <View style={styles.coindiv}>
               <Image source={require("../assets/coin_red.png")}/>
-              <Text style={styles.cointitle}>Directors</Text><Text style={styles.coinvalue}>80</Text>
+              <Text style={styles.cointitle}>Directors</Text><Text style={styles.coinvalue}>50</Text>
             </View>
 
             <View style={styles.coindiv}>
               <Image source={require("../assets/coin_yellow.png")}/>
-              <Text style={styles.cointitle}>Companies</Text><Text style={styles.coinvalue}>0</Text>
+              <Text style={styles.cointitle}>Companies</Text><Text style={styles.coinvalue}>10</Text>
             </View>
           </View>
           <View style={styles.walletContainer}>
