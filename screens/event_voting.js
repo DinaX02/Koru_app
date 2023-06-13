@@ -31,9 +31,6 @@ const SPRING_CONFIG = {
   stiffness: 500,
 };
 
-import FooterMenu from "../components/MenuFooter";
-
-
 const Eventvoting = () => {
 
   const [popupVisible, setPopupVisible] = useState(false);

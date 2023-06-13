@@ -11,10 +11,13 @@ import {
 
 const Profile = ({ navigation }) => {
   return (
+   
     <ImageBackground
       source={require("../assets/img_background_login.png")}
       style={styles.backgroundImage}
     >
+      <View>
+    <ScrollView>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
@@ -25,7 +28,7 @@ const Profile = ({ navigation }) => {
           <Text style={styles.paragraph}>Hi Koru_admin! {/* mudar para o nome do utilizador!*/}</Text> 
         </View>
 
-        <ScrollView style={styles.scrollView}>
+        <View style={styles.scrollView}>
           <View style={styles.contentContainer}>
             <Text style={styles.titleOverlayBlue}>Number of events:</Text>
             <Text style={styles.paragraphOverlay}>{3}</Text>
@@ -65,9 +68,11 @@ const Profile = ({ navigation }) => {
             source={require("../assets/log_out.png")}
           />
         </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </View>
+      </View> 
+    </ScrollView></View>
     </ImageBackground>
+   
   );
 };
 
@@ -84,7 +89,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: "flex-start",
-    paddingTop: 20,
+    paddingTop: 40,
     marginLeft: 20,
     alignSelf: 'stretch',
   },
