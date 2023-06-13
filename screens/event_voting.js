@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import BottomSheet from 'react-native-simple-bottom-sheet';
 import {
   View,
   ImageBackground,
@@ -13,9 +14,6 @@ import {
 import PopUp from "../components/PopUp";
 
 import Animated, {
-  useAnimatedGestureHandler,
-  useSharedValue,
-  useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
 import {
@@ -31,8 +29,10 @@ const SPRING_CONFIG = {
   stiffness: 500,
 };
 
+
 const Eventvoting = () => {
 
+  const [projectName, setProjectName] = useState("koru");
   const [popupVisible, setPopupVisible] = useState(false);
 
   const openPopup = () => {
@@ -43,12 +43,6 @@ const Eventvoting = () => {
     setPopupVisible(false);
   };
 
-  const [selectedTab, setSelectedTab] = useState("about");
-  const [projectName, setProjectName] = useState("koru");
-  const [selectedStatus, setSelectedStatus] = useState("Ongoing");
-  const handleTabPress = (tabName) => {
-    setSelectedTab(tabName);
-  };
 
   const json = [
     {
@@ -101,36 +95,13 @@ const Eventvoting = () => {
     }
   ];
 
-  const SLIDERTOP = 195;
-
+  const panelRef = useRef(null);
   const dimensions = useWindowDimensions();
 
-  const top = useSharedValue(dimensions.height);
 
-  const style = useAnimatedStyle(() => {
-    return {
-      top: withSpring(top.value, SPRING_CONFIG),
-    };
-  });
-
-  const gestureHandler = useAnimatedGestureHandler({
-    onStart(_, context) {
-      context.startTop = top.value;
-    },
-    onActive(event, context) {
-      top.value = context.startTop + event.translationY;
-    },
-    onEnd() {
-      if (top.value > SLIDERTOP + 50) {
-        top.value = dimensions.height;
-      } else {
-        top.value = SLIDERTOP;
-      }
-    },
-  });
 
   return (
-    <GestureHandlerRootView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={require("../assets/background.png")}
         style={styles.backgroundImage}
@@ -180,7 +151,7 @@ const Eventvoting = () => {
                   key={project.id}
                   onPress={() => {
                     setProjectName(project.name)
-                    top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+                    panelRef.current.togglePanel()
                   }}
                   style={styles.project}
               >
@@ -197,37 +168,19 @@ const Eventvoting = () => {
           ))}
         </ScrollView>
       </ImageBackground>
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: "white",
-              borderTopLeftRadius: 20,
-              borderTopRightRadius: 20,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-              shadowRadius: 3.84,
-              elevation: 5,
-              padding: 20,
-              justifyContent: "center",
-              alignItems: "center",
-            },
-            style,
-          ]}
-        >
-          <View style={styles.sliderline}></View>
-          <View style={styles.slidercontent}>
+      <BottomSheet
+          isOpen={false}
+          sliderMinHeight={0}
+          ref={ref => panelRef.current = ref}
+      >
+          <ScrollView contentContainerStyle={{
+            width: "100%",
+            flexDirection: "column",
+            alignItems: "center",
+            minHeight: dimensions.height - 250,
+          }}>
             <Image
               style={{
-                marginTop: 10,
                 borderRadius: dimensions.width / 2,
                 width: dimensions.width * 0.2,
                 height: dimensions.width * 0.2,
@@ -251,10 +204,9 @@ const Eventvoting = () => {
           <Text style={styles.joinButtonText}>Vote</Text>
         </TouchableOpacity>
         <PopUp visible={popupVisible} onClose={closePopup} />
-          </View>
-        </Animated.View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+          </ScrollView>
+      </BottomSheet>
+    </View>
   );
 };
 
@@ -284,18 +236,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 150,
     marginTop: 10,
-    marginBottom: 20,
   },  joinButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  slidercontent: {
-    width: "100%",
-    flexDirection: "column",
-    alignItems: "center",
-    overflow: "scroll",
   },
   LinkVote:{    
     width: "90%", 

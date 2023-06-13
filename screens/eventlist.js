@@ -11,10 +11,53 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
-
 const Eventlist = () => {
-
     const navigation = useNavigation();
+
+    const events = [
+        {
+            name_event: "Event 1",
+            start_date: "2023-06-12T10:00:00",
+            end_date: "2023-06-26T12:00:00",
+        },
+        {
+            name_event: "Event 2",
+            start_date: "2023-06-13T14:00:00",
+            end_date: "2023-06-13T16:00:00",
+        },
+        {
+            name_event: "Event 3",
+            start_date: "2023-06-15T09:00:00",
+            end_date: "2023-06-15T12:00:00",
+        },
+        {
+            name_event: "Event 4",
+            start_date: "2023-06-17T16:00:00",
+            end_date: "2023-06-17T18:00:00",
+        },
+        {
+            name_event: "Event 5",
+            start_date: "2023-06-18T13:00:00",
+            end_date: "2023-06-18T15:00:00",
+        },
+    ];
+
+    const [filter, setFilter] = useState("active");
+
+    const currentDate = new Date();
+
+    const filteredEvents = events.filter((event) => {
+        const startDate = new Date(event.start_date);
+        const endDate = new Date(event.end_date);
+        return (
+            (filter === "all" ||
+                (filter === "active" &&
+                    currentDate >= startDate &&
+                    currentDate <= endDate) ||
+                (filter === "inactive" &&
+                    (currentDate < startDate || currentDate > endDate)))
+        );
+    });
 
     return (
         <View style={styles.container}>
@@ -22,48 +65,73 @@ const Eventlist = () => {
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
             >
-
                 <View style={styles.newevent}>
                     <Text style={styles.eventtext}>Join a new Event</Text>
                     <View style={styles.scanview}>
                         <Text style={styles.eventtext}>Scan here</Text>
                         <View style={styles.qrcodeview}>
                             <TouchableOpacity
-                            onPress={() => navigation.navigate('ScanQrCode')}>
-                            <Image style={styles.qrcode} source={require("../assets/qr_code.png")}/></TouchableOpacity>
+                                onPress={() => navigation.navigate('ScanQrCode')}
+                            >
+                                <Image style={styles.qrcode} source={require("../assets/qr_code.png")} />
+                            </TouchableOpacity>
                         </View>
-
                     </View>
                 </View>
-                {/* filter*/}
+
+                {/* filter */}
 
                 <View style={styles.filter}>
                     <View style={styles.listoptions}>
-                        <Text style={styles.filteroption}>Active</Text>
-                        <Text style={styles.filteroptionselected}>Inactive</Text>
+                        <TouchableOpacity onPress={() => setFilter("active")}>
+                            <Text
+                                style={[
+                                    styles.filteroption,
+                                    filter === "active" && styles.filteroptionselected,
+                                ]}
+                            >
+                                Active
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setFilter("inactive")}>
+                            <Text
+                                style={[
+                                    styles.filteroption,
+                                    filter === "inactive" && styles.filteroptionselected,
+                                ]}
+                            >
+                                Inactive
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.selectall}/>
-
-                </View>
-                <ScrollView contentContainerStyle={styles.projects}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate('Event')}
-                        style={styles.project}
-                    >
-                        <View style={styles.projectcontent}>
-                            <Image
-                                style={styles.projectimage}
-                                source={require("../assets/event_join.png")}
-                            />
-                            <Text>Media Play 2023</Text>
-                        </View>
-                        <View style={styles.circle}/>
-
+                    <TouchableOpacity onPress={() => setFilter("all")}>
+                        <Image
+                            source={filter === "all" ? require("../assets/select_all_active.png") : require("../assets/select_all.png")}
+                            style={styles.selectall}
+                        />
                     </TouchableOpacity>
+                </View>
+
+                <ScrollView contentContainerStyle={styles.projects}>
+                    {filteredEvents.map((event, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => navigation.navigate('Event')}
+                            style={styles.project}
+                        >
+                            <View style={styles.projectcontent}>
+                                <Image
+                                    style={styles.projectimage}
+                                    source={require("../assets/image_welcome.png")}
+                                />
+                                <Text>{event.name_event}</Text>
+                            </View>
+                            <View style={styles.circle} />
+                        </TouchableOpacity>
+                    ))}
                 </ScrollView>
 
-                {/* podium*/}
-
+                {/* podium */}
             </ImageBackground>
         </View>
     );
@@ -78,7 +146,6 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         marginRight: 22,
-        backgroundColor: "#2F2E5F",
     },
     eventtext:{
         fontWeight: 700,

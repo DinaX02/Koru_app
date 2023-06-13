@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import BottomSheet from 'react-native-simple-bottom-sheet';
 import {
     View,
     ImageBackground,
@@ -15,10 +16,6 @@ import Animated, {
     useAnimatedStyle,
     withSpring,
 } from "react-native-reanimated";
-import {
-    GestureHandlerRootView,
-    PanGestureHandler,
-} from "react-native-gesture-handler";
 
 const SPRING_CONFIG = {
     damping: 80,
@@ -32,42 +29,14 @@ import FooterMenu from "../components/MenuFooter";
 
 
 const Eventliveranking = () => {
-    const [selectedTab, setSelectedTab] = useState("about");
-    const [selectedStatus, setSelectedStatus] = useState("Ongoing");
-    const handleTabPress = (tabName) => {
-        setSelectedTab(tabName);
-    };
 
-    const SLIDERTOP = 394;
+    const panelRef = useRef(null);
 
     const dimensions = useWindowDimensions();
 
-    const top = useSharedValue(dimensions.height);
-
-    const style = useAnimatedStyle(() => {
-        return {
-            top: withSpring(top.value, SPRING_CONFIG),
-        };
-    });
-
-    const gestureHandler = useAnimatedGestureHandler({
-        onStart(_, context) {
-            context.startTop = top.value;
-        },
-        onActive(event, context) {
-            top.value = context.startTop + event.translationY;
-        },
-        onEnd() {
-            if (top.value > SLIDERTOP + 50) {
-                top.value = dimensions.height;
-            } else {
-                top.value = SLIDERTOP;
-            }
-        },
-    });
 
     return (
-        <GestureHandlerRootView style={styles.container}>
+        <View style={styles.container}>
             <ImageBackground
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
@@ -105,107 +74,9 @@ const Eventliveranking = () => {
 
                 <ScrollView contentContainerStyle={styles.projects}>
                     <TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
+                        onPress={() => panelRef.current.togglePanel()}
                         style={styles.project}
                     >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    ><TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity><TouchableOpacity
-                        onPress={() => {
-                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                        }}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                            }}
-                            style={styles.project}
-                        >
-                            <Image
-                                style={styles.projectimage}
-                                source={require("../assets/event_join.png")}
-                            />
-                            <Text>Koru</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => {
-                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
-                            }}
-                            style={styles.project}
-                        >
-                            <Image
-                                style={styles.projectimage}
-                                source={require("../assets/event_join.png")}
-                            />
-                            <Text>Koru</Text>
-                        </TouchableOpacity>
-
-
                         <Image
                             style={styles.projectimage}
                             source={require("../assets/event_join.png")}
@@ -214,56 +85,27 @@ const Eventliveranking = () => {
                     </TouchableOpacity>
                 </ScrollView>
             </ImageBackground>
-            <PanGestureHandler onGestureEvent={gestureHandler}>
-                <Animated.View
-                    style={[
-                        {
-                            position: "absolute",
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            backgroundColor: "white",
-                            borderTopLeftRadius: 20,
-                            borderTopRightRadius: 20,
-                            shadowColor: "#000",
-                            shadowOffset: {
-                                width: 0,
-                                height: 2,
-                            },
-                            shadowOpacity: 0.25,
-                            shadowRadius: 3.84,
-                            elevation: 5,
-                            padding: 20,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        },
-                        style,
-                    ]}
+            <BottomSheet
+                isOpen={false}
+                sliderMinHeight={0}
+                sliderMaxHeight={dimensions.height - 300}
+                ref={ref => panelRef.current = ref}
+            >
+                <ScrollView
+                    style={{
+                        height: dimensions.height - 300,
+                    }}
                 >
-                    <View style={styles.sliderline}></View>
-                    <View style={styles.slidercontent}>
-                        <Image
-                            style={{
-                                marginTop: 10,
-                                borderRadius: dimensions.width / 2,
-                                width: dimensions.width * 0.2,
-                                height: dimensions.width * 0.2,
-                            }}
-                            source={require("../assets/image_welcome.png")}
-                        />
-                        <Text style={styles.slidertitle}>Koru</Text>
-                        <Text style={styles.sliderdescription}>
-                            Koru is an event tracking platform that allows organizers to
-                            create and manage events efficiently, while providing event
-                            attendees with a personalized and interactive experience. The app
-                            focuses on the dynamics of voting on projects displayed at the
-                            event, where participants have coins they can invest in the
-                            projects they like the most. Link: Koru_link.com
-                        </Text>
-                    </View>
-                </Animated.View>
-            </PanGestureHandler>
-        </GestureHandlerRootView>
+                    <Text style={{paddingVertical: 20}}>
+                        Some random content
+                    </Text>
+                    <Text style={{paddingVertical: 20}}>
+                        Some random content
+                    </Text>
+                </ScrollView>
+
+            </BottomSheet>
+        </View>
     );
 };
 

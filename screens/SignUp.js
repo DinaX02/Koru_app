@@ -52,7 +52,7 @@ const SignUp = () => {
             secureTextEntry
           />
           <TouchableOpacity style={styles.button}
-            onPress={() => navigation.navigate('Homepage')}
+            onPress={() => navigation.navigate('Home')}
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
