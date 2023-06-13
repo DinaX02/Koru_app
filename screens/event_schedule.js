@@ -17,18 +17,6 @@ const Eventschedule = () => {
         setSelectedTab(tabName);
     };
 
-    const getImageSource = () => {
-        if (selectedStatus === "Ongoing") {
-            return require("../assets/ongoing_green.png");
-        } else if (selectedStatus === "Closed") {
-            return require("../assets/Closed_red.png");
-        } else if (selectedStatus === "Upcoming") {
-            return require("../assets/upcoming_yellow.png");
-        }
-
-        return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
-    };
-
     return (
 
         <View style={styles.container}>
@@ -74,6 +62,9 @@ const Eventschedule = () => {
                             <Text style={styles.hour}>19:00</Text>
                             <Text style={styles.task}>Awards</Text>
                         </View>
+                        <View  style={styles.masterLast}>
+
+                        </View>
                     </View>
                 </ScrollView>
             </ImageBackground>
@@ -102,6 +93,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 8,
         marginRight: 20,
+    },
+    masterLast:{
+        paddingBottom:60,
     },
     timestamp:{
         width: "80%",
