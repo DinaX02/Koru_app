@@ -6,26 +6,35 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions,
+  Dimensions,SafeAreaView
 } from "react-native";
 
 import QrCodeReader from "../components/QrCodeReader";
 
-const ScanQrCode = ({ navigation }) => {
+import { useNavigation } from '@react-navigation/native';
+
+const ScanQrCode = () => {
+
   const { height, width } = Dimensions.get("window");
+
+  const navigation = useNavigation();
+
 
   return (
     <ImageBackground
       source={require("../assets/background.png")}
       style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
     >
-      <TouchableOpacity style={styles.logoutBtn}    onPress={() => navigation.navigate('Homepage')}>
+
+<View>
+      <TouchableOpacity style={styles.logoutBtn}   onPress={() => navigation.goBack()}>
           <Image
             style={styles.logOut}
             source={require("../assets/seta_back.png")}
           />
       </TouchableOpacity>
+      
+</View>
 
       <View style={styles.logoContainer}>
         <Image
@@ -33,9 +42,14 @@ const ScanQrCode = ({ navigation }) => {
           source={require("../assets/logo_litle_hompeage.png")}
         />
         <Text style={styles.scanText}>Scan the QR code</Text>
+
+        
       </View>
 
-      <QrCodeReader />
+
+    <QrCodeReader/>
+    
+
     </ImageBackground>
   );
 };
@@ -46,13 +60,8 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "center",
   },
-  topBar: {
-    padding: 20,
-  },
-
   logoutBtn: {
-    position: "absolute",
-    top: 20,
+    top:20,
     left: 20,
   },
   logOut: {
@@ -60,20 +69,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
   },
-  backButton: {
-  
-    width: 30,
-    height: 30,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  backIcon: {
-    width: 20,
-    height: 20,
-    marginTop:20,
-  },
   logoContainer: {
-    flex: 1,
+    marginTop: 20,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -83,15 +80,11 @@ const styles = StyleSheet.create({
     height: 61,
   },
   contentContainer: {
-    flex: 2,
     justifyContent: "center",
     alignItems: "center",
   },
-  qrCodeScanner: {
-    width: 200,
-    height: 200,
-  },
   scanText: {
+    marginBottom:80,
     fontSize: 18,
     fontWeight: "bold",
     marginTop: 30,
