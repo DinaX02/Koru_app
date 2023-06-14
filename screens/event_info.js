@@ -10,7 +10,7 @@ import {
 
 const Eventinfo = () => {
   const [selectedTab, setSelectedTab] = useState("about");
-  const [selectedStatus, setSelectedStatus] = useState("Upcoming");
+  const [selectedStatus, setSelectedStatus] = useState("Ongoing");
   const handleTabPress = (tabName) => {
     setSelectedTab(tabName);
   };
@@ -27,25 +27,79 @@ const Eventinfo = () => {
    return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
  }; 
 
+
+ const eventInfo = {
+  "info": [
+      {
+          "name_event": "MediaPlay23",
+          "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
+          "logo_event": "", //img event
+          "start_date": "2023-06-27 09:00:00",
+          "end_date": "2023-06-27 19:00:00",
+          "vote_start": "2002-02-02 12:00:00", //caso for null fzr algo
+          "vote_end": "2002-02-02 18:30:00", //caso for null fzr algo
+          "name_org": "DeCA",
+          "total_people": 2,
+          "total_projetos": 3
+      }
+  ],
+  "coins": [
+      {
+          "id_coin": 1,
+          "name_coin": "coin1"
+      },
+      {
+          "id_coin": 3,
+          "name_coin": "coin2"
+      }
+  ]
+}
+
+// receber apenas o mes
+
+const startDateMonth = new Date(eventInfo.info[0].start_date);
+const monthName = startDateMonth.toLocaleString('default', { month: 'short' }).toUpperCase().replace('.', '');
+
+// receber apenas dia do mes
+
+const startDateDay = new Date(eventInfo.info[0].start_date);
+const dayOfMonth = startDateDay.getDate();
+
+// hora e data evento
+const startDateTime = eventInfo.info[0].start_date;
+const endDateTime = eventInfo.info[0].end_date;
+
+const startTime = startDateTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
+const endTime = endDateTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
+
+// hora e data votacao
+
+const startVotingTime = eventInfo.info[0].vote_start;
+const endVotingTime = eventInfo.info[0].vote_end;
+
+const startVoting = startVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
+const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
+
   return (
    
     <View style={styles.container}>
 
 {/* info do evento em baixo */}
+
     <View style={styles.contentContainer}>
       <View style={styles.dateContainer}>
-        <Text style={styles.dateDay}>27</Text>
-        <Text style={styles.dateMonth}>JUNE</Text>
+        <Text style={styles.dateDay}>{dayOfMonth}</Text>
+        <Text style={styles.dateMonth}>{monthName}</Text>
       </View>
 
       <View style={styles.separator} />
 
       <View style={styles.eventDetailsContainer}>
         <View style={styles.eventTitleContainer}>
-          <Text style={styles.eventTitleText}>Titulo do Evento</Text>
-          <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> DeCa</Text></Text>
+          <Text style={styles.eventTitleText}>{eventInfo.info[0].name_event}</Text>
+          <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> {eventInfo.info[0].name_org} </Text></Text>
          
-          <Text style={styles.eventHours}>9:00 - 19:00</Text>
+          <Text style={styles.eventHours}>{startTime} - {endTime}</Text>
         </View>
 
         <View style={styles.ongoingContainer}>
@@ -68,9 +122,7 @@ const Eventinfo = () => {
   <View>
   <Text style={styles.overviewTitle}>Overview</Text>
   <Text style={styles.overviewText}>
-    Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.
-    {"\n\n"}
-    All the projects were selected by a jury, based on the proposals presented by the students.
+  {eventInfo.info[0].des_event}
   </Text>
 </View>
   {/* voting info*/}
@@ -79,11 +131,11 @@ const Eventinfo = () => {
   <View style={styles.votingContent}>
     <View style={styles.votingItem}>
       <Text style={styles.votingItemTitle}>Start:</Text>
-      <Text style={styles.votingItemValue}>12:00</Text>
+      <Text style={styles.votingItemValue}>{startVoting}</Text>
     </View>
     <View style={styles.votingItem}>
       <Text style={styles.votingItemTitle}>Closes at:</Text>
-      <Text style={styles.votingItemValue}>18:30</Text>
+      <Text style={styles.votingItemValue}>{endVoting}</Text>
     </View>
   </View>
 </View>
@@ -91,19 +143,19 @@ const Eventinfo = () => {
 <View style={styles.totalContainer}>
   <View style={styles.totalItem}>
     <Text style={styles.totalTitle}>Total projects</Text>
-    <Text style={styles.totalValue}>16</Text>
+    <Text style={styles.totalValue}>{eventInfo.info[0].total_projetos}</Text>
   </View>
   <View style={styles.totalItem}>
     <Text style={styles.totalTitle}>Total participants</Text>
-    <Text style={styles.totalValue}>200</Text>
+    <Text style={styles.totalValue}>{eventInfo.info[0].total_people}</Text>
   </View>
 </View>
 <View style={styles.COinsss}>
-    <Text style={styles.totalTitle}>Types of Coins</Text>
-    <Text style={styles.totalValue}>Public</Text>
-    <Text style={styles.totalValue}>Directors</Text>
-    <Text style={styles.totalValue}>Companies</Text>
-  </View>
+  <Text style={styles.totalTitle}>Types of Coins</Text>
+  {eventInfo.coins.map((coin) => (
+    <Text style={styles.totalValue} key={coin.id_coin}>{coin.name_coin}</Text>
+  ))}
+</View>
 </View>
 </ScrollView>
     </ImageBackground>
@@ -134,6 +186,7 @@ const styles = StyleSheet.create({
   totalValue: {
     fontSize: 14,
     color: "#E9E7E7",
+    marginBottom:5,
   },
   votingContainer: {
     marginTop: 20,
@@ -238,7 +291,8 @@ const styles = StyleSheet.create({
   },
   dateContainer: {
     flexDirection: "column",
-    marginRight: 15,
+    marginRight: 8,
+    marginLeft: 8,
     alignItems: "center",
     justifyContent: "center",
  
