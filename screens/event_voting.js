@@ -13,21 +13,6 @@ import {
 
 import PopUp from "../components/PopUp";
 
-import Animated, {
-  withSpring,
-} from "react-native-reanimated";
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-} from "react-native-gesture-handler";
-
-const SPRING_CONFIG = {
-  damping: 80,
-  overshootClamping: true,
-  restDisplacementThreshold: 0.1,
-  restSpeedThreshold: 0.1,
-  stiffness: 500,
-};
 
 
 const Eventvoting = () => {

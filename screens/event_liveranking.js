@@ -10,30 +10,136 @@ import {
     ScrollView,
     useWindowDimensions,
 } from "react-native";
-import Animated, {
-    useAnimatedGestureHandler,
-    useSharedValue,
-    useAnimatedStyle,
-    withSpring,
-} from "react-native-reanimated";
-
-const SPRING_CONFIG = {
-    damping: 80,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.1,
-    restSpeedThreshold: 0.1,
-    stiffness: 500,
-};
-
-import FooterMenu from "../components/MenuFooter";
-
 
 const Eventliveranking = () => {
-
     const panelRef = useRef(null);
-
     const dimensions = useWindowDimensions();
 
+    const coin1 = [
+        {
+            "id_project": 2,
+            "amount": 1500,
+            "name_project": "Composto",
+            "logo_project": null
+        },
+        {
+            "id_project": 4,
+            "amount": 800,
+            "name_project": "Koru",
+            "logo_project": null
+        },
+        {
+            "id_project": 1,
+            "amount": 600,
+            "name_project": "Officium",
+            "logo_project": null
+        },
+        {
+            "id_project": 5,
+            "amount": 400,
+            "name_project": "Emme",
+            "logo_project": null
+        },
+        {
+            "id_project": 6,
+            "amount": 300,
+            "name_project": "Cultout",
+            "logo_project": null
+        }
+    ];
+
+    const coin2 = [
+        {
+            "id_project": 2,
+            "amount": 3500,
+            "name_project": "Composto",
+            "logo_project": null
+        },
+        {
+            "id_project": 6,
+            "amount": 2500,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 4,
+            "amount": 2200,
+            "name_project": "Koru",
+            "logo_project": null
+        },
+        {
+            "id_project": 5,
+            "amount": 1800,
+            "name_project": "Emme",
+            "logo_project": null
+        },
+        {
+            "id_project": 1,
+            "amount": 800,
+            "name_project": "Officium",
+            "logo_project": null
+        }
+    ];
+
+    const coin3 = [
+        {
+            "id_project": 4,
+            "amount": 4000,
+            "name_project": "Koru",
+            "logo_project": null
+        },
+        {
+            "id_project": 5,
+            "amount": 2200,
+            "name_project": "Emme",
+            "logo_project": null
+        },
+        {
+            "id_project": 2,
+            "amount": 2800,
+            "name_project": "Composto",
+            "logo_project": null
+        },
+        {
+            "id_project": 1,
+            "amount": 1600,
+            "name_project": "Officium",
+            "logo_project": null
+        },
+        {
+            "id_project": 6,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        }
+    ];
+
+
+
+
+    const [selectedCoin, setSelectedCoin] = useState("coin1");
+    const [selectedCoinArray, setSelectedCoinArray] = useState(coin1);// Initialize with coin1
+
+    const handleFilterChange = (coin) => {
+        switch (coin) {
+            case "coin1":
+                setSelectedCoin("coin1");
+                setSelectedCoinArray(coin1);
+                break;
+            case "coin2":
+                setSelectedCoin("coin2");
+                setSelectedCoinArray(coin2);
+                break;
+            case "coin3":
+                setSelectedCoin("coin3");
+                setSelectedCoinArray(coin3);
+                break;
+            default:
+                setSelectedCoin();
+                setSelectedCoinArray([]);
+                break;
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -41,48 +147,65 @@ const Eventliveranking = () => {
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
             >
-
-                {/* filter*/}
-
+                {/* filter */}
                 <View style={styles.filter}>
-                    <Text style={styles.filteroption}>Public</Text>
-                    <Text style={styles.filteroptionselected}>Directors</Text>
-                    <Text style={styles.filteroption}>Companies</Text>
+                    <TouchableOpacity onPress={() => handleFilterChange("coin1")}>
+                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Coin1</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterChange("coin2")}>
+                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Coin2</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleFilterChange("coin3")}>
+                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Coin3</Text>
+                    </TouchableOpacity>
                 </View>
 
-                {/* podium*/}
+                {/* podium */}
                 <View style={styles.podium}>
                     <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require("../assets/coin_red.png")}/></View>
                     <View style={styles.podiumproject}>
-                        <Image source={require("../assets/event_join.png")}/>
-                        <Text style={styles.podiumprojecttitle}>Officium</Text>
-                        <Text style={styles.podiumprojectcoins}>300</Text>
+                        <Image
+                            onPress={() => panelRef.current.togglePanel()}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>
+                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>
                     </View>
                     <View style={styles.podiumproject1}>
-                        <Image source={require("../assets/event_join.png")}/>
-                        <Text style={styles.podiumprojecttitle}>Composto</Text>
-                        <Text style={styles.podiumprojectcoins}>500</Text>
+                        <Image
+                            onPress={() => panelRef.current.togglePanel()}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>
+                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>
                     </View>
                     <View style={styles.podiumproject}>
-                        <Image source={require("../assets/event_join.png")}/>
-                        <Text style={styles.podiumprojecttitle}>Koru</Text>
-                        <Text style={styles.podiumprojectcoins}>250</Text>
+                        <Image
+                            onPress={() => panelRef.current.togglePanel()}
+                            source={require("../assets/event_join.png")}
+                        />
+                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>
+                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>
                     </View>
 
                 </View>
 
-
                 <ScrollView contentContainerStyle={styles.projects}>
-                    <TouchableOpacity
-                        onPress={() => panelRef.current.togglePanel()}
-                        style={styles.project}
-                    >
-                        <Image
-                            style={styles.projectimage}
-                            source={require("../assets/event_join.png")}
-                        />
-                        <Text>Koru</Text>
-                    </TouchableOpacity>
+                    {selectedCoinArray.slice(3).map((project) => (
+                        <TouchableOpacity
+                            key={project.id_project}
+                            style={styles.project}
+                        >
+                            <View style={styles.project_info}>
+                                <Image
+                                    style={styles.projectimage}
+                                    source={require("../assets/image_welcome.png")}
+                                />
+                                <Text>{project.name_project}</Text>
+                            </View>
+                            <Text>{project.amount}</Text>
+                        </TouchableOpacity>
+                    ))}
                 </ScrollView>
             </ImageBackground>
             <BottomSheet
@@ -96,10 +219,10 @@ const Eventliveranking = () => {
                         height: dimensions.height - 300,
                     }}
                 >
-                    <Text style={{paddingVertical: 20}}>
+                    <Text style={{ paddingVertical: 20 }}>
                         Some random content
                     </Text>
-                    <Text style={{paddingVertical: 20}}>
+                    <Text style={{ paddingVertical: 20 }}>
                         Some random content
                     </Text>
                 </ScrollView>
@@ -110,6 +233,10 @@ const Eventliveranking = () => {
 };
 
 const styles = StyleSheet.create({
+    project_info:{
+        flexDirection: "row",
+        alignItems: "center",
+    },
     podiumprojectcoins:{
         color: "black",
         fontWeight: "900",
@@ -209,7 +336,6 @@ const styles = StyleSheet.create({
     projectimage: {
         height: 40,
         width: 40,
-        marginLeft: 20,
         marginRight: 10,
         borderColor: "black",
     },
@@ -225,6 +351,8 @@ const styles = StyleSheet.create({
         borderBottomColor: "#9A9A9A",
         borderBottomWidth: 1,
         width: "100%",
+        justifyContent: "space-between",
+        paddingHorizontal: 30,
     },
 
     container: {
