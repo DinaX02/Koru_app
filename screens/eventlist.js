@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 10,
         borderColor: "black",
+        borderRadius: 20,
     },
     projects: {
         marginTop: 20,

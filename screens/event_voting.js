@@ -80,10 +80,55 @@ const Eventvoting = () => {
     }
   ];
 
+  const eventInfo = {
+    "info": [
+        {
+            "name_event": "MediaPlay23",
+            "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
+            "logo_event": "", //img event
+            "start_date": "2023-06-27 09:00:00",
+            "end_date": "2023-06-27 19:00:00",
+            "vote_start": "2002-02-02 12:00:00", //caso for null fzr algo
+            "vote_end": "2002-02-02 18:30:00", //caso for null fzr algo
+            "name_org": "DeCA",
+            "total_people": 2,
+            "total_projetos": 3
+        }
+    ],
+    "coins": [
+        {
+            "id_coin": 1,
+            "name_coin": "coin1"
+        },
+        {
+            "id_coin": 3,
+            "name_coin": "coin2"
+        }
+    ]
+  }
+  
+  const walletData = {
+    teste_coin1: {
+      id: 1,
+      balance: 100,
+    },
+    teste_coin2: {
+      id: 2,
+      balance: 50,
+    },
+    teste_coin3: {
+      id: 2,
+      balance: 10,
+    },
+  };
+
+  
   const panelRef = useRef(null);
   const dimensions = useWindowDimensions();
 
+  const endVotingTime = eventInfo.info[0].vote_end;
 
+  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao 
 
   return (
     <View style={styles.container}>
@@ -104,31 +149,37 @@ const Eventvoting = () => {
           </View>
 
           <Text style={styles.statustexttags}>
-            <Text style={styles.statusgrey}>Closes at:</Text> 18:30
+            <Text style={styles.statusgrey}>Closes at:</Text> {endVoting}
           </Text>
         </View>
         <View style={styles.wallet}>
-          <View>
-            <Text style={styles.wallettitle}>Your Wallet</Text>
-            <View style={styles.coindiv}>
-              <Image source={require("../assets/coin.png")}/>
-              <Text style={styles.cointitle}>Public</Text><Text style={styles.coinvalue}>100</Text>
-            </View>
+  <View>
+    <Text style={styles.wallettitle}>Your Wallet</Text>
+    {Object.keys(walletData).map((key, index) => {
+      const coin = walletData[key];
+      let coinImage;
 
-            <View style={styles.coindiv}>
-              <Image source={require("../assets/coin_red.png")}/>
-              <Text style={styles.cointitle}>Directors</Text><Text style={styles.coinvalue}>50</Text>
-            </View>
+      if (index === 0) {
+        coinImage = require(`../assets/coin.png`);
+      } else if (index === 1) {
+        coinImage = require(`../assets/coin_red.png`);
+      } else if (index === 2) {
+        coinImage = require(`../assets/coin_yellow.png`);
+      }
 
-            <View style={styles.coindiv}>
-              <Image source={require("../assets/coin_yellow.png")}/>
-              <Text style={styles.cointitle}>Companies</Text><Text style={styles.coinvalue}>10</Text>
-            </View>
-          </View>
-          <View style={styles.walletContainer}>
-            <Image source={require("../assets/wallet.png")}/>
-          </View>
+      return (
+        <View key={index} style={styles.coindiv}>
+          <Image source={coinImage} />
+          <Text style={styles.cointitle}>{key}</Text>
+          <Text style={styles.coinvalue}>{coin.balance}</Text>
         </View>
+      );
+    })}
+  </View>
+  <View style={styles.walletContainer}>
+    <Image source={require('../assets/wallet.png')} />
+  </View>
+</View>
         <ScrollView contentContainerStyle={styles.projects}>
           {json &&
           json.map((project) => (

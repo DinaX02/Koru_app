@@ -24,7 +24,7 @@ const Eventinfo = () => {
      return require("../assets/upcoming_yellow.png");
    }
 
-   return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
+   return require("../assets/ongoing_green.png"); // Imagem padrao caso não haja correspondencia
  }; 
 
 
