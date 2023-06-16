@@ -3,7 +3,7 @@ import {BackHandler, Image} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator} from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import Homepage from './screens/Homepage';
@@ -22,7 +22,7 @@ import Loading from './screens/animationINTRO';
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-const HomeStack = createNativeStackNavigator();
+const HomeStack = createStackNavigator();
 
 function HomeStackScreen() {
     return (
@@ -73,14 +73,13 @@ function Event () {
     );
 }
 
-const EventListStack = createNativeStackNavigator();
+const EventListStack = createStackNavigator();
 
 function EventListStackScreen() {
     return (
         <EventListStack.Navigator
             screenOptions={{
-                headerShown: true,
-                headerBackVisible: false,
+                headerLeft: null,
                 headerStyle:{
                     backgroundColor: "#2F2E5F",
                 },

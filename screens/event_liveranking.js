@@ -111,6 +111,42 @@ const Eventliveranking = () => {
             "amount": 1200,
             "name_project": "Cultout",
             "logo_project": null
+        },
+        {
+            "id_project": 7,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 8,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 9,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 10,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 11,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
+        },
+        {
+            "id_project": 12,
+            "amount": 1200,
+            "name_project": "Cultout",
+            "logo_project": null
         }
     ];
 
@@ -143,10 +179,6 @@ const Eventliveranking = () => {
 
     return (
         <View style={styles.container}>
-            <ImageBackground
-                source={require("../assets/background.png")}
-                style={styles.backgroundImage}
-            >
                 {/* filter */}
                 <View style={styles.filter}>
                     <TouchableOpacity onPress={() => handleFilterChange("coin1")}>
@@ -165,24 +197,25 @@ const Eventliveranking = () => {
                     <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require("../assets/coin_red.png")}/></View>
                     <View style={styles.podiumproject}>
                         <Image
-                            onPress={() => panelRef.current.togglePanel()}
-                            source={require("../assets/event_join.png")}
+                            style={styles.podiumimage}
+                            source={require("../assets/image_welcome.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>
                     </View>
                     <View style={styles.podiumproject1}>
+                        <Text style={styles.podiumplace}>1</Text>
                         <Image
-                            onPress={() => panelRef.current.togglePanel()}
-                            source={require("../assets/event_join.png")}
+                            style={styles.podiumimage}
+                            source={require("../assets/image_welcome.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>
                     </View>
                     <View style={styles.podiumproject}>
                         <Image
-                            onPress={() => panelRef.current.togglePanel()}
-                            source={require("../assets/event_join.png")}
+                            style={styles.podiumimage}
+                            source={require("../assets/image_welcome.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>
@@ -191,23 +224,35 @@ const Eventliveranking = () => {
                 </View>
 
                 <ScrollView contentContainerStyle={styles.projects}>
-                    {selectedCoinArray.slice(3).map((project) => (
-                        <TouchableOpacity
-                            key={project.id_project}
-                            style={styles.project}
-                        >
-                            <View style={styles.project_info}>
-                                <Image
-                                    style={styles.projectimage}
-                                    source={require("../assets/image_welcome.png")}
-                                />
-                                <Text>{project.name_project}</Text>
-                            </View>
-                            <Text>{project.amount}</Text>
-                        </TouchableOpacity>
-                    ))}
+                    {selectedCoinArray.slice(3).map((project, index) => {
+                        const i = index + 4;
+                        return (
+                            <TouchableOpacity
+                                onPress={() => panelRef.current.togglePanel()}
+                                key={project.id_project}
+                                style={styles.project}
+                            >
+                                <View style={styles.project_info}>
+                                    <Text
+                                        style={{
+                                            width: 30,
+                                            textAlign: "center",
+                                            marginRight: 15,
+                                            color: "grey",
+                                            fontWeight: 800,
+                                        }}
+                                    >{i}</Text>
+                                    <Image
+                                        style={styles.projectimage}
+                                        source={require("../assets/image_welcome.png")}
+                                    />
+                                    <Text>{project.name_project}</Text>
+                                </View>
+                                <Text>{project.amount}</Text>
+                            </TouchableOpacity>
+                        );
+                    })}
                 </ScrollView>
-            </ImageBackground>
             <BottomSheet
                 isOpen={false}
                 sliderMinHeight={0}
@@ -233,6 +278,29 @@ const Eventliveranking = () => {
 };
 
 const styles = StyleSheet.create({
+    podiumplace:{
+        borderWidth: 1,
+        borderColor: "#2F2E5F",
+        right: 6,
+        top: 5,
+        backgroundColor: "gold",
+        width: 20,
+        height: 20,
+        textAlign: "center",
+        borderRadius: 10,
+        fontWeight: 800,
+        position: "absolute",
+        zIndex: 5,
+    },
+    podiumimage:{
+        borderWidth: 1,
+        borderColor: "#2F2E5F",
+        height: 90,
+        aspectRatio: 1,
+        borderRadius: 50,
+        marginBottom: 20,
+        marginHorizontal: 5,
+    },
     project_info:{
         flexDirection: "row",
         alignItems: "center",
@@ -272,15 +340,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         top: 15,
-        borderTopLeftRadius: 20,
-        borderBottomLeftRadius: 20,
+        borderTopLeftRadius: 25,
+        borderBottomLeftRadius: 25,
 
     },
     podium:{
-        marginTop: 20,
+        backgroundColor: "#7370e0",
+        paddingTop: 20,
         flexDirection: "row",
         justifyContent: "center",
-        marginBottom: 15,
+        paddingBottom: 15,
     },
     filteroptionselected: {
         fontSize: 15,
@@ -292,6 +361,8 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
         marginLeft: 12,
+        borderColor: "#2F2E5F",
+        borderWidth: 1,
     },
     filteroption:{
         fontSize: 15,
@@ -334,29 +405,34 @@ const styles = StyleSheet.create({
         top: 20,
     },
     projectimage: {
-        height: 40,
-        width: 40,
+        height: 30,
+        width: 30,
+        borderRadius: 25,
         marginRight: 10,
         borderColor: "black",
     },
     projects: {
         flexDirection: "column",
         alignItems: "center",
+        backgroundColor: "white",
+        paddingBottom: 60,
     },
     project: {
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "white",
         padding: 5,
-        borderBottomColor: "#9A9A9A",
+        borderBottomColor: "lightgray",
         borderBottomWidth: 1,
         width: "100%",
         justifyContent: "space-between",
         paddingHorizontal: 30,
+        paddingVertical: 7,
     },
 
     container: {
         flex: 1,
+        backgroundColor: "white",
     },
     backgroundImage: {
         flex: 1,

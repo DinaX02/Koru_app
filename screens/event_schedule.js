@@ -4,18 +4,11 @@ import {
     ImageBackground,
     StyleSheet,
     Text,
-    TouchableOpacity,
-    Image,ScrollView,
+    ScrollView,
 } from "react-native";
 
-import FooterMenu from "../components/MenuFooter";
 
 const Eventschedule = () => {
-    const [selectedTab, setSelectedTab] = useState("about");
-    const [selectedStatus, setSelectedStatus] = useState("Closed");
-    const handleTabPress = (tabName) => {
-        setSelectedTab(tabName);
-    };
 
     return (
 
@@ -62,9 +55,6 @@ const Eventschedule = () => {
                             <Text style={styles.hour}>19:00</Text>
                             <Text style={styles.task}>Awards</Text>
                         </View>
-                        <View  style={styles.masterLast}>
-
-                        </View>
                     </View>
                 </ScrollView>
             </ImageBackground>
@@ -94,9 +84,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginRight: 20,
     },
-    masterLast:{
-        paddingBottom:60,
-    },
     timestamp:{
         width: "80%",
         paddingVertical: 20,
@@ -111,6 +98,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        paddingBottom: 70,
     },
     container: {
         flex: 1,
