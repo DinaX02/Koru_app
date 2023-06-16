@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef , useEffect} from "react";
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import {
   View,
@@ -17,6 +17,8 @@ import PopUp from "../components/PopUp";
 
 const Eventvoting = () => {
 
+  const [status, setStatus] = useState('Open');
+  const [imageSource, setImageSource] = useState(require("../assets/ongoing_green.png"));
   const [projectName, setProjectName] = useState("koru");
   const [popupVisible, setPopupVisible] = useState(false);
 
@@ -27,6 +29,22 @@ const Eventvoting = () => {
   const closePopup = () => {
     setPopupVisible(false);
   };
+
+
+
+  useEffect(() => {
+    const currentDateTime = new Date().getTime(); // hora atual
+    const voteStartDateTime = new Date(eventInfo.info[0].vote_start).getTime(); // hora inicio votacao
+    const voteEndDateTime = new Date(eventInfo.info[0].vote_end).getTime(); // hora fim votacao
+
+    if (currentDateTime >= voteStartDateTime && currentDateTime <= voteEndDateTime) {
+      setStatus('Open');
+      setImageSource(require("../assets/ongoing_green.png"));
+    } else {
+      setStatus('Closed');
+      setImageSource(require("../assets/Closed_red.png"));
+    }
+  }, []);
 
 
   const json = [
@@ -138,15 +156,15 @@ const Eventvoting = () => {
       >
         {/* status */}
         <View style={styles.status}>
-          <View style={styles.statustext}>
-            <Text style={styles.statustexttags}>
-              <Text style={styles.statusgrey}>Status:</Text> Open
-            </Text>
-            <Image
-              source={require("../assets/ongoing_green.png")}
-              style={styles.ongoingImage}
-            />
-          </View>
+        <View style={styles.statustext}>
+      <Text style={styles.statustexttags}>
+        <Text style={styles.statusgrey}>Status:</Text> {status}
+      </Text>
+      <Image
+        source={imageSource}
+        style={styles.ongoingImage}
+      />
+    </View>
 
           <Text style={styles.statustexttags}>
             <Text style={styles.statusgrey}>Closes at:</Text> {endVoting}
