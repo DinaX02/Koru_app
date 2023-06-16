@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ImageBackground,
@@ -10,22 +10,13 @@ import {
 
 const Eventinfo = () => {
   const [selectedTab, setSelectedTab] = useState("about");
-  const [selectedStatus, setSelectedStatus] = useState("Ongoing");
+  const [eventStatus, setEventStatus] = useState('');
+
+
   const handleTabPress = (tabName) => {
     setSelectedTab(tabName);
   };
 
- const getImageSource = () => {
-   if (selectedStatus === "Ongoing") {
-     return require("../assets/ongoing_green.png");
-   } else if (selectedStatus === "Closed") {
-     return require("../assets/Closed_red.png");
-   } else if (selectedStatus === "Upcoming") {
-     return require("../assets/upcoming_yellow.png");
-   }
-
-   return require("../assets/ongoing_green.png"); // Imagem padrao caso não haja correspondencia
- }; 
 
 
  const eventInfo = {
@@ -54,6 +45,29 @@ const Eventinfo = () => {
       }
   ]
 }
+
+useEffect(() => {
+  const currentDateTime = new Date().getTime();
+  const startDate = new Date(eventInfo.info[0].start_date).getTime();
+  const endDate = new Date(eventInfo.info[0].end_date).getTime();
+
+  if (currentDateTime < startDate) {
+    setEventStatus('Upcoming');
+  } else if (currentDateTime >= startDate && currentDateTime <= endDate) {
+    setEventStatus('Ongoing');
+  } else {
+    setEventStatus('Closed');
+  }
+}, []);
+
+ let imageSourceStatusEvent;
+  if (eventStatus === 'Upcoming') {
+    imageSourceStatusEvent = require("../assets/upcoming_yellow.png");
+  } else if (eventStatus === 'Closed') {
+    imageSourceStatusEvent = require("../assets/Closed_red.png");
+  } else {
+    imageSourceStatusEvent = require("../assets/ongoing_green.png");
+  }
 
 // receber apenas o mes
 
@@ -103,9 +117,9 @@ const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so h
         </View>
 
         <View style={styles.ongoingContainer}>
-          <Text style={styles.ongoingText}>{selectedStatus}</Text>
+          <Text style={styles.ongoingText}>{eventStatus}</Text>
           <Image
-            source={getImageSource()}
+            source={imageSourceStatusEvent}
             style={styles.ongoingImage}
           />
         </View>
