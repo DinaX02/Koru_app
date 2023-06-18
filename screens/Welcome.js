@@ -11,7 +11,7 @@ const Welcome = () => {
   return (
     <View style={styles.container}>
     <Image
-      source={require('../assets/image_welcome.png')}
+      source={require('../assets/new_img_welcome.png')}
       style={styles.image}
     />
     
@@ -43,9 +43,10 @@ const Welcome = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#5A58A8",
+    backgroundColor:"#5c59aa",
   },
   image: {
+    alignItems:"center",
     width: '100%',
     height: '60%',
   },

@@ -53,9 +53,6 @@ const Profile = ({ navigation }) => {
                   Change Password
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity>             
-              <Text style={styles.titleOverlayBlueLinks}>Delete Account</Text>
-              </TouchableOpacity>
             </View>
 
           </View>

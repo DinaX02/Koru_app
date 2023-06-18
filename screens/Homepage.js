@@ -22,7 +22,7 @@ const Homepage = () => {
         <TouchableOpacity style={styles.buttonHome}
         onPress={() => navigation.navigate('Eventlist')}>
           <View style={styles.buttonContent}>
-            <Image source={require('../assets/list_icon.png')} style={styles.icon1} />
+            <Image source={require('../assets/list_icon_.png')} style={styles.icon1} />
             <Text style={styles.buttonText}>My Event List</Text>
           </View>
         </TouchableOpacity>
@@ -31,7 +31,7 @@ const Homepage = () => {
           onPress={() => navigation.navigate('ScanQrCode')}
         >
           <View style={styles.buttonContent}>
-            <Image source={require('../assets/icon_scan.png')} style={styles.icon} />
+            <Image source={require('../assets/qr_code.png')} style={styles.icon} />
             <Text style={styles.buttonText2}>Join new event</Text>
           </View>
         </TouchableOpacity>

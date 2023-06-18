@@ -106,7 +106,7 @@ const Eventlist = () => {
                     </View>
                     <TouchableOpacity onPress={() => setFilter("all")}>
                         <Image
-                            source={filter === "all" ? require("../assets/select_all_active.png") : require("../assets/select_all.png")}
+                            source={filter === "all" ? require("../assets/select_all_active.png") : require("../assets/select_all_new.png")}
                             style={styles.selectall}
                         />
                     </TouchableOpacity>

@@ -30,7 +30,33 @@ const Eventvoting = () => {
     setPopupVisible(false);
   };
 
-
+  const eventInfo = {
+    "info": [
+        {
+            "name_event": "MediaPlay23",
+            "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
+            "logo_event": "", //img event
+            "start_date": "2023-06-27 09:00:00",
+            "end_date": "2023-06-27 19:00:00",
+            "vote_start": "2023-06-15 12:00:00", //caso for null fzr algo
+            "vote_end": "2023-06-27 18:30:00", //caso for null fzr algo
+            "name_org": "DeCA",
+            "total_people": 2,
+            "total_projetos": 3
+        }
+    ],
+    "coins": [
+        {
+            "id_coin": 1,
+            "name_coin": "coin1"
+        },
+        {
+            "id_coin": 3,
+            "name_coin": "coin2"
+        }
+    ]
+  }
+  
 
   useEffect(() => {
     const currentDateTime = new Date().getTime(); // hora atual
@@ -98,33 +124,7 @@ const Eventvoting = () => {
     }
   ];
 
-  const eventInfo = {
-    "info": [
-        {
-            "name_event": "MediaPlay23",
-            "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
-            "logo_event": "", //img event
-            "start_date": "2023-06-27 09:00:00",
-            "end_date": "2023-06-27 19:00:00",
-            "vote_start": "2002-02-02 12:00:00", //caso for null fzr algo
-            "vote_end": "2002-02-02 18:30:00", //caso for null fzr algo
-            "name_org": "DeCA",
-            "total_people": 2,
-            "total_projetos": 3
-        }
-    ],
-    "coins": [
-        {
-            "id_coin": 1,
-            "name_coin": "coin1"
-        },
-        {
-            "id_coin": 3,
-            "name_coin": "coin2"
-        }
-    ]
-  }
-  
+
   const walletData = {
     teste_coin1: {
       id: 1,
@@ -187,7 +187,7 @@ const Eventvoting = () => {
 
       return (
         <View key={index} style={styles.coindiv}>
-          <Image source={coinImage} />
+          <Image style={styles.coin_img_size} source={coinImage} />
           <Text style={styles.cointitle}>{key}</Text>
           <Text style={styles.coinvalue}>{coin.balance}</Text>
         </View>
@@ -272,9 +272,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#2F2E5F",
     marginRight: 20,
   },
+  wallet_icon:{
+    width:60,
+    height:60,
+  },
   projectcontent:{
     flexDirection: "row",
     alignItems: "center",
+  },
+  coin_img_size:{
+    width: 10,
+    height:10,
+    marginTop:3,
   },
   sliderdescription: {
     width: "95%",
