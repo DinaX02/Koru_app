@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image,
     KeyboardAvoidingView,
-    Alert,
+    Alert,ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -55,21 +55,25 @@ const LogIn = () => {
     };
 
   return (
-      <ImageBackground
-          source={require("../assets/background_homepage.png")}
-          style={styles.backgroundImage}
-          imageStyle={styles.imageStyle}
-      >
-        <View style={styles.container}>
-          <View style={styles.logoContainer}>
-            <Image
-                style={styles.logo}
-                source={require("../assets/logo_litle_hompeage.png")}
-            />
-          </View>
+    <ScrollView
+    contentContainerStyle={styles.scrollContainer}
+    keyboardShouldPersistTaps="handled"
+  >
+    <ImageBackground
+      source={require("../assets/background_homepage.png")}
+      style={styles.backgroundImage}
+      imageStyle={styles.imageStyle}
+    >
+      <View style={styles.logoContainer}>
+        <Image
+          style={styles.logo}
+          source={require("../assets/logo_litle_hompeage.png")}
+        />
+      </View>
 
-          <KeyboardAvoidingView style={styles.overlay}>
-            <View style={styles.TextnamePage}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.overlay}>
+        <View style={styles.TextnamePage}>
               <Text style={styles.title}>Log In</Text>
             </View>
             <TextInput
@@ -88,19 +92,25 @@ const LogIn = () => {
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
-          </KeyboardAvoidingView>
         </View>
+      </KeyboardAvoidingView>
+
+      <View style={styles.setacontainer}>
         <TouchableOpacity
-            style={styles.setacontainer}
-            onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+          onPress={() => navigation.goBack()} // Função para voltar para a página anterior
         >
           <Image style={styles.seta} source={require("../assets/seta_back.png")} />
         </TouchableOpacity>
-      </ImageBackground>
+      </View>
+    </ImageBackground>
+  </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   backgroundImage: {
     flex: 1,
     resizeMode: "cover",
@@ -113,18 +123,19 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: "flex-start",
     paddingTop: 20,
-    marginLeft:20,
+    marginLeft: 20,
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },  setacontainer: {
-    marginBottom: 50,
-    alignItems: "center",
+  },
+  setacontainer: {
+    flexDirection: "row",
+    justifyContent: "center",
   },
   seta: {
-    marginTop:20,
+    marginBottom: 20,
     width: 30,
     height: 30,
   },
@@ -141,11 +152,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 120,
-  },
-  alignoverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   title: {
     fontSize: 26,
