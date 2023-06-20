@@ -1,19 +1,30 @@
-import React, { useState, useRef } from "react";
-import BottomSheet from 'react-native-simple-bottom-sheet';
+import React, { useState, useCallback, useMemo, useRef } from "react";
+import BottomSheet from "@gorhom/bottom-sheet";
 import {
     View,
-    ImageBackground,
     StyleSheet,
     Text,
     TouchableOpacity,
     Image,
     ScrollView,
-    useWindowDimensions,
+    Dimensions,
 } from "react-native";
 
+const windowHeight = Dimensions.get('window').height;
+const targetPosition = windowHeight - 200;
+
 const Eventliveranking = () => {
-    const panelRef = useRef(null);
-    const dimensions = useWindowDimensions();
+
+    const bottomSheetRef = useRef(null);
+    const snapPoints = useMemo(() => [targetPosition], []);
+
+    const handleSheetChanges = useCallback((index) => {
+        console.log('handleSheetChanges', index);
+    }, []);
+
+    // Adjust initial index if it falls outside the snap points
+    const initialIndex = snapPoints.includes(targetPosition) ? snapPoints.indexOf(targetPosition) : 0;
+
 
     const coin1 = [
         {
@@ -182,13 +193,13 @@ const Eventliveranking = () => {
                 {/* filter */}
                 <View style={styles.filter}>
                     <TouchableOpacity onPress={() => handleFilterChange("coin1")}>
-                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Coin1</Text>
+                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Public</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleFilterChange("coin2")}>
-                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Coin2</Text>
+                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Companies</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => handleFilterChange("coin3")}>
-                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Coin3</Text>
+                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Directors</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -196,26 +207,28 @@ const Eventliveranking = () => {
                 <View style={styles.podium}>
                     <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require("../assets/coin_red.png")}/></View>
                     <View style={styles.podiumproject}>
+                        <Text style={[styles.podiumplace, { backgroundColor: "silver" }]}>2</Text>
                         <Image
                             style={styles.podiumimage}
-                            source={require("../assets/image_welcome.png")}
+                            source={require("../assets/img_1_slider_hp.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>
                     </View>
                     <View style={styles.podiumproject1}>
-                        <Text style={styles.podiumplace}>1</Text>
+                        <Text style={[styles.podiumplace, { backgroundColor: "gold" }]}>1</Text>
                         <Image
                             style={styles.podiumimage}
-                            source={require("../assets/image_welcome.png")}
+                            source={require("../assets/img_silder_2.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>
                     </View>
                     <View style={styles.podiumproject}>
+                        <Text style={[styles.podiumplace, { backgroundColor: "#967444" }]}>3</Text>
                         <Image
                             style={styles.podiumimage}
-                            source={require("../assets/image_welcome.png")}
+                            source={require("../assets/img_slider_3.png")}
                         />
                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>
                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>
@@ -228,7 +241,6 @@ const Eventliveranking = () => {
                         const i = index + 4;
                         return (
                             <TouchableOpacity
-                                onPress={() => panelRef.current.togglePanel()}
                                 key={project.id_project}
                                 style={styles.project}
                             >
@@ -254,24 +266,14 @@ const Eventliveranking = () => {
                     })}
                 </ScrollView>
             <BottomSheet
-                isOpen={false}
-                sliderMinHeight={0}
-                sliderMaxHeight={dimensions.height - 300}
-                ref={ref => panelRef.current = ref}
+                ref={bottomSheetRef}
+                index={initialIndex}
+                snapPoints={snapPoints}
+                onChange={handleSheetChanges}
             >
-                <ScrollView
-                    style={{
-                        height: dimensions.height - 300,
-                    }}
-                >
-                    <Text style={{ paddingVertical: 20 }}>
-                        Some random content
-                    </Text>
-                    <Text style={{ paddingVertical: 20 }}>
-                        Some random content
-                    </Text>
-                </ScrollView>
-
+                <View style={styles.contentContainer}>
+                    <Text>Awesome 🎉</Text>
+                </View>
             </BottomSheet>
         </View>
     );
@@ -281,13 +283,13 @@ const styles = StyleSheet.create({
     podiumplace:{
         borderWidth: 1,
         borderColor: "#2F2E5F",
-        right: 6,
+        right: 5,
         top: 5,
-        backgroundColor: "gold",
-        width: 20,
-        height: 20,
+        width: 25,
+        height: 25,
+        textAlignVertical: "center",
         textAlign: "center",
-        borderRadius: 10,
+        borderRadius: 25,
         fontWeight: 800,
         position: "absolute",
         zIndex: 5,
@@ -345,7 +347,7 @@ const styles = StyleSheet.create({
 
     },
     podium:{
-        backgroundColor: "#7370e0",
+        backgroundColor: "#6f6bd6",
         paddingTop: 20,
         flexDirection: "row",
         justifyContent: "center",
@@ -355,25 +357,21 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         backgroundColor: "#2F2E5F",
-        padding: 5,
-        paddingVertical: 2,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 5,
         color: "white",
         textAlign: "center",
         marginLeft: 12,
-        borderColor: "#2F2E5F",
-        borderWidth: 1,
     },
     filteroption:{
         fontSize: 15,
         fontWeight: "bold",
-        backgroundColor: "whitesmoke",
-        padding: 5,
-        paddingVertical: 2,
+        backgroundColor: "#efefef",
+        paddingHorizontal: 10,
+        paddingVertical: 5,
         borderRadius: 5,
-        color: "#9A9A9A",
-        borderColor: "#9A9A9A",
-        borderWidth: 1,
+        color: "#65686b",
         textAlign: "center",
         marginLeft: 12,
     },

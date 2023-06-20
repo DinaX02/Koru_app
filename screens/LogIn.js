@@ -1,61 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  View,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,KeyboardAvoidingView,
+    View,
+    ImageBackground,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    Image,
+    KeyboardAvoidingView,
+    Alert,
 } from "react-native";
-
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const LogIn = () => {
+    const navigation = useNavigation();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-  const navigation = useNavigation();
+    const handleLogin = async () => {
+        try {
+            // Create form data
+            const formData = new URLSearchParams();
+            formData.append("password", password);
+
+            // Perform the login API request using the provided endpoint and data
+            const response = await fetch(
+                `https://labmm.clients.ua.pt/proj/koru/user/login/${username}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: formData.toString(), // Convert form data to string
+                }
+            );
+
+            // Check if the login was successful
+            if (response.ok) {
+                const data = await response.json();
+                const { id_user, token } = data;
+
+                // TODO: Handle the successful login, e.g., store the user token in the app's state or AsyncStorage
+                // and navigate to the next screen
+                Alert.alert(token)
+            } else {
+                // Handle login error
+                Alert.alert("Login Failed", "Invalid username or password");
+            }
+        } catch (error) {
+            console.error("Error occurred during login:", error);
+            // Handle login error
+            Alert.alert("Login Failed", "An error occurred during the login process");
+        }
+    };
 
   return (
-    <ImageBackground
-      source={require("../assets/background_homepage.png")}
-      style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
-    >
-      <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/logo_litle_hompeage.png")}
-        />
-      </View>
-     
-
-      <KeyboardAvoidingView style={styles.overlay}>
-      <View style={styles.TextnamePage}>
-        <Text style={styles.title}>Log In</Text></View>
-        <TextInput style={styles.input} placeholder="Username" />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-        />
-        <TouchableOpacity style={styles.button}
-         onPress={() => navigation.navigate('Home')}
-        >
-          <Text style={styles.buttonText}>Continue</Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      </View>
-      <TouchableOpacity style={styles.setacontainer}
-       onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+      <ImageBackground
+          source={require("../assets/background_homepage.png")}
+          style={styles.backgroundImage}
+          imageStyle={styles.imageStyle}
       >
-        <Image
-          style={styles.seta}
-          source={require("../assets/seta_back.png")}
-          
-        />
-      </TouchableOpacity>
-    </ImageBackground>
+        <View style={styles.container}>
+          <View style={styles.logoContainer}>
+            <Image
+                style={styles.logo}
+                source={require("../assets/logo_litle_hompeage.png")}
+            />
+          </View>
+
+          <KeyboardAvoidingView style={styles.overlay}>
+            <View style={styles.TextnamePage}>
+              <Text style={styles.title}>Log In</Text>
+            </View>
+            <TextInput
+                style={styles.input}
+                placeholder="Username"
+                value={username}
+                onChangeText={setUsername}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+            />
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+        </View>
+        <TouchableOpacity
+            style={styles.setacontainer}
+            onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+        >
+          <Image style={styles.seta} source={require("../assets/seta_back.png")} />
+        </TouchableOpacity>
+      </ImageBackground>
   );
 };
 

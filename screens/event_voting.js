@@ -56,7 +56,7 @@ const Eventvoting = () => {
         }
     ]
   }
-  
+
 
   useEffect(() => {
     const currentDateTime = new Date().getTime(); // hora atual
@@ -140,13 +140,13 @@ const Eventvoting = () => {
     },
   };
 
-  
+
   const panelRef = useRef(null);
   const dimensions = useWindowDimensions();
 
   const endVotingTime = eventInfo.info[0].vote_end;
 
-  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao 
+  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao
 
   return (
     <View style={styles.container}>
@@ -224,14 +224,14 @@ const Eventvoting = () => {
       </ImageBackground>
       <BottomSheet
           isOpen={false}
-          sliderMinHeight={0}
           ref={ref => panelRef.current = ref}
+          sliderMaxHeight={dimensions.height - 300}
       >
           <ScrollView contentContainerStyle={{
             width: "100%",
             flexDirection: "column",
             alignItems: "center",
-            minHeight: dimensions.height - 250,
+            paddingBottom: 75,
           }}>
             <Image
               style={{
@@ -242,21 +242,15 @@ const Eventvoting = () => {
               source={require("../assets/image_welcome.png")}
             />
             <Text style={styles.slidertitle}>{projectName}</Text>
+            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
+              <Text style={styles.joinButtonText}>Vote</Text>
+            </TouchableOpacity>
             <Text style={styles.sliderdescription}>
-              Koru is an event tracking platform that allows organizers to
-              create and manage events efficiently, while providing event
-              attendees with a personalized and interactive experience. The app
-              focuses on the dynamics of voting on projects displayed at the
-              event, where participants have coins they can invest in the
-              projects they like the most.
+              Koru is an event tracking platform that allows organizers to create and manage events efficiently, while providing event attendees with a personalized and interactive experience. The app focuses on the dynamics of voting on projects displayed at the event, where participants have coins they can invest in the projects they like the most.
             </Text>
             <Text style={styles.LinkVote}>
-              
-            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>
 
-            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
-          <Text style={styles.joinButtonText}>Vote</Text>
-        </TouchableOpacity>
+            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>
         <PopUp visible={popupVisible} onClose={closePopup} />
           </ScrollView>
       </BottomSheet>
@@ -296,17 +290,17 @@ const styles = StyleSheet.create({
   },  joinButton: {
     backgroundColor: "#2F2E5F",
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 15,
     width: 150,
-    marginTop: 10,
+    marginBottom: 20,
   },  joinButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
   },
-  LinkVote:{    
-    width: "90%", 
+  LinkVote:{
+    width: "90%",
     marginTop: 5,},
     Linkbold:{
       color:"#2F2E5F",
@@ -396,7 +390,7 @@ const styles = StyleSheet.create({
   },
   status: {
     backgroundColor: "white",
-    padding: 14.5,
+    padding: 16,
     flexDirection: "row",
     justifyContent: "space-between",
   },

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking update">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_4_58_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_4_58_PM__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_6_09_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_6_09_PM__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_7_29_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_7_29_PM__Default_Changelist_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/LogIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LogIn.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +84,15 @@
       <workItem from="1686669018828" duration="6306000" />
       <workItem from="1686708317685" duration="6589000" />
       <workItem from="1686737851413" duration="4521000" />
-      <workItem from="1686864657806" duration="10194000" />
+      <workItem from="1686864657806" duration="10236000" />
+      <workItem from="1686956980008" duration="8346000" />
+      <workItem from="1687048458808" duration="3515000" />
+      <workItem from="1687120077730" duration="1056000" />
+      <workItem from="1687131533134" duration="3247000" />
+      <workItem from="1687144177305" duration="1370000" />
+      <workItem from="1687193982287" duration="7748000" />
+      <workItem from="1687225766103" duration="1789000" />
+      <workItem from="1687274756886" duration="327000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -130,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686737998627</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="live_ranking update">
+      <created>1686876732556</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1686876732556</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,6 +176,7 @@
     <MESSAGE value="Ligações entre outras coisas" />
     <MESSAGE value="event_list" />
     <MESSAGE value="live_ranking" />
-    <option name="LAST_COMMIT_MESSAGE" value="live_ranking" />
+    <MESSAGE value="live_ranking update" />
+    <option name="LAST_COMMIT_MESSAGE" value="live_ranking update" />
   </component>
 </project>
