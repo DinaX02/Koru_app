@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
     View,
     ImageBackground,
@@ -11,48 +11,14 @@ import {
     Alert,ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import {AuthContext} from "../context/AuthContext";
 
 const LogIn = () => {
     const navigation = useNavigation();
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+    const val = useContext(AuthContext);
 
-    const handleLogin = async () => {
-        try {
-            // Create form data
-            const formData = new URLSearchParams();
-            formData.append("password", password);
-
-            // Perform the login API request using the provided endpoint and data
-            const response = await fetch(
-                `https://labmm.clients.ua.pt/proj/koru/user/login/${username}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: formData.toString(), // Convert form data to string
-                }
-            );
-
-            // Check if the login was successful
-            if (response.ok) {
-                const data = await response.json();
-                const { id_user, token } = data;
-
-                // TODO: Handle the successful login, e.g., store the user token in the app's state or AsyncStorage
-                // and navigate to the next screen
-                Alert.alert(token)
-            } else {
-                // Handle login error
-                Alert.alert("Login Failed", "Invalid username or password");
-            }
-        } catch (error) {
-            console.error("Error occurred during login:", error);
-            // Handle login error
-            Alert.alert("Login Failed", "An error occurred during the login process");
-        }
-    };
 
   return (
     <ScrollView
@@ -73,8 +39,8 @@ const LogIn = () => {
 
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.overlay}>
-        <View style={styles.TextnamePage}>
-              <Text style={styles.title}>Log In</Text>
+        <View>
+              <Text style={styles.title}>{val}</Text>
             </View>
             <TextInput
                 style={styles.input}
@@ -89,7 +55,7 @@ const LogIn = () => {
                 value={password}
                 onChangeText={setPassword}
             />
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
         </View>

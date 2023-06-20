@@ -1,0 +1,1039 @@
+Index: screens/LogIn.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React from \"react\";\r\nimport {\r\n  View,\r\n  ImageBackground,\r\n  StyleSheet,\r\n  Text,\r\n  TextInput,\r\n  TouchableOpacity,\r\n  Image,KeyboardAvoidingView,\r\n} from \"react-native\";\r\n\r\nimport { useNavigation } from '@react-navigation/native';\r\n\r\nconst LogIn = () => {\r\n\r\n  const navigation = useNavigation();\r\n\r\n  return (\r\n    <ImageBackground\r\n      source={require(\"../assets/background_homepage.png\")}\r\n      style={styles.backgroundImage}\r\n      imageStyle={styles.imageStyle}\r\n    >\r\n      <View style={styles.container}>\r\n      <View style={styles.logoContainer}>\r\n        <Image\r\n          style={styles.logo}\r\n          source={require(\"../assets/logo_litle_hompeage.png\")}\r\n        />\r\n      </View>\r\n     \r\n\r\n      <KeyboardAvoidingView style={styles.overlay}>\r\n      <View style={styles.TextnamePage}>\r\n        <Text style={styles.title}>Log In</Text></View>\r\n        <TextInput style={styles.input} placeholder=\"Username\" />\r\n        <TextInput\r\n          style={styles.input}\r\n          placeholder=\"Password\"\r\n          secureTextEntry\r\n        />\r\n        <TouchableOpacity style={styles.button}\r\n         onPress={() => navigation.navigate('Home')}\r\n        >\r\n          <Text style={styles.buttonText}>Continue</Text>\r\n        </TouchableOpacity>\r\n      </KeyboardAvoidingView>\r\n      </View>\r\n      <TouchableOpacity style={styles.setacontainer}\r\n       onPress={() => navigation.goBack()} // Função para voltar para a página anterior\r\n      >\r\n        <Image\r\n          style={styles.seta}\r\n          source={require(\"../assets/seta_back.png\")}\r\n          \r\n        />\r\n      </TouchableOpacity>\r\n    </ImageBackground>\r\n  );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  backgroundImage: {\r\n    flex: 1,\r\n    resizeMode: \"cover\",\r\n    justifyContent: \"center\",\r\n  },\r\n  logoContainer: {\r\n    position: 'absolute',\r\n    top: \"7%\",\r\n    left: 0,\r\n    right: 0,\r\n    alignItems: \"flex-start\",\r\n    paddingTop: 20,\r\n    marginLeft:20,\r\n  },\r\n  container: {\r\n    flex: 1,\r\n    justifyContent: 'center',\r\n    alignItems: 'center',\r\n  },  setacontainer: {\r\n    marginBottom: 50,\r\n    alignItems: \"center\",\r\n  },\r\n  seta: {\r\n    marginTop:20,\r\n    width: 30,\r\n    height: 30,\r\n  },\r\n  logo: {\r\n    width: 86,\r\n    height: 23,\r\n  },\r\n  overlay: {\r\n    backgroundColor: 'rgba(217, 217, 217, 0.6)',\r\n    paddingHorizontal: 20,\r\n    paddingVertical: 40,\r\n    borderRadius: 20,\r\n    width: '90%',\r\n    justifyContent: 'center',\r\n    alignItems: 'center',\r\n    marginTop: 120,\r\n  },\r\n  alignoverlay: {\r\n    flex: 1,\r\n    justifyContent: \"center\",\r\n    alignItems: \"center\",\r\n  },\r\n  title: {\r\n    fontSize: 26,\r\n    fontWeight: \"bold\",\r\n    color: \"#FFFFFF\",\r\n    marginBottom: 20,\r\n    textAlign: 'left',\r\n  },\r\n  logintext: {\r\n    textAlign: \"left\",\r\n  },\r\n  input: {\r\n    height: 40,\r\n    backgroundColor: \"#FFFFFF\",\r\n    borderRadius: 8,\r\n    paddingHorizontal: 10,\r\n    marginBottom: 20,\r\n    width: \"90%\",\r\n  },\r\n  button: {\r\n    backgroundColor: \"#625EFD\",\r\n    borderRadius: 8,\r\n    height: 40,\r\n    justifyContent: \"center\",\r\n    alignItems: \"center\",\r\n    marginTop: 20,\r\n    width: \"90%\",\r\n  },\r\n  buttonText: {\r\n    color: \"#FFFFFF\",\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n  },\r\n});\r\n\r\nexport default LogIn;\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/screens/LogIn.js b/screens/LogIn.js
+--- a/screens/LogIn.js	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ b/screens/LogIn.js	(date 1687202619338)
+@@ -1,61 +1,102 @@
+-import React from "react";
++import React, { useState } from "react";
+ import {
+-  View,
+-  ImageBackground,
+-  StyleSheet,
+-  Text,
+-  TextInput,
+-  TouchableOpacity,
+-  Image,KeyboardAvoidingView,
++    View,
++    ImageBackground,
++    StyleSheet,
++    Text,
++    TextInput,
++    TouchableOpacity,
++    Image,
++    KeyboardAvoidingView,
++    Alert,
+ } from "react-native";
+-
+-import { useNavigation } from '@react-navigation/native';
++import { useNavigation } from "@react-navigation/native";
+ 
+ const LogIn = () => {
+-
+-  const navigation = useNavigation();
++    const navigation = useNavigation();
++    const [username, setUsername] = useState("");
++    const [password, setPassword] = useState("");
++
++    const handleLogin = async () => {
++        try {
++            // Create form data
++            const formData = new URLSearchParams();
++            formData.append("password", password);
++
++            // Perform the login API request using the provided endpoint and data
++            const response = await fetch(
++                `https://labmm.clients.ua.pt/proj/koru/user/login/${username}`,
++                {
++                    method: "POST",
++                    headers: {
++                        "Content-Type": "application/x-www-form-urlencoded",
++                    },
++                    body: formData.toString(), // Convert form data to string
++                }
++            );
++
++            // Check if the login was successful
++            if (response.ok) {
++                const data = await response.json();
++                const { id_user, token } = data;
++
++                // TODO: Handle the successful login, e.g., store the user token in the app's state or AsyncStorage
++                // and navigate to the next screen
++                Alert.alert(token)
++            } else {
++                // Handle login error
++                Alert.alert("Login Failed", "Invalid username or password");
++            }
++        } catch (error) {
++            console.error("Error occurred during login:", error);
++            // Handle login error
++            Alert.alert("Login Failed", "An error occurred during the login process");
++        }
++    };
+ 
+   return (
+-    <ImageBackground
+-      source={require("../assets/background_homepage.png")}
+-      style={styles.backgroundImage}
+-      imageStyle={styles.imageStyle}
+-    >
+-      <View style={styles.container}>
+-      <View style={styles.logoContainer}>
+-        <Image
+-          style={styles.logo}
+-          source={require("../assets/logo_litle_hompeage.png")}
+-        />
+-      </View>
+-     
++      <ImageBackground
++          source={require("../assets/background_homepage.png")}
++          style={styles.backgroundImage}
++          imageStyle={styles.imageStyle}
++      >
++        <View style={styles.container}>
++          <View style={styles.logoContainer}>
++            <Image
++                style={styles.logo}
++                source={require("../assets/logo_litle_hompeage.png")}
++            />
++          </View>
+ 
+-      <KeyboardAvoidingView style={styles.overlay}>
+-      <View style={styles.TextnamePage}>
+-        <Text style={styles.title}>Log In</Text></View>
+-        <TextInput style={styles.input} placeholder="Username" />
+-        <TextInput
+-          style={styles.input}
+-          placeholder="Password"
+-          secureTextEntry
+-        />
+-        <TouchableOpacity style={styles.button}
+-         onPress={() => navigation.navigate('Home')}
+-        >
+-          <Text style={styles.buttonText}>Continue</Text>
+-        </TouchableOpacity>
+-      </KeyboardAvoidingView>
+-      </View>
+-      <TouchableOpacity style={styles.setacontainer}
+-       onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+-      >
+-        <Image
+-          style={styles.seta}
+-          source={require("../assets/seta_back.png")}
+-          
+-        />
+-      </TouchableOpacity>
+-    </ImageBackground>
++          <KeyboardAvoidingView style={styles.overlay}>
++            <View style={styles.TextnamePage}>
++              <Text style={styles.title}>Log In</Text>
++            </View>
++            <TextInput
++                style={styles.input}
++                placeholder="Username"
++                value={username}
++                onChangeText={setUsername}
++            />
++            <TextInput
++                style={styles.input}
++                placeholder="Password"
++                secureTextEntry
++                value={password}
++                onChangeText={setPassword}
++            />
++            <TouchableOpacity style={styles.button} onPress={handleLogin}>
++              <Text style={styles.buttonText}>Continue</Text>
++            </TouchableOpacity>
++          </KeyboardAvoidingView>
++        </View>
++        <TouchableOpacity
++            style={styles.setacontainer}
++            onPress={() => navigation.goBack()} // Função para voltar para a página anterior
++        >
++          <Image style={styles.seta} source={require("../assets/seta_back.png")} />
++        </TouchableOpacity>
++      </ImageBackground>
+   );
+ };
+ 
+Index: screens/event_voting.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useRef , useEffect} from \"react\";\r\nimport BottomSheet from 'react-native-simple-bottom-sheet';\r\nimport {\r\n  View,\r\n  ImageBackground,\r\n  StyleSheet,\r\n  Text,\r\n  TouchableOpacity,\r\n  Image,\r\n  ScrollView,\r\n  useWindowDimensions,\r\n} from \"react-native\";\r\n\r\nimport PopUp from \"../components/PopUp\";\r\n\r\n\r\n\r\nconst Eventvoting = () => {\r\n\r\n  const [status, setStatus] = useState('Open');\r\n  const [imageSource, setImageSource] = useState(require(\"../assets/ongoing_green.png\"));\r\n  const [projectName, setProjectName] = useState(\"koru\");\r\n  const [popupVisible, setPopupVisible] = useState(false);\r\n\r\n  const openPopup = () => {\r\n    setPopupVisible(true);\r\n  };\r\n\r\n  const closePopup = () => {\r\n    setPopupVisible(false);\r\n  };\r\n\r\n  const eventInfo = {\r\n    \"info\": [\r\n        {\r\n            \"name_event\": \"MediaPlay23\",\r\n            \"des_event\": \"Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.\",\r\n            \"logo_event\": \"\", //img event\r\n            \"start_date\": \"2023-06-27 09:00:00\",\r\n            \"end_date\": \"2023-06-27 19:00:00\",\r\n            \"vote_start\": \"2023-06-15 12:00:00\", //caso for null fzr algo\r\n            \"vote_end\": \"2023-06-27 18:30:00\", //caso for null fzr algo\r\n            \"name_org\": \"DeCA\",\r\n            \"total_people\": 2,\r\n            \"total_projetos\": 3\r\n        }\r\n    ],\r\n    \"coins\": [\r\n        {\r\n            \"id_coin\": 1,\r\n            \"name_coin\": \"coin1\"\r\n        },\r\n        {\r\n            \"id_coin\": 3,\r\n            \"name_coin\": \"coin2\"\r\n        }\r\n    ]\r\n  }\r\n  \r\n\r\n  useEffect(() => {\r\n    const currentDateTime = new Date().getTime(); // hora atual\r\n    const voteStartDateTime = new Date(eventInfo.info[0].vote_start).getTime(); // hora inicio votacao\r\n    const voteEndDateTime = new Date(eventInfo.info[0].vote_end).getTime(); // hora fim votacao\r\n\r\n    if (currentDateTime >= voteStartDateTime && currentDateTime <= voteEndDateTime) {\r\n      setStatus('Open');\r\n      setImageSource(require(\"../assets/ongoing_green.png\"));\r\n    } else {\r\n      setStatus('Closed');\r\n      setImageSource(require(\"../assets/Closed_red.png\"));\r\n    }\r\n  }, []);\r\n\r\n\r\n  const json = [\r\n    {\r\n      \"id\": 1,\r\n      \"name\": \"Project 1\"\r\n    },\r\n    {\r\n      \"id\": 2,\r\n      \"name\": \"Project 2\"\r\n    },\r\n    {\r\n      \"id\": 3,\r\n      \"name\": \"Project 3\"\r\n    },\r\n    {\r\n      \"id\": 4,\r\n      \"name\": \"Project 4\"\r\n    },\r\n    {\r\n      \"id\": 5,\r\n      \"name\": \"Project 5\"\r\n    },\r\n    {\r\n      \"id\": 6,\r\n      \"name\": \"Project 6\"\r\n    },\r\n    {\r\n      \"id\": 7,\r\n      \"name\": \"Project 7\"\r\n    },\r\n    {\r\n      \"id\": 8,\r\n      \"name\": \"Project 8\"\r\n    },\r\n    {\r\n      \"id\": 9,\r\n      \"name\": \"Project 9\"\r\n    },\r\n    {\r\n      \"id\": 10,\r\n      \"name\": \"Project 10\"\r\n    },\r\n    {\r\n      \"id\": 11,\r\n      \"name\": \"Project 11\"\r\n    },\r\n    {\r\n      \"id\": 12,\r\n      \"name\": \"Project 12\"\r\n    }\r\n  ];\r\n\r\n\r\n  const walletData = {\r\n    teste_coin1: {\r\n      id: 1,\r\n      balance: 100,\r\n    },\r\n    teste_coin2: {\r\n      id: 2,\r\n      balance: 50,\r\n    },\r\n    teste_coin3: {\r\n      id: 2,\r\n      balance: 10,\r\n    },\r\n  };\r\n\r\n  \r\n  const panelRef = useRef(null);\r\n  const dimensions = useWindowDimensions();\r\n\r\n  const endVotingTime = eventInfo.info[0].vote_end;\r\n\r\n  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao \r\n\r\n  return (\r\n    <View style={styles.container}>\r\n      <ImageBackground\r\n        source={require(\"../assets/background.png\")}\r\n        style={styles.backgroundImage}\r\n      >\r\n        {/* status */}\r\n        <View style={styles.status}>\r\n        <View style={styles.statustext}>\r\n      <Text style={styles.statustexttags}>\r\n        <Text style={styles.statusgrey}>Status:</Text> {status}\r\n      </Text>\r\n      <Image\r\n        source={imageSource}\r\n        style={styles.ongoingImage}\r\n      />\r\n    </View>\r\n\r\n          <Text style={styles.statustexttags}>\r\n            <Text style={styles.statusgrey}>Closes at:</Text> {endVoting}\r\n          </Text>\r\n        </View>\r\n        <View style={styles.wallet}>\r\n  <View>\r\n    <Text style={styles.wallettitle}>Your Wallet</Text>\r\n    {Object.keys(walletData).map((key, index) => {\r\n      const coin = walletData[key];\r\n      let coinImage;\r\n\r\n      if (index === 0) {\r\n        coinImage = require(`../assets/coin.png`);\r\n      } else if (index === 1) {\r\n        coinImage = require(`../assets/coin_red.png`);\r\n      } else if (index === 2) {\r\n        coinImage = require(`../assets/coin_yellow.png`);\r\n      }\r\n\r\n      return (\r\n        <View key={index} style={styles.coindiv}>\r\n          <Image style={styles.coin_img_size} source={coinImage} />\r\n          <Text style={styles.cointitle}>{key}</Text>\r\n          <Text style={styles.coinvalue}>{coin.balance}</Text>\r\n        </View>\r\n      );\r\n    })}\r\n  </View>\r\n  <View style={styles.walletContainer}>\r\n    <Image source={require('../assets/wallet.png')} />\r\n  </View>\r\n</View>\r\n        <ScrollView contentContainerStyle={styles.projects}>\r\n          {json &&\r\n          json.map((project) => (\r\n              <TouchableOpacity\r\n                  key={project.id}\r\n                  onPress={() => {\r\n                    setProjectName(project.name)\r\n                    panelRef.current.togglePanel()\r\n                  }}\r\n                  style={styles.project}\r\n              >\r\n                <View style={styles.projectcontent}>\r\n                  <Image\r\n                      style={styles.projectimage}\r\n                      source={require(\"../assets/event_join.png\")}\r\n                  />\r\n                  <Text>{project.name}</Text>\r\n                </View>\r\n                <View style={styles.circle}/>\r\n\r\n              </TouchableOpacity>\r\n          ))}\r\n        </ScrollView>\r\n      </ImageBackground>\r\n      <BottomSheet\r\n          isOpen={false}\r\n          sliderMinHeight={0}\r\n          ref={ref => panelRef.current = ref}\r\n      >\r\n          <ScrollView contentContainerStyle={{\r\n            width: \"100%\",\r\n            flexDirection: \"column\",\r\n            alignItems: \"center\",\r\n            minHeight: dimensions.height - 250,\r\n          }}>\r\n            <Image\r\n              style={{\r\n                borderRadius: dimensions.width / 2,\r\n                width: dimensions.width * 0.2,\r\n                height: dimensions.width * 0.2,\r\n              }}\r\n              source={require(\"../assets/image_welcome.png\")}\r\n            />\r\n            <Text style={styles.slidertitle}>{projectName}</Text>\r\n            <Text style={styles.sliderdescription}>\r\n              Koru is an event tracking platform that allows organizers to\r\n              create and manage events efficiently, while providing event\r\n              attendees with a personalized and interactive experience. The app\r\n              focuses on the dynamics of voting on projects displayed at the\r\n              event, where participants have coins they can invest in the\r\n              projects they like the most.\r\n            </Text>\r\n            <Text style={styles.LinkVote}>\r\n              \r\n            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>\r\n\r\n            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>\r\n          <Text style={styles.joinButtonText}>Vote</Text>\r\n        </TouchableOpacity>\r\n        <PopUp visible={popupVisible} onClose={closePopup} />\r\n          </ScrollView>\r\n      </BottomSheet>\r\n    </View>\r\n  );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  circle:{\r\n    width: 9,\r\n    height: 9,\r\n    borderRadius: 5,\r\n    backgroundColor: \"#2F2E5F\",\r\n    marginRight: 20,\r\n  },\r\n  wallet_icon:{\r\n    width:60,\r\n    height:60,\r\n  },\r\n  projectcontent:{\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n  },\r\n  coin_img_size:{\r\n    width: 10,\r\n    height:10,\r\n    marginTop:3,\r\n  },\r\n  sliderdescription: {\r\n    width: \"95%\",\r\n  },\r\n  slidertitle: {\r\n    color:\"#2F2E5F\",\r\n    fontSize:18,\r\n    fontWeight:\"bold\",\r\n    margin: 20,\r\n  },  joinButton: {\r\n    backgroundColor: \"#2F2E5F\",\r\n    padding: 10,\r\n    borderRadius: 20,\r\n    width: 150,\r\n    marginTop: 10,\r\n  },  joinButtonText: {\r\n    color: \"white\",\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    textAlign: \"center\",\r\n  },\r\n  LinkVote:{    \r\n    width: \"90%\", \r\n    marginTop: 5,},\r\n    Linkbold:{\r\n      color:\"#2F2E5F\",\r\n      fontWeight:\"bold\",\r\n    },\r\n  sliderline: {\r\n    width: 75,\r\n    height: 4,\r\n    backgroundColor: \"grey\",\r\n    alignSelf: \"center\",\r\n    borderRadius: 2,\r\n    position: \"absolute\",\r\n    top: 20,\r\n  },\r\n  coinvalue:{\r\n    color: \"white\",\r\n    marginLeft: 10,\r\n    fontWeight: 700,\r\n  },\r\n  cointitle: {\r\n    marginLeft: 5,\r\n    color: \"white\",\r\n    fontSize: 12,\r\n  },\r\n  coindiv: {\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n    paddingBottom: 5,\r\n  },\r\n  projectimage: {\r\n    height: 40,\r\n    width: 40,\r\n    marginLeft: 20,\r\n    marginRight: 10,\r\n    borderColor: \"black\",\r\n  },\r\n  projects: {\r\n    marginTop: 20,\r\n    flexDirection: \"column\",\r\n    alignItems: \"center\",\r\n    paddingBottom: 100,\r\n  },\r\n  project: {\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n    marginTop: 15,\r\n    backgroundColor: \"white\",\r\n    padding: 5,\r\n    width: \"90%\",\r\n    borderRadius: 10,\r\n    justifyContent: \"space-between\",\r\n  },\r\n  walletContainer:{\r\n    backgroundColor: \"white\",\r\n    padding: 15,\r\n    borderRadius: 25,\r\n  },\r\n  wallettitle: {\r\n    color: \"white\",\r\n    marginBottom: 10,\r\n    fontWeight: \"bold\",\r\n  },\r\n  wallet: {\r\n    flexDirection: \"row\",\r\n    justifyContent: \"space-between\",\r\n    alignItems: \"center\",\r\n    padding: 20,\r\n    backgroundColor: \"#2F2E5F\",\r\n    borderBottomLeftRadius: 25,\r\n    borderBottomRightRadius: 25,\r\n    shadowColor: \"#000\",\r\n    shadowOffset: { width: 0, height: 2 },\r\n    shadowOpacity: 0.6,\r\n    shadowRadius: 6,\r\n    elevation: 5,\r\n  },\r\n  statusgrey: {\r\n    color: \"grey\",\r\n  },\r\n  statustexttags: {\r\n    marginHorizontal: 10,\r\n    fontSize: 13,\r\n  },\r\n  statustext: {\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n  },\r\n  status: {\r\n    backgroundColor: \"white\",\r\n    padding: 14.5,\r\n    flexDirection: \"row\",\r\n    justifyContent: \"space-between\",\r\n  },\r\n  container: {\r\n    flex: 1,\r\n  },\r\n  backgroundImage: {\r\n    flex: 1,\r\n    resizeMode: \"cover\",\r\n    justifyContent: \"center\",\r\n  },\r\n  header: {\r\n    paddingTop: 40,\r\n    paddingBottom: 10,\r\n    flexDirection: \"row\",\r\n    backgroundColor: \"#2F2E5F\",\r\n    alignItems: \"center\",\r\n    paddingVertical: 10,\r\n    paddingHorizontal: 15,\r\n  },\r\n  eventTitle: {\r\n    flex: 1,\r\n    color: \"white\",\r\n    fontSize: 18,\r\n    fontWeight: \"bold\",\r\n    textAlign: \"left\",\r\n  },\r\n  eventImage: {\r\n    width: 50,\r\n    height: 50,\r\n    borderRadius: 15,\r\n  },\r\n});\r\n\r\nexport default Eventvoting;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/screens/event_voting.js b/screens/event_voting.js
+--- a/screens/event_voting.js	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ b/screens/event_voting.js	(date 1687051400390)
+@@ -56,7 +56,7 @@
+         }
+     ]
+   }
+-  
++
+ 
+   useEffect(() => {
+     const currentDateTime = new Date().getTime(); // hora atual
+@@ -140,13 +140,13 @@
+     },
+   };
+ 
+-  
++
+   const panelRef = useRef(null);
+   const dimensions = useWindowDimensions();
+ 
+   const endVotingTime = eventInfo.info[0].vote_end;
+ 
+-  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao 
++  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao
+ 
+   return (
+     <View style={styles.container}>
+@@ -224,14 +224,14 @@
+       </ImageBackground>
+       <BottomSheet
+           isOpen={false}
+-          sliderMinHeight={0}
+           ref={ref => panelRef.current = ref}
++          sliderMaxHeight={dimensions.height - 300}
+       >
+           <ScrollView contentContainerStyle={{
+             width: "100%",
+             flexDirection: "column",
+             alignItems: "center",
+-            minHeight: dimensions.height - 250,
++            paddingBottom: 75,
+           }}>
+             <Image
+               style={{
+@@ -242,21 +242,15 @@
+               source={require("../assets/image_welcome.png")}
+             />
+             <Text style={styles.slidertitle}>{projectName}</Text>
++            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
++              <Text style={styles.joinButtonText}>Vote</Text>
++            </TouchableOpacity>
+             <Text style={styles.sliderdescription}>
+-              Koru is an event tracking platform that allows organizers to
+-              create and manage events efficiently, while providing event
+-              attendees with a personalized and interactive experience. The app
+-              focuses on the dynamics of voting on projects displayed at the
+-              event, where participants have coins they can invest in the
+-              projects they like the most.
++              Koru is an event tracking platform that allows organizers to create and manage events efficiently, while providing event attendees with a personalized and interactive experience. The app focuses on the dynamics of voting on projects displayed at the event, where participants have coins they can invest in the projects they like the most.
+             </Text>
+             <Text style={styles.LinkVote}>
+-              
++
+             <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>
+-
+-            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
+-          <Text style={styles.joinButtonText}>Vote</Text>
+-        </TouchableOpacity>
+         <PopUp visible={popupVisible} onClose={closePopup} />
+           </ScrollView>
+       </BottomSheet>
+@@ -296,17 +290,17 @@
+   },  joinButton: {
+     backgroundColor: "#2F2E5F",
+     padding: 10,
+-    borderRadius: 20,
++    borderRadius: 15,
+     width: 150,
+-    marginTop: 10,
++    marginBottom: 20,
+   },  joinButtonText: {
+     color: "white",
+     fontSize: 16,
+     fontWeight: "bold",
+     textAlign: "center",
+   },
+-  LinkVote:{    
+-    width: "90%", 
++  LinkVote:{
++    width: "90%",
+     marginTop: 5,},
+     Linkbold:{
+       color:"#2F2E5F",
+@@ -396,7 +390,7 @@
+   },
+   status: {
+     backgroundColor: "white",
+-    padding: 14.5,
++    padding: 16,
+     flexDirection: "row",
+     justifyContent: "space-between",
+   },
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ /dev/null	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
+@@ -1,476 +0,0 @@
+-Index: screens/event_liveranking.js
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>import React, { useState } from \"react\";\r\nimport {\r\n    View,\r\n    ImageBackground,\r\n    StyleSheet,\r\n    Text,\r\n    TouchableOpacity,\r\n    Image,\r\n    ScrollView,\r\n    useWindowDimensions,\r\n} from \"react-native\";\r\nimport Animated, {\r\n    useAnimatedGestureHandler,\r\n    useSharedValue,\r\n    useAnimatedStyle,\r\n    withSpring,\r\n} from \"react-native-reanimated\";\r\nimport {\r\n    GestureHandlerRootView,\r\n    PanGestureHandler,\r\n} from \"react-native-gesture-handler\";\r\n\r\nconst SPRING_CONFIG = {\r\n    damping: 80,\r\n    overshootClamping: true,\r\n    restDisplacementThreshold: 0.1,\r\n    restSpeedThreshold: 0.1,\r\n    stiffness: 500,\r\n};\r\n\r\nimport FooterMenu from \"../components/MenuFooter\";\r\n\r\n\r\nconst Eventliveranking = () => {\r\n    const [selectedTab, setSelectedTab] = useState(\"about\");\r\n    const [selectedStatus, setSelectedStatus] = useState(\"Ongoing\");\r\n    const handleTabPress = (tabName) => {\r\n        setSelectedTab(tabName);\r\n    };\r\n\r\n    const SLIDERTOP = 394;\r\n\r\n    const dimensions = useWindowDimensions();\r\n\r\n    const top = useSharedValue(dimensions.height);\r\n\r\n    const style = useAnimatedStyle(() => {\r\n        return {\r\n            top: withSpring(top.value, SPRING_CONFIG),\r\n        };\r\n    });\r\n\r\n    const gestureHandler = useAnimatedGestureHandler({\r\n        onStart(_, context) {\r\n            context.startTop = top.value;\r\n        },\r\n        onActive(event, context) {\r\n            top.value = context.startTop + event.translationY;\r\n        },\r\n        onEnd() {\r\n            if (top.value > SLIDERTOP + 50) {\r\n                top.value = dimensions.height;\r\n            } else {\r\n                top.value = SLIDERTOP;\r\n            }\r\n        },\r\n    });\r\n\r\n    return (\r\n        <GestureHandlerRootView style={styles.container}>\r\n            <ImageBackground\r\n                source={require(\"../assets/background.png\")}\r\n                style={styles.backgroundImage}\r\n            >\r\n\r\n                {/* filter*/}\r\n\r\n                <View style={styles.filter}>\r\n                    <Text style={styles.filteroption}>Public</Text>\r\n                    <Text style={styles.filteroptionselected}>Directors</Text>\r\n                    <Text style={styles.filteroption}>Companies</Text>\r\n                </View>\r\n\r\n                {/* podium*/}\r\n                <View style={styles.podium}>\r\n                    <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require(\"../assets/coin_red.png\")}/></View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Officium</Text>\r\n                        <Text style={styles.podiumprojectcoins}>300</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject1}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Composto</Text>\r\n                        <Text style={styles.podiumprojectcoins}>500</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Koru</Text>\r\n                        <Text style={styles.podiumprojectcoins}>250</Text>\r\n                    </View>\r\n\r\n                </View>\r\n\r\n\r\n                <ScrollView contentContainerStyle={styles.projects}>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    ><TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity><TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                        <TouchableOpacity\r\n                            onPress={() => {\r\n                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                            }}\r\n                            style={styles.project}\r\n                        >\r\n                            <Image\r\n                                style={styles.projectimage}\r\n                                source={require(\"../assets/event_join.png\")}\r\n                            />\r\n                            <Text>Koru</Text>\r\n                        </TouchableOpacity>\r\n                        <TouchableOpacity\r\n                            onPress={() => {\r\n                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                            }}\r\n                            style={styles.project}\r\n                        >\r\n                            <Image\r\n                                style={styles.projectimage}\r\n                                source={require(\"../assets/event_join.png\")}\r\n                            />\r\n                            <Text>Koru</Text>\r\n                        </TouchableOpacity>\r\n\r\n\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                </ScrollView>\r\n            </ImageBackground>\r\n            <PanGestureHandler onGestureEvent={gestureHandler}>\r\n                <Animated.View\r\n                    style={[\r\n                        {\r\n                            position: \"absolute\",\r\n                            left: 0,\r\n                            right: 0,\r\n                            bottom: 0,\r\n                            backgroundColor: \"white\",\r\n                            borderTopLeftRadius: 20,\r\n                            borderTopRightRadius: 20,\r\n                            shadowColor: \"#000\",\r\n                            shadowOffset: {\r\n                                width: 0,\r\n                                height: 2,\r\n                            },\r\n                            shadowOpacity: 0.25,\r\n                            shadowRadius: 3.84,\r\n                            elevation: 5,\r\n                            padding: 20,\r\n                            justifyContent: \"center\",\r\n                            alignItems: \"center\",\r\n                        },\r\n                        style,\r\n                    ]}\r\n                >\r\n                    <View style={styles.sliderline}></View>\r\n                    <View style={styles.slidercontent}>\r\n                        <Image\r\n                            style={{\r\n                                marginTop: 10,\r\n                                borderRadius: dimensions.width / 2,\r\n                                width: dimensions.width * 0.2,\r\n                                height: dimensions.width * 0.2,\r\n                            }}\r\n                            source={require(\"../assets/image_welcome.png\")}\r\n                        />\r\n                        <Text style={styles.slidertitle}>Koru</Text>\r\n                        <Text style={styles.sliderdescription}>\r\n                            Koru is an event tracking platform that allows organizers to\r\n                            create and manage events efficiently, while providing event\r\n                            attendees with a personalized and interactive experience. The app\r\n                            focuses on the dynamics of voting on projects displayed at the\r\n                            event, where participants have coins they can invest in the\r\n                            projects they like the most. Link: Koru_link.com\r\n                        </Text>\r\n                    </View>\r\n                </Animated.View>\r\n            </PanGestureHandler>\r\n        </GestureHandlerRootView>\r\n    );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n    podiumprojectcoins:{\r\n        color: \"black\",\r\n        fontWeight: \"900\",\r\n        fontSize: 13,\r\n    },\r\n    podiumprojecttitle:{\r\n        marginTop: -15,\r\n        fontSize: 20,\r\n        color: \"white\",\r\n        fontWeight: \"bold\",\r\n\r\n    },\r\n    podiumproject1:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginHorizontal: 15,\r\n    },\r\n    podiumproject:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginTop: 35,\r\n    },\r\n    currentcoinimg:{\r\n        height: 15,\r\n        width: 15,\r\n    },\r\n    currentcoin:{\r\n        backgroundColor: \"white\",\r\n        width: 40,\r\n        height: 30,\r\n        position: \"absolute\",\r\n        right: 0,\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        top: 15,\r\n        borderTopLeftRadius: 20,\r\n        borderBottomLeftRadius: 20,\r\n\r\n    },\r\n    podium:{\r\n        marginTop: 20,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"center\",\r\n        marginBottom: 15,\r\n    },\r\n    filteroptionselected: {\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"white\",\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filteroption:{\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"whitesmoke\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"#9A9A9A\",\r\n        borderColor: \"#9A9A9A\",\r\n        borderWidth: 1,\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filter: {\r\n        backgroundColor: \"white\",\r\n        padding: 10,\r\n        flexDirection: \"row\",\r\n    },\r\n    sliderdescription: {\r\n        width: \"90%\",\r\n    },\r\n    slidertitle: {\r\n        margin: 20,\r\n    },\r\n    slidercontent: {\r\n        width: \"100%\",\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        overflow: \"scroll\",\r\n    },\r\n    sliderline: {\r\n        width: 75,\r\n        height: 4,\r\n        backgroundColor: \"grey\",\r\n        alignSelf: \"center\",\r\n        borderRadius: 2,\r\n        position: \"absolute\",\r\n        top: 20,\r\n    },\r\n    projectimage: {\r\n        height: 40,\r\n        width: 40,\r\n        marginLeft: 20,\r\n        marginRight: 10,\r\n        borderColor: \"black\",\r\n    },\r\n    projects: {\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n    },\r\n    project: {\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n        backgroundColor: \"white\",\r\n        padding: 5,\r\n        borderBottomColor: \"#9A9A9A\",\r\n        borderBottomWidth: 1,\r\n        width: \"100%\",\r\n    },\r\n\r\n    container: {\r\n        flex: 1,\r\n    },\r\n    backgroundImage: {\r\n        flex: 1,\r\n        resizeMode: \"cover\",\r\n        justifyContent: \"center\",\r\n    },\r\n});\r\n\r\nexport default Eventliveranking;\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/screens/event_liveranking.js b/screens/event_liveranking.js
+---- a/screens/event_liveranking.js	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ b/screens/event_liveranking.js	(date 1686249243066)
+-@@ -240,7 +240,7 @@
+-                         style,
+-                     ]}
+-                 >
+--                    <View style={styles.sliderline}></View>
+-+                    <View style={styles.sliderline}/>
+-                     <View style={styles.slidercontent}>
+-                         <Image
+-                             style={{
+-Index: package.json
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+>{\r\n  \"name\": \"koru_app\",\r\n  \"version\": \"1.0.0\",\r\n  \"main\": \"node_modules/expo/AppEntry.js\",\r\n  \"scripts\": {\r\n    \"start\": \"expo start\",\r\n    \"android\": \"expo start --android\",\r\n    \"ios\": \"expo start --ios\",\r\n    \"web\": \"expo start --web\"\r\n  },\r\n  \"dependencies\": {\r\n    \"@fortawesome/fontawesome-svg-core\": \"^6.4.0\",\r\n    \"@fortawesome/free-solid-svg-icons\": \"^6.4.0\",\r\n    \"@fortawesome/react-native-fontawesome\": \"^0.3.0\",\r\n    \"@react-navigation/bottom-tabs\": \"^6.5.7\",\r\n    \"@react-navigation/material-top-tabs\": \"^6.6.2\",\r\n    \"@react-navigation/native\": \"^6.1.6\",\r\n    \"@react-navigation/native-stack\": \"^6.9.12\",\r\n    \"@react-navigation/stack\": \"^6.3.16\",\r\n    \"expo\": \"~48.0.15\",\r\n    \"expo-barcode-scanner\": \"~12.3.2\",\r\n    \"expo-linear-gradient\": \"~12.1.2\",\r\n    \"expo-status-bar\": \"~1.4.4\",\r\n    \"react\": \"18.2.0\",\r\n    \"react-native\": \"0.71.8\",\r\n    \"react-native-camera\": \"^4.2.1\",\r\n    \"react-native-gesture-handler\": \"~2.9.0\",\r\n    \"react-native-linear-gradient\": \"^2.6.2\",\r\n    \"react-native-qrcode-scanner\": \"^1.5.5\",\r\n    \"react-native-reanimated\": \"~2.14.4\",\r\n    \"react-native-snap-carousel\": \"^3.9.1\",\r\n    \"react-native-svg\": \"13.4.0\"\r\n  },\r\n  \"devDependencies\": {\r\n    \"@babel/core\": \"^7.20.0\"\r\n  },\r\n  \"private\": true\r\n}\r\n
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/package.json b/package.json
+---- a/package.json	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ b/package.json	(date 1686195721971)
+-@@ -12,6 +12,7 @@
+-     "@fortawesome/fontawesome-svg-core": "^6.4.0",
+-     "@fortawesome/free-solid-svg-icons": "^6.4.0",
+-     "@fortawesome/react-native-fontawesome": "^0.3.0",
+-+    "@gorhom/bottom-sheet": "^4.4.7",
+-     "@react-navigation/bottom-tabs": "^6.5.7",
+-     "@react-navigation/material-top-tabs": "^6.6.2",
+-     "@react-navigation/native": "^6.1.6",
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM__Default_Changelist_.xml
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM__Default_Changelist_.xml
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM__Default_Changelist_.xml	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ /dev/null	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-@@ -1,4 +0,0 @@
+--<changelist name="Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]" date="1685030426288" recycled="true" deleted="true">
+--  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch" />
+--  <option name="DESCRIPTION" value="Uncommitted changes before Update at 5/25/2023 4:59 PM [Default Changelist]" />
+--</changelist>
+-\ No newline at end of file
+-Index: .idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch
+-===================================================================
+-diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch
+-deleted file mode 100644
+---- a/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ /dev/null	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-@@ -1,258 +0,0 @@
+--Index: screens/event_liveranking.js
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>import React, { useState } from \"react\";\r\nimport {\r\n    View,\r\n    ImageBackground,\r\n    StyleSheet,\r\n    Text,\r\n    TouchableOpacity,\r\n    Image,\r\n    ScrollView,\r\n    useWindowDimensions,\r\n} from \"react-native\";\r\nimport Animated, {\r\n    useAnimatedGestureHandler,\r\n    useSharedValue,\r\n    useAnimatedStyle,\r\n    withSpring,\r\n} from \"react-native-reanimated\";\r\nimport {\r\n    GestureHandlerRootView,\r\n    PanGestureHandler,\r\n} from \"react-native-gesture-handler\";\r\n\r\nconst SPRING_CONFIG = {\r\n    damping: 80,\r\n    overshootClamping: true,\r\n    restDisplacementThreshold: 0.1,\r\n    restSpeedThreshold: 0.1,\r\n    stiffness: 500,\r\n};\r\n\r\nimport FooterMenu from \"../components/MenuFooter\";\r\n\r\n\r\nconst Eventliveranking = () => {\r\n    const [selectedTab, setSelectedTab] = useState(\"about\");\r\n    const [selectedStatus, setSelectedStatus] = useState(\"Ongoing\");\r\n    const handleTabPress = (tabName) => {\r\n        setSelectedTab(tabName);\r\n    };\r\n\r\n    const SLIDERTOP = 394;\r\n\r\n    const dimensions = useWindowDimensions();\r\n\r\n    const top = useSharedValue(dimensions.height);\r\n\r\n    const style = useAnimatedStyle(() => {\r\n        return {\r\n            top: withSpring(top.value, SPRING_CONFIG),\r\n        };\r\n    });\r\n\r\n    const gestureHandler = useAnimatedGestureHandler({\r\n        onStart(_, context) {\r\n            context.startTop = top.value;\r\n        },\r\n        onActive(event, context) {\r\n            top.value = context.startTop + event.translationY;\r\n        },\r\n        onEnd() {\r\n            if (top.value > SLIDERTOP + 50) {\r\n                top.value = dimensions.height;\r\n            } else {\r\n                top.value = SLIDERTOP;\r\n            }\r\n        },\r\n    });\r\n\r\n    return (\r\n        <GestureHandlerRootView style={styles.container}>\r\n            <ImageBackground\r\n                source={require(\"../assets/background.png\")}\r\n                style={styles.backgroundImage}\r\n            >\r\n                <View style={styles.header}>\r\n                    <Text style={styles.eventTitle}>Titulo do Evento</Text>\r\n                    <Image\r\n                        source={require(\"../assets/event_img_test.png\")}\r\n                        style={styles.eventImage}\r\n                    />\r\n                </View>\r\n\r\n                <View style={styles.navigation}>\r\n                    <TouchableOpacity\r\n                        style={[\r\n                            styles.navButton,\r\n                            selectedTab === \"about\" && styles.selectedNavButton,\r\n                        ]}\r\n                        onPress={() => handleTabPress(\"about\")}\r\n                    >\r\n                        <Text\r\n                            style={[\r\n                                styles.navButtonText,\r\n                                selectedTab === \"about\" && styles.selectedNavButtonText,\r\n                            ]}\r\n                        >\r\n                            About\r\n                        </Text>\r\n                    </TouchableOpacity>\r\n\r\n                    <TouchableOpacity\r\n                        style={[\r\n                            styles.navButton,\r\n                            selectedTab === \"voting\" && styles.selectedNavButton,\r\n                        ]}\r\n                        onPress={() => handleTabPress(\"voting\")}\r\n                    >\r\n                        <Text\r\n                            style={[\r\n                                styles.navButtonText,\r\n                                selectedTab === \"voting\" && styles.selectedNavButtonText,\r\n                            ]}\r\n                        >\r\n                            Voting\r\n                        </Text>\r\n                    </TouchableOpacity>\r\n\r\n                    <TouchableOpacity\r\n                        style={[\r\n                            styles.navButton,\r\n                            selectedTab === \"liveRanking\" && styles.selectedNavButton,\r\n                        ]}\r\n                        onPress={() => handleTabPress(\"liveRanking\")}\r\n                    >\r\n                        <Text\r\n                            style={[\r\n                                styles.navButtonText,\r\n                                selectedTab === \"liveRanking\" && styles.selectedNavButtonText,\r\n                            ]}\r\n                        >\r\n                            Live Ranking\r\n                        </Text>\r\n                    </TouchableOpacity>\r\n\r\n                    <TouchableOpacity\r\n                        style={[\r\n                            styles.navButton,\r\n                            selectedTab === \"schedule\" && styles.selectedNavButton,\r\n                        ]}\r\n                        onPress={() => handleTabPress(\"schedule\")}\r\n                    >\r\n                        <Text\r\n                            style={[\r\n                                styles.navButtonText,\r\n                                selectedTab === \"schedule\" && styles.selectedNavButtonText,\r\n                            ]}\r\n                        >\r\n                            Schedule\r\n                        </Text>\r\n                    </TouchableOpacity>\r\n                </View>\r\n                {/* filter*/}\r\n\r\n                <View style={styles.filter}>\r\n                    <Text style={styles.filteroption}>Public</Text>\r\n                    <Text style={styles.filteroptionselected}>Directors</Text>\r\n                    <Text style={styles.filteroption}>Companies</Text>\r\n                </View>\r\n\r\n                {/* podium*/}\r\n                <View style={styles.podium}>\r\n                    <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require(\"../assets/coin_red.png\")}/></View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Officium</Text>\r\n                        <Text style={styles.podiumprojectcoins}>300</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject1}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Composto</Text>\r\n                        <Text style={styles.podiumprojectcoins}>500</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image source={require(\"../assets/event_join.png\")}/>\r\n                        <Text style={styles.podiumprojecttitle}>Koru</Text>\r\n                        <Text style={styles.podiumprojectcoins}>250</Text>\r\n                    </View>\r\n\r\n                </View>\r\n\r\n\r\n                <ScrollView contentContainerStyle={styles.projects}>\r\n                    <TouchableOpacity\r\n                        onPress={() => {\r\n                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);\r\n                        }}\r\n                        style={styles.project}\r\n                    >\r\n                        <Image\r\n                            style={styles.projectimage}\r\n                            source={require(\"../assets/event_join.png\")}\r\n                        />\r\n                        <Text>Koru</Text>\r\n                    </TouchableOpacity>\r\n                </ScrollView>\r\n            </ImageBackground>\r\n            <PanGestureHandler onGestureEvent={gestureHandler}>\r\n                <Animated.View\r\n                    style={[\r\n                        {\r\n                            position: \"absolute\",\r\n                            left: 0,\r\n                            right: 0,\r\n                            bottom: 0,\r\n                            backgroundColor: \"white\",\r\n                            borderTopLeftRadius: 20,\r\n                            borderTopRightRadius: 20,\r\n                            shadowColor: \"#000\",\r\n                            shadowOffset: {\r\n                                width: 0,\r\n                                height: 2,\r\n                            },\r\n                            shadowOpacity: 0.25,\r\n                            shadowRadius: 3.84,\r\n                            elevation: 5,\r\n                            padding: 20,\r\n                            justifyContent: \"center\",\r\n                            alignItems: \"center\",\r\n                        },\r\n                        style,\r\n                    ]}\r\n                >\r\n                    <View style={styles.sliderline}></View>\r\n                    <View style={styles.slidercontent}>\r\n                        <Image\r\n                            style={{\r\n                                marginTop: 10,\r\n                                borderRadius: dimensions.width / 2,\r\n                                width: dimensions.width * 0.2,\r\n                                height: dimensions.width * 0.2,\r\n                            }}\r\n                            source={require(\"../assets/image_welcome.png\")}\r\n                        />\r\n                        <Text style={styles.slidertitle}>Koru</Text>\r\n                        <Text style={styles.sliderdescription}>\r\n                            Koru is an event tracking platform that allows organizers to\r\n                            create and manage events efficiently, while providing event\r\n                            attendees with a personalized and interactive experience. The app\r\n                            focuses on the dynamics of voting on projects displayed at the\r\n                            event, where participants have coins they can invest in the\r\n                            projects they like the most. Link: Koru_link.com\r\n                        </Text>\r\n                    </View>\r\n                </Animated.View>\r\n            </PanGestureHandler>\r\n            <FooterMenu/>\r\n        </GestureHandlerRootView>\r\n    );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n    podiumprojectcoins:{\r\n        color: \"black\",\r\n        fontWeight: \"900\",\r\n        fontSize: 13,\r\n    },\r\n    podiumprojecttitle:{\r\n        marginTop: -15,\r\n        fontSize: 20,\r\n        color: \"white\",\r\n        fontWeight: \"bold\",\r\n\r\n    },\r\n    podiumproject1:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginHorizontal: 15,\r\n    },\r\n    podiumproject:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginTop: 35,\r\n    },\r\n    currentcoinimg:{\r\n        height: 15,\r\n        width: 15,\r\n    },\r\n    currentcoin:{\r\n        backgroundColor: \"white\",\r\n        width: 40,\r\n        height: 30,\r\n        position: \"absolute\",\r\n        right: 0,\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        top: 15,\r\n        borderTopLeftRadius: 20,\r\n        borderBottomLeftRadius: 20,\r\n\r\n    },\r\n    podium:{\r\n        marginTop: 20,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"center\",\r\n        marginBottom: 15,\r\n    },\r\n    filteroptionselected: {\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"white\",\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filteroption:{\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"whitesmoke\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"#9A9A9A\",\r\n        borderColor: \"#9A9A9A\",\r\n        borderWidth: 1,\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filter: {\r\n        borderTopColor: \"#AEAEAE\",\r\n        borderTopWidth: 1,\r\n        backgroundColor: \"white\",\r\n        padding: 10,\r\n        flexDirection: \"row\",\r\n    },\r\n    sliderdescription: {\r\n        width: \"90%\",\r\n    },\r\n    slidertitle: {\r\n        margin: 20,\r\n    },\r\n    slidercontent: {\r\n        width: \"100%\",\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        overflow: \"scroll\",\r\n    },\r\n    sliderline: {\r\n        width: 75,\r\n        height: 4,\r\n        backgroundColor: \"grey\",\r\n        alignSelf: \"center\",\r\n        borderRadius: 2,\r\n        position: \"absolute\",\r\n        top: 20,\r\n    },\r\n    projectimage: {\r\n        height: 40,\r\n        width: 40,\r\n        marginLeft: 20,\r\n        marginRight: 10,\r\n        borderColor: \"black\",\r\n    },\r\n    projects: {\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n    },\r\n    project: {\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n        backgroundColor: \"white\",\r\n        padding: 5,\r\n        borderBottomColor: \"#9A9A9A\",\r\n        borderBottomWidth: 1,\r\n        width: \"100%\",\r\n    },\r\n\r\n    container: {\r\n        flex: 1,\r\n    },\r\n    backgroundImage: {\r\n        flex: 1,\r\n        resizeMode: \"cover\",\r\n        justifyContent: \"center\",\r\n    },\r\n    header: {\r\n        paddingTop: 40,\r\n        paddingBottom: 10,\r\n        flexDirection: \"row\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        alignItems: \"center\",\r\n        paddingVertical: 10,\r\n        paddingHorizontal: 15,\r\n    },\r\n    eventTitle: {\r\n        flex: 1,\r\n        color: \"white\",\r\n        fontSize: 18,\r\n        fontWeight: \"bold\",\r\n        textAlign: \"left\",\r\n    },\r\n    eventImage: {\r\n        width: 50,\r\n        height: 50,\r\n        borderRadius: 15,\r\n    },\r\n    navigation: {\r\n        flexDirection: \"row\",\r\n        backgroundColor: \"white\",\r\n        justifyContent: \"space-around\",\r\n        paddingTop: 5,\r\n    },\r\n    navButton: {\r\n        paddingHorizontal: 15,\r\n        paddingVertical: 5,\r\n    },\r\n    navButtonText: {\r\n        fontSize: 14,\r\n        color: \"#2F2E5F\",\r\n    },\r\n    selectedNavButton: {\r\n        borderBottomWidth: 5,\r\n        borderBottomColor: \"#2F2E5F\",\r\n        borderTopLeftRadius: 10,\r\n        borderTopRightRadius: 10,\r\n    },\r\n    selectedNavButtonText: {\r\n        fontWeight: \"bold\",\r\n    },\r\n});\r\n\r\nexport default Eventliveranking;\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/screens/event_liveranking.js b/screens/event_liveranking.js
+----- a/screens/event_liveranking.js	(revision 58f82b568fa04cc598fbf75c55e16e5a5df43308)
+--+++ b/screens/event_liveranking.js	(date 1684941405454)
+--@@ -186,6 +186,102 @@
+--                         }}
+--                         style={styles.project}
+--                     >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity>
+--+                    <TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity>
+--+                    <TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity>
+--+                    <TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity>
+--+                    <TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    ><TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity><TouchableOpacity
+--+                        onPress={() => {
+--+                            top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                        }}
+--+                        style={styles.project}
+--+                    >
+--+                        <Image
+--+                            style={styles.projectimage}
+--+                            source={require("../assets/event_join.png")}
+--+                        />
+--+                        <Text>Koru</Text>
+--+                    </TouchableOpacity>
+--+                        <TouchableOpacity
+--+                            onPress={() => {
+--+                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                            }}
+--+                            style={styles.project}
+--+                        >
+--+                            <Image
+--+                                style={styles.projectimage}
+--+                                source={require("../assets/event_join.png")}
+--+                            />
+--+                            <Text>Koru</Text>
+--+                        </TouchableOpacity>
+--+                        <TouchableOpacity
+--+                            onPress={() => {
+--+                                top.value = withSpring(SLIDERTOP, SPRING_CONFIG);
+--+                            }}
+--+                            style={styles.project}
+--+                        >
+--+                            <Image
+--+                                style={styles.projectimage}
+--+                                source={require("../assets/event_join.png")}
+--+                            />
+--+                            <Text>Koru</Text>
+--+                        </TouchableOpacity>
+--+
+--+
+--                         <Image
+--                             style={styles.projectimage}
+--                             source={require("../assets/event_join.png")}
+--Index: screens/eventlist.js
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>import React, { useState } from \"react\";\r\nimport {\r\n    View,\r\n    ImageBackground,\r\n    StyleSheet,\r\n    Text,\r\n    TouchableOpacity,\r\n    Image,\r\n    ScrollView,\r\n    useWindowDimensions,\r\n} from \"react-native\";\r\n\r\nimport FooterMenu from \"../components/MenuFooter\";\r\n\r\n\r\nconst Eventlist = () => {\r\n\r\n\r\n    return (\r\n        <View style={styles.container}>\r\n            <ImageBackground\r\n                source={require(\"../assets/background.png\")}\r\n                style={styles.backgroundImage}\r\n            >\r\n                <View style={styles.header}>\r\n                    <Text style={styles.eventTitle}>My Event List</Text>\r\n                </View>\r\n\r\n                {/* filter*/}\r\n\r\n                <View style={styles.filter}>\r\n                    <View style={styles.listoptions}>\r\n                        <Text style={styles.filteroption}>Active</Text>\r\n                        <Text style={styles.filteroptionselected}>Inactive</Text>\r\n                    </View>\r\n                    <View style={styles.selectall}/>\r\n\r\n                </View>\r\n                <View style={styles.newevent}>\r\n                    <Text style={styles.eventtext}>Join a new Event</Text>\r\n                    <View style={styles.scanview}>\r\n                        <Text style={styles.eventtext}>Scan here</Text>\r\n                        <View style={styles.qrcodeview}>\r\n                            <Image style={styles.qrcode} source={require(\"../assets/qr_code.png\")}/>\r\n                        </View>\r\n\r\n                    </View>\r\n                </View>\r\n                <ScrollView contentContainerStyle={styles.projects}>\r\n                    <TouchableOpacity style={styles.project}>\r\n                        <View style={styles.projectcontent}>\r\n                            <Image\r\n                                style={styles.projectimage}\r\n                                source={require(\"../assets/event_join.png\")}\r\n                            />\r\n                            <Text>Media Play 2023</Text>\r\n                        </View>\r\n                        <View style={styles.circle}/>\r\n\r\n                    </TouchableOpacity>\r\n                </ScrollView>\r\n\r\n                {/* podium*/}\r\n\r\n            </ImageBackground>\r\n            <FooterMenu/>\r\n        </View>\r\n    );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n    listoptions:{\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n    },\r\n    selectall:{\r\n        height: 20,\r\n        width: 20,\r\n        marginRight: 22,\r\n        backgroundColor: \"#2F2E5F\",\r\n    },\r\n    eventtext:{\r\n        fontWeight: 700,\r\n        fontSize: 15,\r\n        marginHorizontal: 15,\r\n    },\r\n    scanview:{\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\"\r\n    },\r\n    qrcodeview:{\r\n        backgroundColor: \"#2F2E5F\",\r\n        borderRadius: 25,\r\n        height: 35,\r\n        width: 35,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"center\",\r\n        alignItems: \"center\",\r\n        marginRight: 15,\r\n    },\r\n    qrcode:{\r\n        height: 20,\r\n        width: 20,\r\n    },\r\n    newevent:{\r\n        borderTopColor: \"#AEAEAE\",\r\n        borderTopWidth: 1,\r\n        backgroundColor: \"white\",\r\n        padding: 10,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"space-between\",\r\n        alignItems: \"center\",\r\n    },\r\n    projectimage: {\r\n        height: 40,\r\n        width: 40,\r\n        marginLeft: 20,\r\n        marginRight: 10,\r\n        borderColor: \"black\",\r\n    },\r\n    projects: {\r\n        marginTop: 20,\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        paddingBottom: 100,\r\n    },\r\n    project: {\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n        marginTop: 15,\r\n        backgroundColor: \"white\",\r\n        padding: 5,\r\n        width: \"90%\",\r\n        borderRadius: 10,\r\n        justifyContent: \"space-between\",\r\n    },\r\n    circle:{\r\n        width: 9,\r\n        height: 9,\r\n        borderRadius: 5,\r\n        backgroundColor: \"#2F2E5F\",\r\n        marginRight: 20,\r\n    },\r\n    projectcontent:{\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n    },\r\n    filteroptionselected: {\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        padding: 7,\r\n        paddingVertical: 5,\r\n        borderRadius: 5,\r\n        color: \"white\",\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filteroption:{\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"whitesmoke\",\r\n        padding: 7,\r\n        paddingVertical: 5,\r\n        borderRadius: 5,\r\n        color: \"#9A9A9A\",\r\n        borderColor: \"#9A9A9A\",\r\n        borderWidth: 1,\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filter: {\r\n        borderTopColor: \"#AEAEAE\",\r\n        borderTopWidth: 1,\r\n        backgroundColor: \"white\",\r\n        padding: 10,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"space-between\",\r\n        alignItems: \"center\",\r\n    },\r\n\r\n    container: {\r\n        flex: 1,\r\n    },\r\n    backgroundImage: {\r\n        flex: 1,\r\n        resizeMode: \"cover\",\r\n        justifyContent: \"center\",\r\n    },\r\n    header: {\r\n        paddingTop: 40,\r\n        paddingBottom: 10,\r\n        flexDirection: \"row\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        alignItems: \"center\",\r\n        paddingVertical: 10,\r\n        paddingHorizontal: 15,\r\n    },\r\n    eventTitle: {\r\n        flex: 1,\r\n        color: \"white\",\r\n        fontSize: 18,\r\n        fontWeight: \"bold\",\r\n        textAlign: \"left\",\r\n    },\r\n    eventImage: {\r\n        width: 50,\r\n        height: 50,\r\n        borderRadius: 15,\r\n    },\r\n    navigation: {\r\n        flexDirection: \"row\",\r\n        backgroundColor: \"white\",\r\n        justifyContent: \"space-around\",\r\n        paddingTop: 5,\r\n    },\r\n    navButton: {\r\n        paddingHorizontal: 15,\r\n        paddingVertical: 5,\r\n    },\r\n    navButtonText: {\r\n        fontSize: 14,\r\n        color: \"#2F2E5F\",\r\n    },\r\n    selectedNavButton: {\r\n        borderBottomWidth: 5,\r\n        borderBottomColor: \"#2F2E5F\",\r\n        borderTopLeftRadius: 10,\r\n        borderTopRightRadius: 10,\r\n    },\r\n    selectedNavButtonText: {\r\n        fontWeight: \"bold\",\r\n    },\r\n});\r\n\r\nexport default Eventlist;\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/screens/eventlist.js b/screens/eventlist.js
+----- a/screens/eventlist.js	(revision 58f82b568fa04cc598fbf75c55e16e5a5df43308)
+--+++ b/screens/eventlist.js	(date 1684942153549)
+--@@ -26,16 +26,6 @@
+--                     <Text style={styles.eventTitle}>My Event List</Text>
+--                 </View>
+-- 
+---                {/* filter*/}
+---
+---                <View style={styles.filter}>
+---                    <View style={styles.listoptions}>
+---                        <Text style={styles.filteroption}>Active</Text>
+---                        <Text style={styles.filteroptionselected}>Inactive</Text>
+---                    </View>
+---                    <View style={styles.selectall}/>
+---
+---                </View>
+--                 <View style={styles.newevent}>
+--                     <Text style={styles.eventtext}>Join a new Event</Text>
+--                     <View style={styles.scanview}>
+--@@ -45,6 +35,16 @@
+--                         </View>
+-- 
+--                     </View>
+--+                </View>
+--+                {/* filter*/}
+--+
+--+                <View style={styles.filter}>
+--+                    <View style={styles.listoptions}>
+--+                        <Text style={styles.filteroption}>Active</Text>
+--+                        <Text style={styles.filteroptionselected}>Inactive</Text>
+--+                    </View>
+--+                    <View style={styles.selectall}/>
+--+
+--                 </View>
+--                 <ScrollView contentContainerStyle={styles.projects}>
+--                     <TouchableOpacity style={styles.project}>
+--Index: App.js
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>import React from 'react';\r\nimport { NavigationContainer } from '@react-navigation/native';\r\nimport { createStackNavigator } from '@react-navigation/stack';\r\nimport Homepage from './screens/Homepage';\r\nimport Welcome from './screens/Welcome';\r\nimport LogIn from './screens/LogIn';\r\nimport SignUp from './screens/SignUp';\r\nimport Profile from './screens/Profile';\r\nimport JoinEventAfterScan from './screens/Joinevent';\r\nimport ScanQrCode from './screens/ScanQrCode';\r\nimport Eventinfo from './screens/event_info';\r\nimport Eventvoting from './screens/event_voting';\r\nimport Eventliveranking from './screens/event_liveranking';\r\nimport Eventlist from './screens/eventlist';\r\nimport Eventschedule from './screens/event_schedule';\r\nimport Loading from './screens/animationINTRO';\r\n\r\nconst Stack = createStackNavigator();\r\n\r\nexport default function App() {\r\n  return (\r\n<Eventschedule/>\r\n  );\r\n}\r\n\r\n{/*\r\n\r\n    <NavigationContainer>\r\n    <Stack.Navigator\r\n     screenOptions={{\r\n      headerShown: false, // Oculta o cabeçalho em todas as telas\r\n     }}\r\n   initialRouteName=\"Loading\" // screen inicial \"Welcome\"\r\n     >\r\n      <Stack.Screen name=\"Welcome\" component={Welcome} />\r\n      <Stack.Screen name=\"Loading\" component={Loading} />\r\n      <Stack.Screen name=\"Login\" component={LogIn} />\r\n      <Stack.Screen name=\"SignUp\" component={SignUp} />\r\n      <Stack.Screen name=\"Homepage\" component={Homepage} />\r\n      <Stack.Screen name=\"ScanQrCode\" component={ScanQrCode} />\r\n     <Stack.Screen name=\"Profile\" component={Profile} />\r\n     <Stack.Screen name=\"JoinEventAfterScan\" component={JoinEventAfterScan} />\r\n    </Stack.Navigator>\r\n  </NavigationContainer>\r\n\r\n\r\n\r\n<NavigationContainer>\r\n      <Stack.Navigator\r\n       screenOptions={{\r\n        headerShown: false, // Oculta o cabeçalho em todas as telas\r\n       }}\r\n     initialRouteName=\"Welcome\" // screen inicial \"Welcome\"\r\n       >\r\n        <Stack.Screen name=\"Welcome\" component={Welcome} />\r\n        <Stack.Screen name=\"Login\" component={LogIn} />\r\n        <Stack.Screen name=\"SignUp\" component={SignUp} />\r\n        <Stack.Screen name=\"Homepage\" component={Homepage} />\r\n        <Stack.Screen name=\"ScanQrCode\" component={ScanQrCode} />\r\n       <Stack.Screen name=\"Profile\" component={Profile} />\r\n      </Stack.Navigator>\r\n    </NavigationContainer>*/}
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/App.js b/App.js
+----- a/App.js	(revision 58f82b568fa04cc598fbf75c55e16e5a5df43308)
+--+++ b/App.js	(date 1684944164552)
+--@@ -19,7 +19,7 @@
+-- 
+-- export default function App() {
+--   return (
+---<Eventschedule/>
+--+<Eventinfo/>
+--   );
+-- }
+-- 
+--Index: screens/event_info.js
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+>import React, { useState } from \"react\";\r\nimport {\r\n  View,\r\n  ImageBackground,\r\n  StyleSheet,\r\n  Text,\r\n  TouchableOpacity,\r\n  Image,ScrollView, \r\n} from \"react-native\";\r\n\r\nimport FooterMenu from \"../components/MenuFooter\";\r\n\r\nconst Eventinfo = () => {\r\n  const [selectedTab, setSelectedTab] = useState(\"about\");\r\n  const [selectedStatus, setSelectedStatus] = useState(\"Closed\");\r\n  const handleTabPress = (tabName) => {\r\n    setSelectedTab(tabName);\r\n  };\r\n\r\n const getImageSource = () => {\r\n   if (selectedStatus === \"Ongoing\") {\r\n     return require(\"../assets/ongoing_green.png\");\r\n   } else if (selectedStatus === \"Closed\") {\r\n     return require(\"../assets/Closed_red.png\");\r\n   } else if (selectedStatus === \"Upcoming\") {\r\n     return require(\"../assets/upcoming_yellow.png\");\r\n   }\r\n\r\n   return require(\"../assets/ongoing_green.png\"); // Imagem padrão caso não haja correspondência\r\n }; \r\n\r\n  return (\r\n   \r\n    <View style={styles.container}>\r\n    <View style={styles.header}>\r\n      <Text style={styles.eventTitle}>Titulo do Evento</Text>\r\n      <Image\r\n        source={require(\"../assets/event_img_test.png\")}\r\n        style={styles.eventImage}\r\n      />\r\n    </View>\r\n\r\n    <View style={styles.navigation}>\r\n      <TouchableOpacity\r\n        style={[\r\n          styles.navButton,\r\n          selectedTab === \"about\" && styles.selectedNavButton,\r\n        ]}\r\n        onPress={() => handleTabPress(\"about\")}\r\n      >\r\n        <Text\r\n          style={[\r\n            styles.navButtonText,\r\n            selectedTab === \"about\" && styles.selectedNavButtonText,\r\n          ]}\r\n        >\r\n          About\r\n        </Text>\r\n      </TouchableOpacity>\r\n\r\n      <TouchableOpacity\r\n        style={[\r\n          styles.navButton,\r\n          selectedTab === \"voting\" && styles.selectedNavButton,\r\n        ]}\r\n        onPress={() => handleTabPress(\"voting\")}\r\n      >\r\n        <Text\r\n          style={[\r\n            styles.navButtonText,\r\n            selectedTab === \"voting\" && styles.selectedNavButtonText,\r\n          ]}\r\n        >\r\n          Voting\r\n        </Text>\r\n      </TouchableOpacity>\r\n\r\n      <TouchableOpacity\r\n        style={[\r\n          styles.navButton,\r\n          selectedTab === \"liveRanking\" && styles.selectedNavButton,\r\n        ]}\r\n        onPress={() => handleTabPress(\"liveRanking\")}\r\n      >\r\n        <Text\r\n          style={[\r\n            styles.navButtonText,\r\n            selectedTab === \"liveRanking\" && styles.selectedNavButtonText,\r\n          ]}\r\n        >\r\n          Live Ranking\r\n        </Text>\r\n      </TouchableOpacity>\r\n\r\n      <TouchableOpacity\r\n        style={[\r\n          styles.navButton,\r\n          selectedTab === \"schedule\" && styles.selectedNavButton,\r\n        ]}\r\n        onPress={() => handleTabPress(\"schedule\")}\r\n      >\r\n        <Text\r\n          style={[\r\n            styles.navButtonText,\r\n            selectedTab === \"schedule\" && styles.selectedNavButtonText,\r\n          ]}\r\n        >\r\n          Schedule\r\n        </Text>\r\n      </TouchableOpacity>\r\n    </View>\r\n{/* info do evento em baixo */}\r\n    <View style={styles.contentContainer}>\r\n      <View style={styles.dateContainer}>\r\n        <Text style={styles.dateDay}>27</Text>\r\n        <Text style={styles.dateMonth}>JUNE</Text>\r\n      </View>\r\n\r\n      <View style={styles.separator} />\r\n\r\n      <View style={styles.eventDetailsContainer}>\r\n        <View style={styles.eventTitleContainer}>\r\n          <Text style={styles.eventTitleText}>Titulo do Evento</Text>\r\n          <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> DeCa</Text></Text>\r\n         \r\n          <Text style={styles.eventHours}>9:00 - 19:00</Text>\r\n        </View>\r\n\r\n        <View style={styles.ongoingContainer}>\r\n          <Text style={styles.ongoingText}>{selectedStatus}</Text>\r\n          <Image\r\n            source={getImageSource()}\r\n            style={styles.ongoingImage}\r\n          />\r\n        </View>\r\n      </View>\r\n    </View>\r\n\r\n    <ImageBackground\r\n      source={require(\"../assets/background.png\")}\r\n      style={styles.backgroundImage}\r\n    >\r\n <ScrollView contentContainerStyle={styles.scrollViewContent}>\r\n<View style={styles.content}>\r\n  {/* Conteúdo aqui */}\r\n  <View>\r\n  <Text style={styles.overviewTitle}>Overview</Text>\r\n  <Text style={styles.overviewText}>\r\n    Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.\r\n    {\"\\n\\n\"}\r\n    All the projects were selected by a jury, based on the proposals presented by the students.\r\n  </Text>\r\n</View>\r\n  {/* voting info*/}\r\n<View style={styles.votingContainer}>\r\n  <Text style={styles.votingTitle}>Voting</Text>\r\n  <View style={styles.votingContent}>\r\n    <View style={styles.votingItem}>\r\n      <Text style={styles.votingItemTitle}>Start:</Text>\r\n      <Text style={styles.votingItemValue}>12:00</Text>\r\n    </View>\r\n    <View style={styles.votingItem}>\r\n      <Text style={styles.votingItemTitle}>Closes at:</Text>\r\n      <Text style={styles.votingItemValue}>18:30</Text>\r\n    </View>\r\n  </View>\r\n</View>\r\n {/* other info*/}\r\n<View style={styles.totalContainer}>\r\n  <View style={styles.totalItem}>\r\n    <Text style={styles.totalTitle}>Total projects</Text>\r\n    <Text style={styles.totalValue}>16</Text>\r\n  </View>\r\n  <View style={styles.totalItem}>\r\n    <Text style={styles.totalTitle}>Total participants</Text>\r\n    <Text style={styles.totalValue}>200</Text>\r\n  </View>\r\n</View>\r\n<View style={styles.COinsss}>\r\n    <Text style={styles.totalTitle}>Types of Coins</Text>\r\n    <Text style={styles.totalValue}>Public</Text>\r\n    <Text style={styles.totalValue}>Directors</Text>\r\n    <Text style={styles.totalValue}>Companies</Text>\r\n  </View>\r\n</View>\r\n</ScrollView>\r\n<FooterMenu/>\r\n    </ImageBackground>\r\n  </View>\r\n\r\n);\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n  totalContainer: {\r\n    marginTop: 20,\r\n  },\r\n  COinsss:{\r\n    marginTop:10,\r\n  },\r\n  totalItem: {\r\n    flexDirection: \"column\",\r\n    alignItems: \"flex-start\",\r\n    marginBottom: 10,\r\n  },\r\n  totalTitle: {\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    marginBottom: 10,\r\n    color: \"#2F2E5F\",\r\n  },\r\n  totalValue: {\r\n    fontSize: 14,\r\n    color: \"#fff\",\r\n  },\r\n  votingContainer: {\r\n    marginTop: 20,\r\n  },\r\n  votingTitle: {\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    marginBottom: 10,\r\n    color: \"#2F2E5F\",\r\n  },\r\n  votingContent: {\r\n    flexDirection: \"row\",\r\n    justifyContent: \"space-between\",\r\n  },\r\n  votingItem: {\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n  },\r\n  votingItemTitle: {\r\n    marginRight: 5,\r\n    fontSize: 14,\r\n    color: \"white\",\r\n    fontWeight : \"bold\",\r\n  },\r\n  votingItemValue: {\r\n    fontSize: 14,\r\n    color: \"#fff\",\r\n    fontWeight : \"normal\",\r\n  },\r\n  content: {\r\n    flex: 1,\r\n    padding: 20,\r\n  },\r\n  overviewTitle: {\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    marginBottom: 10,\r\n    color: \"#2F2E5F\",\r\n  },\r\n  overviewText: {\r\n    fontSize: 14,\r\n    color: \"#fff\",\r\n  },\r\n  container: {\r\n    flex: 1,\r\n  },\r\n  backgroundImage: {\r\n    flex: 1,\r\n    resizeMode: \"cover\",\r\n    justifyContent: \"center\",\r\n  },\r\n  header: {\r\n    paddingTop: 40,\r\n    paddingBottom: 10,\r\n    flexDirection: \"row\",\r\n    backgroundColor: \"#2F2E5F\",\r\n    alignItems: \"center\",\r\n    paddingVertical: 10,\r\n    paddingHorizontal: 15,\r\n  },\r\n  eventTitle: {\r\n    flex: 1,\r\n    color: \"white\",\r\n    fontSize: 18,\r\n    fontWeight: \"bold\",\r\n    textAlign: \"left\",\r\n  },\r\n  eventImage: {\r\n    width: 50,\r\n    height: 50,\r\n    borderRadius: 15,\r\n  },\r\n  navigation: {\r\n    flexDirection: \"row\",\r\n    backgroundColor: \"white\",\r\n    justifyContent: \"space-around\",\r\n    paddingTop:5,\r\n  },\r\n  navButton: {\r\n    paddingHorizontal: 15,\r\n    paddingVertical: 5,\r\n  },\r\n  navButtonText: {\r\n    fontSize: 14,\r\n    color: \"#2F2E5F\",\r\n  },\r\n  selectedNavButton: {\r\n    borderBottomWidth: 5,\r\n    borderBottomColor: \"#2F2E5F\",\r\n    borderTopLeftRadius: 10,\r\n    borderTopRightRadius: 10,\r\n  },\r\n  selectedNavButtonText: {\r\n    fontWeight: \"bold\",\r\n  },\r\n  contentContainer: {\r\n    backgroundColor: \"white\",\r\n    borderTopColor: \"#AEAEAE\",\r\n    borderTopWidth: 1,\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n    paddingVertical: 10,\r\n    paddingHorizontal: 15,\r\n  },\r\n  dateContainer: {\r\n    flexDirection: \"column\",\r\n    marginRight: 15,\r\n    alignItems: \"center\",\r\n    justifyContent: \"center\",\r\n \r\n  },\r\n  dateDay: {\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    color:\"#2F2E5F\",\r\n  },\r\n  dateMonth: {\r\n    fontSize: 16,\r\n    fontWeight: \"bold\",\r\n    color:\"#2F2E5F\",\r\n  },\r\n  separator: {\r\n    height: \"95%\",\r\n    width: 2.5,\r\n    backgroundColor: \"#AEAEAEAE\",\r\n    marginHorizontal: 15,\r\n    borderRadius:20,\r\n  },\r\n  eventDetailsContainer: {\r\n    flex: 1,\r\n    flexDirection: \"row\",\r\n    justifyContent: \"space-between\",\r\n    alignItems: \"center\",\r\n  },\r\n  eventTitleContainer: {\r\n    flex: 1,\r\n    flexDirection: \"column\",\r\n    justifyContent: \"center\",\r\n  },\r\n  eventTitleText: {\r\n    fontWeight: \"bold\",\r\n    fontSize: 16,\r\n    marginBottom: 5,\r\n    color:\"#2F2E5F\",\r\n  },\r\n  organizedByText: {\r\n    color:\"#AEAEAE\",\r\n    fontSize: 12,\r\n  },\r\n  organizerName: {\r\n    fontWeight: \"bold\",\r\n    marginBottom: 5,\r\n    color:\"#2F2E5F\",\r\n  },\r\n  eventHours: {\r\n    marginTop:10,\r\n    fontSize: 12,\r\n    color:\"#2F2E5F\"\r\n  },\r\n  ongoingContainer: {\r\n    flexDirection: \"row\",\r\n    alignItems: \"center\",\r\n  },\r\n  ongoingText: {\r\n    fontSize:14,\r\n    fontWeight:\"bold\",\r\n    marginRight: 5,\r\n  },\r\n  ongoingImage: {\r\n    width: 10,\r\n    height: 10,\r\n  },\r\n});\r\n\r\nexport default Eventinfo;\r\n\r\n\r\n
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/screens/event_info.js b/screens/event_info.js
+----- a/screens/event_info.js	(revision 58f82b568fa04cc598fbf75c55e16e5a5df43308)
+--+++ b/screens/event_info.js	(date 1684942466773)
+--@@ -12,7 +12,7 @@
+-- 
+-- const Eventinfo = () => {
+--   const [selectedTab, setSelectedTab] = useState("about");
+---  const [selectedStatus, setSelectedStatus] = useState("Closed");
+--+  const [selectedStatus, setSelectedStatus] = useState("Upcoming");
+--   const handleTabPress = (tabName) => {
+--     setSelectedTab(tabName);
+--   };
+--Index: .idea/workspace.xml
+--IDEA additional info:
+--Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+--<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"...\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/App.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/App.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_schedule.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_schedule.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/eventlist.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/eventlist.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\">\r\n    <execution />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GithubProjectSettings\">\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_BRANCH\" value=\"master\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_USER\" value=\"DinaX02\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_NAME\" value=\"Koru_app\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Q7qmkVkqLjxuwl8Mkt16y9xWFA\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../colisao_media\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"ts.external.directory.path\" value=\"C:\\Program Files\\JetBrains\\PhpStorm 2020.3.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1684715130880</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1684715130880</updated>\r\n      <workItem from=\"1684715132701\" duration=\"83000\" />\r\n      <workItem from=\"1684715228538\" duration=\"7791000\" />\r\n      <workItem from=\"1684762795470\" duration=\"26058000\" />\r\n      <workItem from=\"1684877325018\" duration=\"14570000\" />\r\n      <workItem from=\"1684923908109\" duration=\"5347000\" />\r\n      <workItem from=\"1684933700886\" duration=\"3135000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"eventvoting\">\r\n      <created>1684784852624</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684784852624</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"event voting event liveranking\">\r\n      <created>1684801801888</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684801801888</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"...\">\r\n      <created>1684898423371</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684898423371</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"4\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"eventvoting\" />\r\n    <MESSAGE value=\"event voting event liveranking\" />\r\n    <MESSAGE value=\"...\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"...\" />\r\n  </component>\r\n</project>
+--Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+--<+>UTF-8
+--===================================================================
+--diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+----- a/.idea/workspace.xml	(revision 58f82b568fa04cc598fbf75c55e16e5a5df43308)
+--+++ b/.idea/workspace.xml	(date 1685030375708)
+--@@ -1,12 +1,11 @@
+-- <?xml version="1.0" encoding="UTF-8"?>
+-- <project version="4">
+--   <component name="ChangeListManager">
+---    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="...">
+---      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" afterDir="false" />
+---      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" afterDir="false" />
+--+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="schedule">
+--       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+--       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+---      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+--+      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
+--+      <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+--       <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
+--     </list>
+--     <option name="SHOW_DIALOG" value="false" />
+--@@ -61,7 +60,9 @@
+--       <workItem from="1684762795470" duration="26058000" />
+--       <workItem from="1684877325018" duration="14570000" />
+--       <workItem from="1684923908109" duration="5347000" />
+---      <workItem from="1684933700886" duration="3135000" />
+--+      <workItem from="1684933700886" duration="3163000" />
+--+      <workItem from="1684940839356" duration="2891000" />
+--+      <workItem from="1685030062761" duration="311000" />
+--     </task>
+--     <task id="LOCAL-00001" summary="eventvoting">
+--       <created>1684784852624</created>
+--@@ -84,7 +85,14 @@
+--       <option name="project" value="LOCAL" />
+--       <updated>1684898423371</updated>
+--     </task>
+---    <option name="localTasksCounter" value="4" />
+--+    <task id="LOCAL-00004" summary="schedule">
+--+      <created>1684938498385</created>
+--+      <option name="number" value="00004" />
+--+      <option name="presentableId" value="LOCAL-00004" />
+--+      <option name="project" value="LOCAL" />
+--+      <updated>1684938498385</updated>
+--+    </task>
+--+    <option name="localTasksCounter" value="5" />
+--     <servers />
+--   </component>
+--   <component name="TypeScriptGeneratedFilesManager">
+--@@ -106,6 +114,7 @@
+--     <MESSAGE value="eventvoting" />
+--     <MESSAGE value="event voting event liveranking" />
+--     <MESSAGE value="..." />
+---    <option name="LAST_COMMIT_MESSAGE" value="..." />
+--+    <MESSAGE value="schedule" />
+--+    <option name="LAST_COMMIT_MESSAGE" value="schedule" />
+--   </component>
+-- </project>
+--\ No newline at end of file
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"schedule\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM_[Default_Changelist]/shelved.patch\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM_[Default_Changelist]/shelved.patch\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml\" beforeDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/App.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/App.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package-lock.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/package.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/package.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/Homepage.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/Homepage.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/LogIn.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/LogIn.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/Profile.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/Profile.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/SignUp.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/SignUp.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/Welcome.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/Welcome.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/animationINTRO.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/animationINTRO.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_info.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_info.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_liveranking.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_liveranking.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_schedule.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_schedule.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_voting.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_voting.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/eventlist.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/eventlist.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\">\r\n    <execution />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GithubProjectSettings\">\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_BRANCH\" value=\"master\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_USER\" value=\"DinaX02\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_NAME\" value=\"Koru_app\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Q7qmkVkqLjxuwl8Mkt16y9xWFA\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../colisao_media\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"ts.external.directory.path\" value=\"C:\\Program Files\\JetBrains\\PhpStorm 2020.3.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1684715130880</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1684715130880</updated>\r\n      <workItem from=\"1684715132701\" duration=\"83000\" />\r\n      <workItem from=\"1684715228538\" duration=\"7791000\" />\r\n      <workItem from=\"1684762795470\" duration=\"26058000\" />\r\n      <workItem from=\"1684877325018\" duration=\"14570000\" />\r\n      <workItem from=\"1684923908109\" duration=\"5347000\" />\r\n      <workItem from=\"1684933700886\" duration=\"3163000\" />\r\n      <workItem from=\"1684940839356\" duration=\"2891000\" />\r\n      <workItem from=\"1685030062761\" duration=\"625000\" />\r\n      <workItem from=\"1685370598611\" duration=\"16895000\" />\r\n      <workItem from=\"1685456994593\" duration=\"113000\" />\r\n      <workItem from=\"1685552846715\" duration=\"700000\" />\r\n      <workItem from=\"1685557106876\" duration=\"26182000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"eventvoting\">\r\n      <created>1684784852624</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684784852624</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"event voting event liveranking\">\r\n      <created>1684801801888</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684801801888</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"...\">\r\n      <created>1684898423371</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684898423371</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"schedule\">\r\n      <created>1684938498385</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684938498385</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"eventvoting\" />\r\n    <MESSAGE value=\"event voting event liveranking\" />\r\n    <MESSAGE value=\"...\" />\r\n    <MESSAGE value=\"schedule\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"schedule\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ b/.idea/workspace.xml	(date 1686249243224)
+-@@ -1,26 +1,13 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-   <component name="ChangeListManager">
+--    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="schedule">
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_39_PM__Default_Changelist_.xml" beforeDir="false" />
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+--      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_22_2023_8_41_PM__Default_Changelist_.xml" beforeDir="false" />
+-+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="Ligações entre outras coisas">
+-+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+-+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_5_25_2023_4_59_PM__Default_Changelist_.xml" beforeDir="false" />
+-       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Homepage.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/LogIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LogIn.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Profile.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/SignUp.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/Welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Welcome.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/animationINTRO.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/animationINTRO.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
+-       <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
+-     </list>
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-@@ -80,7 +67,10 @@
+-       <workItem from="1685370598611" duration="16895000" />
+-       <workItem from="1685456994593" duration="113000" />
+-       <workItem from="1685552846715" duration="700000" />
+--      <workItem from="1685557106876" duration="26182000" />
+-+      <workItem from="1685557106876" duration="26268000" />
+-+      <workItem from="1686046641755" duration="1029000" />
+-+      <workItem from="1686194596750" duration="2622000" />
+-+      <workItem from="1686246405301" duration="1894000" />
+-     </task>
+-     <task id="LOCAL-00001" summary="eventvoting">
+-       <created>1684784852624</created>
+-@@ -110,7 +100,14 @@
+-       <option name="project" value="LOCAL" />
+-       <updated>1684938498385</updated>
+-     </task>
+--    <option name="localTasksCounter" value="5" />
+-+    <task id="LOCAL-00005" summary="Ligações entre outras coisas">
+-+      <created>1685596846356</created>
+-+      <option name="number" value="00005" />
+-+      <option name="presentableId" value="LOCAL-00005" />
+-+      <option name="project" value="LOCAL" />
+-+      <updated>1685596846356</updated>
+-+    </task>
+-+    <option name="localTasksCounter" value="6" />
+-     <servers />
+-   </component>
+-   <component name="TypeScriptGeneratedFilesManager">
+-@@ -133,6 +130,7 @@
+-     <MESSAGE value="event voting event liveranking" />
+-     <MESSAGE value="..." />
+-     <MESSAGE value="schedule" />
+--    <option name="LAST_COMMIT_MESSAGE" value="schedule" />
+-+    <MESSAGE value="Ligações entre outras coisas" />
+-+    <option name="LAST_COMMIT_MESSAGE" value="Ligações entre outras coisas" />
+-   </component>
+- </project>
+-\ No newline at end of file
+-Index: package-lock.json
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/package-lock.json b/package-lock.json
+---- a/package-lock.json	(revision 53579b890d22b98579b6fef8bfdcf3c02430e948)
+-+++ b/package-lock.json	(date 1686195721970)
+-@@ -11,6 +11,7 @@
+-         "@fortawesome/fontawesome-svg-core": "^6.4.0",
+-         "@fortawesome/free-solid-svg-icons": "^6.4.0",
+-         "@fortawesome/react-native-fontawesome": "^0.3.0",
+-+        "@gorhom/bottom-sheet": "^4.4.7",
+-         "@react-navigation/bottom-tabs": "^6.5.7",
+-         "@react-navigation/material-top-tabs": "^6.6.2",
+-         "@react-navigation/native": "^6.1.6",
+-@@ -2960,6 +2961,43 @@
+-       "resolved": "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz",
+-       "integrity": "sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw=="
+-     },
+-+    "node_modules/@gorhom/bottom-sheet": {
+-+      "version": "4.4.7",
+-+      "resolved": "https://registry.npmjs.org/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz",
+-+      "integrity": "sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==",
+-+      "dependencies": {
+-+        "@gorhom/portal": "1.0.14",
+-+        "invariant": "^2.2.4"
+-+      },
+-+      "peerDependencies": {
+-+        "@types/react": "*",
+-+        "@types/react-native": "*",
+-+        "react": "*",
+-+        "react-native": "*",
+-+        "react-native-gesture-handler": ">=1.10.1",
+-+        "react-native-reanimated": ">=2.2.0"
+-+      },
+-+      "peerDependenciesMeta": {
+-+        "@types/react": {
+-+          "optional": true
+-+        },
+-+        "@types/react-native": {
+-+          "optional": true
+-+        }
+-+      }
+-+    },
+-+    "node_modules/@gorhom/portal": {
+-+      "version": "1.0.14",
+-+      "resolved": "https://registry.npmjs.org/@gorhom/portal/-/portal-1.0.14.tgz",
+-+      "integrity": "sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A==",
+-+      "dependencies": {
+-+        "nanoid": "^3.3.1"
+-+      },
+-+      "peerDependencies": {
+-+        "react": "*",
+-+        "react-native": "*"
+-+      }
+-+    },
+-     "node_modules/@graphql-typed-document-node/core": {
+-       "version": "3.2.0",
+-       "resolved": "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz",
+-@@ -16040,6 +16078,23 @@
+-       "resolved": "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz",
+-       "integrity": "sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw=="
+-     },
+-+    "@gorhom/bottom-sheet": {
+-+      "version": "4.4.7",
+-+      "resolved": "https://registry.npmjs.org/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz",
+-+      "integrity": "sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==",
+-+      "requires": {
+-+        "@gorhom/portal": "1.0.14",
+-+        "invariant": "^2.2.4"
+-+      }
+-+    },
+-+    "@gorhom/portal": {
+-+      "version": "1.0.14",
+-+      "resolved": "https://registry.npmjs.org/@gorhom/portal/-/portal-1.0.14.tgz",
+-+      "integrity": "sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A==",
+-+      "requires": {
+-+        "nanoid": "^3.3.1"
+-+      }
+-+    },
+-     "@graphql-typed-document-node/core": {
+-       "version": "3.2.0",
+-       "resolved": "https://registry.npmjs.org/@graphql-typed-document-node/core/-/core-3.2.0.tgz",
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ /dev/null	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]" date="1686274526613" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 6/9/2023 2:35 AM [Default Changelist]" />
+-</changelist>
+\ No newline at end of file
+Index: screens/event_liveranking.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useState, useRef } from \"react\";\r\nimport BottomSheet from 'react-native-simple-bottom-sheet';\r\nimport {\r\n    View,\r\n    ImageBackground,\r\n    StyleSheet,\r\n    Text,\r\n    TouchableOpacity,\r\n    Image,\r\n    ScrollView,\r\n    useWindowDimensions,\r\n} from \"react-native\";\r\n\r\nconst Eventliveranking = () => {\r\n    const panelRef = useRef(null);\r\n    const dimensions = useWindowDimensions();\r\n\r\n    const coin1 = [\r\n        {\r\n            \"id_project\": 2,\r\n            \"amount\": 1500,\r\n            \"name_project\": \"Composto\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 4,\r\n            \"amount\": 800,\r\n            \"name_project\": \"Koru\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 1,\r\n            \"amount\": 600,\r\n            \"name_project\": \"Officium\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 5,\r\n            \"amount\": 400,\r\n            \"name_project\": \"Emme\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 6,\r\n            \"amount\": 300,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        }\r\n    ];\r\n\r\n    const coin2 = [\r\n        {\r\n            \"id_project\": 2,\r\n            \"amount\": 3500,\r\n            \"name_project\": \"Composto\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 6,\r\n            \"amount\": 2500,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 4,\r\n            \"amount\": 2200,\r\n            \"name_project\": \"Koru\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 5,\r\n            \"amount\": 1800,\r\n            \"name_project\": \"Emme\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 1,\r\n            \"amount\": 800,\r\n            \"name_project\": \"Officium\",\r\n            \"logo_project\": null\r\n        }\r\n    ];\r\n\r\n    const coin3 = [\r\n        {\r\n            \"id_project\": 4,\r\n            \"amount\": 4000,\r\n            \"name_project\": \"Koru\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 5,\r\n            \"amount\": 2200,\r\n            \"name_project\": \"Emme\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 2,\r\n            \"amount\": 2800,\r\n            \"name_project\": \"Composto\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 1,\r\n            \"amount\": 1600,\r\n            \"name_project\": \"Officium\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 6,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 7,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 8,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 9,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 10,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 11,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        },\r\n        {\r\n            \"id_project\": 12,\r\n            \"amount\": 1200,\r\n            \"name_project\": \"Cultout\",\r\n            \"logo_project\": null\r\n        }\r\n    ];\r\n\r\n\r\n\r\n\r\n    const [selectedCoin, setSelectedCoin] = useState(\"coin1\");\r\n    const [selectedCoinArray, setSelectedCoinArray] = useState(coin1);// Initialize with coin1\r\n\r\n    const handleFilterChange = (coin) => {\r\n        switch (coin) {\r\n            case \"coin1\":\r\n                setSelectedCoin(\"coin1\");\r\n                setSelectedCoinArray(coin1);\r\n                break;\r\n            case \"coin2\":\r\n                setSelectedCoin(\"coin2\");\r\n                setSelectedCoinArray(coin2);\r\n                break;\r\n            case \"coin3\":\r\n                setSelectedCoin(\"coin3\");\r\n                setSelectedCoinArray(coin3);\r\n                break;\r\n            default:\r\n                setSelectedCoin();\r\n                setSelectedCoinArray([]);\r\n                break;\r\n        }\r\n    };\r\n\r\n    return (\r\n        <View style={styles.container}>\r\n                {/* filter */}\r\n                <View style={styles.filter}>\r\n                    <TouchableOpacity onPress={() => handleFilterChange(\"coin1\")}>\r\n                        <Text style={selectedCoin === \"coin1\" ? styles.filteroptionselected : styles.filteroption}>Coin1</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity onPress={() => handleFilterChange(\"coin2\")}>\r\n                        <Text style={selectedCoin === \"coin2\" ? styles.filteroptionselected : styles.filteroption}>Coin2</Text>\r\n                    </TouchableOpacity>\r\n                    <TouchableOpacity onPress={() => handleFilterChange(\"coin3\")}>\r\n                        <Text style={selectedCoin === \"coin3\" ? styles.filteroptionselected : styles.filteroption}>Coin3</Text>\r\n                    </TouchableOpacity>\r\n                </View>\r\n\r\n                {/* podium */}\r\n                <View style={styles.podium}>\r\n                    <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require(\"../assets/coin_red.png\")}/></View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image\r\n                            style={styles.podiumimage}\r\n                            source={require(\"../assets/image_welcome.png\")}\r\n                        />\r\n                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>\r\n                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject1}>\r\n                        <Text style={styles.podiumplace}>1</Text>\r\n                        <Image\r\n                            style={styles.podiumimage}\r\n                            source={require(\"../assets/image_welcome.png\")}\r\n                        />\r\n                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>\r\n                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>\r\n                    </View>\r\n                    <View style={styles.podiumproject}>\r\n                        <Image\r\n                            style={styles.podiumimage}\r\n                            source={require(\"../assets/image_welcome.png\")}\r\n                        />\r\n                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>\r\n                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>\r\n                    </View>\r\n\r\n                </View>\r\n\r\n                <ScrollView contentContainerStyle={styles.projects}>\r\n                    {selectedCoinArray.slice(3).map((project, index) => {\r\n                        const i = index + 4;\r\n                        return (\r\n                            <TouchableOpacity\r\n                                onPress={() => panelRef.current.togglePanel()}\r\n                                key={project.id_project}\r\n                                style={styles.project}\r\n                            >\r\n                                <View style={styles.project_info}>\r\n                                    <Text\r\n                                        style={{\r\n                                            width: 30,\r\n                                            textAlign: \"center\",\r\n                                            marginRight: 15,\r\n                                            color: \"grey\",\r\n                                            fontWeight: 800,\r\n                                        }}\r\n                                    >{i}</Text>\r\n                                    <Image\r\n                                        style={styles.projectimage}\r\n                                        source={require(\"../assets/image_welcome.png\")}\r\n                                    />\r\n                                    <Text>{project.name_project}</Text>\r\n                                </View>\r\n                                <Text>{project.amount}</Text>\r\n                            </TouchableOpacity>\r\n                        );\r\n                    })}\r\n                </ScrollView>\r\n            <BottomSheet\r\n                isOpen={false}\r\n                sliderMinHeight={0}\r\n                sliderMaxHeight={dimensions.height - 300}\r\n                ref={ref => panelRef.current = ref}\r\n            >\r\n                <ScrollView\r\n                    style={{\r\n                        height: dimensions.height - 300,\r\n                    }}\r\n                >\r\n                    <Text style={{ paddingVertical: 20 }}>\r\n                        Some random content\r\n                    </Text>\r\n                    <Text style={{ paddingVertical: 20 }}>\r\n                        Some random content\r\n                    </Text>\r\n                </ScrollView>\r\n\r\n            </BottomSheet>\r\n        </View>\r\n    );\r\n};\r\n\r\nconst styles = StyleSheet.create({\r\n    podiumplace:{\r\n        borderWidth: 1,\r\n        borderColor: \"#2F2E5F\",\r\n        right: 6,\r\n        top: 5,\r\n        backgroundColor: \"gold\",\r\n        width: 20,\r\n        height: 20,\r\n        textAlign: \"center\",\r\n        borderRadius: 10,\r\n        fontWeight: 800,\r\n        position: \"absolute\",\r\n        zIndex: 5,\r\n    },\r\n    podiumimage:{\r\n        borderWidth: 1,\r\n        borderColor: \"#2F2E5F\",\r\n        height: 90,\r\n        aspectRatio: 1,\r\n        borderRadius: 50,\r\n        marginBottom: 20,\r\n        marginHorizontal: 5,\r\n    },\r\n    project_info:{\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n    },\r\n    podiumprojectcoins:{\r\n        color: \"black\",\r\n        fontWeight: \"900\",\r\n        fontSize: 13,\r\n    },\r\n    podiumprojecttitle:{\r\n        marginTop: -15,\r\n        fontSize: 20,\r\n        color: \"white\",\r\n        fontWeight: \"bold\",\r\n\r\n    },\r\n    podiumproject1:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginHorizontal: 15,\r\n    },\r\n    podiumproject:{\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        marginTop: 35,\r\n    },\r\n    currentcoinimg:{\r\n        height: 15,\r\n        width: 15,\r\n    },\r\n    currentcoin:{\r\n        backgroundColor: \"white\",\r\n        width: 40,\r\n        height: 30,\r\n        position: \"absolute\",\r\n        right: 0,\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        top: 15,\r\n        borderTopLeftRadius: 25,\r\n        borderBottomLeftRadius: 25,\r\n\r\n    },\r\n    podium:{\r\n        backgroundColor: \"#7370e0\",\r\n        paddingTop: 20,\r\n        flexDirection: \"row\",\r\n        justifyContent: \"center\",\r\n        paddingBottom: 15,\r\n    },\r\n    filteroptionselected: {\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"#2F2E5F\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"white\",\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n        borderColor: \"#2F2E5F\",\r\n        borderWidth: 1,\r\n    },\r\n    filteroption:{\r\n        fontSize: 15,\r\n        fontWeight: \"bold\",\r\n        backgroundColor: \"whitesmoke\",\r\n        padding: 5,\r\n        paddingVertical: 2,\r\n        borderRadius: 5,\r\n        color: \"#9A9A9A\",\r\n        borderColor: \"#9A9A9A\",\r\n        borderWidth: 1,\r\n        textAlign: \"center\",\r\n        marginLeft: 12,\r\n    },\r\n    filter: {\r\n        backgroundColor: \"white\",\r\n        padding: 10,\r\n        flexDirection: \"row\",\r\n    },\r\n    sliderdescription: {\r\n        width: \"90%\",\r\n    },\r\n    slidertitle: {\r\n        margin: 20,\r\n    },\r\n    slidercontent: {\r\n        width: \"100%\",\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        justifyContent: \"center\",\r\n        overflow: \"scroll\",\r\n    },\r\n    sliderline: {\r\n        width: 75,\r\n        height: 4,\r\n        backgroundColor: \"grey\",\r\n        alignSelf: \"center\",\r\n        borderRadius: 2,\r\n        position: \"absolute\",\r\n        top: 20,\r\n    },\r\n    projectimage: {\r\n        height: 30,\r\n        width: 30,\r\n        borderRadius: 25,\r\n        marginRight: 10,\r\n        borderColor: \"black\",\r\n    },\r\n    projects: {\r\n        flexDirection: \"column\",\r\n        alignItems: \"center\",\r\n        backgroundColor: \"white\",\r\n        paddingBottom: 60,\r\n    },\r\n    project: {\r\n        flexDirection: \"row\",\r\n        alignItems: \"center\",\r\n        backgroundColor: \"white\",\r\n        padding: 5,\r\n        borderBottomColor: \"lightgray\",\r\n        borderBottomWidth: 1,\r\n        width: \"100%\",\r\n        justifyContent: \"space-between\",\r\n        paddingHorizontal: 30,\r\n        paddingVertical: 7,\r\n    },\r\n\r\n    container: {\r\n        flex: 1,\r\n        backgroundColor: \"white\",\r\n    },\r\n    backgroundImage: {\r\n        flex: 1,\r\n        resizeMode: \"cover\",\r\n        justifyContent: \"center\",\r\n    },\r\n});\r\n\r\nexport default Eventliveranking;\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/screens/event_liveranking.js b/screens/event_liveranking.js
+--- a/screens/event_liveranking.js	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ b/screens/event_liveranking.js	(date 1687051400374)
+@@ -1,19 +1,30 @@
+-import React, { useState, useRef } from "react";
+-import BottomSheet from 'react-native-simple-bottom-sheet';
++import React, { useState, useCallback, useMemo, useRef } from "react";
++import BottomSheet from "@gorhom/bottom-sheet";
+ import {
+     View,
+-    ImageBackground,
+     StyleSheet,
+     Text,
+     TouchableOpacity,
+     Image,
+     ScrollView,
+-    useWindowDimensions,
++    Dimensions,
+ } from "react-native";
+ 
++const windowHeight = Dimensions.get('window').height;
++const targetPosition = windowHeight - 200;
++
+ const Eventliveranking = () => {
+-    const panelRef = useRef(null);
+-    const dimensions = useWindowDimensions();
++
++    const bottomSheetRef = useRef(null);
++    const snapPoints = useMemo(() => [targetPosition], []);
++
++    const handleSheetChanges = useCallback((index) => {
++        console.log('handleSheetChanges', index);
++    }, []);
++
++    // Adjust initial index if it falls outside the snap points
++    const initialIndex = snapPoints.includes(targetPosition) ? snapPoints.indexOf(targetPosition) : 0;
++
+ 
+     const coin1 = [
+         {
+@@ -182,13 +193,13 @@
+                 {/* filter */}
+                 <View style={styles.filter}>
+                     <TouchableOpacity onPress={() => handleFilterChange("coin1")}>
+-                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Coin1</Text>
++                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Public</Text>
+                     </TouchableOpacity>
+                     <TouchableOpacity onPress={() => handleFilterChange("coin2")}>
+-                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Coin2</Text>
++                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Companies</Text>
+                     </TouchableOpacity>
+                     <TouchableOpacity onPress={() => handleFilterChange("coin3")}>
+-                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Coin3</Text>
++                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Directors</Text>
+                     </TouchableOpacity>
+                 </View>
+ 
+@@ -196,26 +207,28 @@
+                 <View style={styles.podium}>
+                     <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require("../assets/coin_red.png")}/></View>
+                     <View style={styles.podiumproject}>
++                        <Text style={[styles.podiumplace, { backgroundColor: "silver" }]}>2</Text>
+                         <Image
+                             style={styles.podiumimage}
+-                            source={require("../assets/image_welcome.png")}
++                            source={require("../assets/img_1_slider_hp.png")}
+                         />
+                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>
+                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>
+                     </View>
+                     <View style={styles.podiumproject1}>
+-                        <Text style={styles.podiumplace}>1</Text>
++                        <Text style={[styles.podiumplace, { backgroundColor: "gold" }]}>1</Text>
+                         <Image
+                             style={styles.podiumimage}
+-                            source={require("../assets/image_welcome.png")}
++                            source={require("../assets/img_silder_2.png")}
+                         />
+                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>
+                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>
+                     </View>
+                     <View style={styles.podiumproject}>
++                        <Text style={[styles.podiumplace, { backgroundColor: "#967444" }]}>3</Text>
+                         <Image
+                             style={styles.podiumimage}
+-                            source={require("../assets/image_welcome.png")}
++                            source={require("../assets/img_slider_3.png")}
+                         />
+                         <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>
+                         <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>
+@@ -228,7 +241,6 @@
+                         const i = index + 4;
+                         return (
+                             <TouchableOpacity
+-                                onPress={() => panelRef.current.togglePanel()}
+                                 key={project.id_project}
+                                 style={styles.project}
+                             >
+@@ -254,24 +266,14 @@
+                     })}
+                 </ScrollView>
+             <BottomSheet
+-                isOpen={false}
+-                sliderMinHeight={0}
+-                sliderMaxHeight={dimensions.height - 300}
+-                ref={ref => panelRef.current = ref}
++                ref={bottomSheetRef}
++                index={initialIndex}
++                snapPoints={snapPoints}
++                onChange={handleSheetChanges}
+             >
+-                <ScrollView
+-                    style={{
+-                        height: dimensions.height - 300,
+-                    }}
+-                >
+-                    <Text style={{ paddingVertical: 20 }}>
+-                        Some random content
+-                    </Text>
+-                    <Text style={{ paddingVertical: 20 }}>
+-                        Some random content
+-                    </Text>
+-                </ScrollView>
+-
++                <View style={styles.contentContainer}>
++                    <Text>Awesome 🎉</Text>
++                </View>
+             </BottomSheet>
+         </View>
+     );
+@@ -281,13 +283,13 @@
+     podiumplace:{
+         borderWidth: 1,
+         borderColor: "#2F2E5F",
+-        right: 6,
++        right: 5,
+         top: 5,
+-        backgroundColor: "gold",
+-        width: 20,
+-        height: 20,
++        width: 25,
++        height: 25,
++        textAlignVertical: "center",
+         textAlign: "center",
+-        borderRadius: 10,
++        borderRadius: 25,
+         fontWeight: 800,
+         position: "absolute",
+         zIndex: 5,
+@@ -345,7 +347,7 @@
+ 
+     },
+     podium:{
+-        backgroundColor: "#7370e0",
++        backgroundColor: "#6f6bd6",
+         paddingTop: 20,
+         flexDirection: "row",
+         justifyContent: "center",
+@@ -355,25 +357,21 @@
+         fontSize: 15,
+         fontWeight: "bold",
+         backgroundColor: "#2F2E5F",
+-        padding: 5,
+-        paddingVertical: 2,
++        paddingHorizontal: 10,
++        paddingVertical: 5,
+         borderRadius: 5,
+         color: "white",
+         textAlign: "center",
+         marginLeft: 12,
+-        borderColor: "#2F2E5F",
+-        borderWidth: 1,
+     },
+     filteroption:{
+         fontSize: 15,
+         fontWeight: "bold",
+-        backgroundColor: "whitesmoke",
+-        padding: 5,
+-        paddingVertical: 2,
++        backgroundColor: "#efefef",
++        paddingHorizontal: 10,
++        paddingVertical: 5,
+         borderRadius: 5,
+-        color: "#9A9A9A",
+-        borderColor: "#9A9A9A",
+-        borderWidth: 1,
++        color: "#65686b",
+         textAlign: "center",
+         marginLeft: 12,
+     },
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"live_ranking\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/routes.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/routes.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_liveranking.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_liveranking.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/screens/event_schedule.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/screens/event_schedule.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ComposerSettings\">\r\n    <execution />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GithubProjectSettings\">\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_BRANCH\" value=\"master\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_USER\" value=\"DinaX02\" />\r\n    <option name=\"CREATE_PULL_REQUEST_DEFAULT_REPO_NAME\" value=\"Koru_app\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"2Q7qmkVkqLjxuwl8Mkt16y9xWFA\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"dart.analysis.tool.window.visible\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../colisao_media\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"ts.external.directory.path\" value=\"C:\\Program Files\\JetBrains\\PhpStorm 2020.3.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"9dee0d72-6639-4ee7-a242-472267e5fdcf\" name=\"Default Changelist\" comment=\"\" />\r\n      <created>1684715130880</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1684715130880</updated>\r\n      <workItem from=\"1684715132701\" duration=\"83000\" />\r\n      <workItem from=\"1684715228538\" duration=\"7791000\" />\r\n      <workItem from=\"1684762795470\" duration=\"26058000\" />\r\n      <workItem from=\"1684877325018\" duration=\"14570000\" />\r\n      <workItem from=\"1684923908109\" duration=\"5347000\" />\r\n      <workItem from=\"1684933700886\" duration=\"3163000\" />\r\n      <workItem from=\"1684940839356\" duration=\"2891000\" />\r\n      <workItem from=\"1685030062761\" duration=\"625000\" />\r\n      <workItem from=\"1685370598611\" duration=\"16895000\" />\r\n      <workItem from=\"1685456994593\" duration=\"113000\" />\r\n      <workItem from=\"1685552846715\" duration=\"700000\" />\r\n      <workItem from=\"1685557106876\" duration=\"26268000\" />\r\n      <workItem from=\"1686046641755\" duration=\"1029000\" />\r\n      <workItem from=\"1686194596750\" duration=\"2622000\" />\r\n      <workItem from=\"1686246405301\" duration=\"1894000\" />\r\n      <workItem from=\"1686274474201\" duration=\"7308000\" />\r\n      <workItem from=\"1686364788919\" duration=\"898000\" />\r\n      <workItem from=\"1686440282122\" duration=\"1546000\" />\r\n      <workItem from=\"1686509536318\" duration=\"1782000\" />\r\n      <workItem from=\"1686523319390\" duration=\"3024000\" />\r\n      <workItem from=\"1686541817389\" duration=\"1424000\" />\r\n      <workItem from=\"1686597315468\" duration=\"3916000\" />\r\n      <workItem from=\"1686669018828\" duration=\"6306000\" />\r\n      <workItem from=\"1686708317685\" duration=\"6589000\" />\r\n      <workItem from=\"1686737851413\" duration=\"4521000\" />\r\n      <workItem from=\"1686864657806\" duration=\"10194000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"eventvoting\">\r\n      <created>1684784852624</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684784852624</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"event voting event liveranking\">\r\n      <created>1684801801888</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684801801888</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"...\">\r\n      <created>1684898423371</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684898423371</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"schedule\">\r\n      <created>1684938498385</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1684938498385</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Ligações entre outras coisas\">\r\n      <created>1685596846356</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1685596846356</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"event_list\">\r\n      <created>1686681041458</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1686681041458</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"live_ranking\">\r\n      <created>1686737998627</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1686737998627</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"8\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"eventvoting\" />\r\n    <MESSAGE value=\"event voting event liveranking\" />\r\n    <MESSAGE value=\"...\" />\r\n    <MESSAGE value=\"schedule\" />\r\n    <MESSAGE value=\"Ligações entre outras coisas\" />\r\n    <MESSAGE value=\"event_list\" />\r\n    <MESSAGE value=\"live_ranking\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"live_ranking\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision e926c7a80764684933ff1ac80626466a4c2861bf)
++++ b/.idea/workspace.xml	(date 1687275086241)
+@@ -1,11 +1,16 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking">
++    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking update">
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_4_58_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_4_58_PM__Default_Changelist_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_6_09_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_6_09_PM__Default_Changelist_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_7_29_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_13_2023_7_29_PM__Default_Changelist_.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_9_2023_2_35_AM__Default_Changelist_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/screens/LogIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LogIn.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -79,7 +84,15 @@
+       <workItem from="1686669018828" duration="6306000" />
+       <workItem from="1686708317685" duration="6589000" />
+       <workItem from="1686737851413" duration="4521000" />
+-      <workItem from="1686864657806" duration="10194000" />
++      <workItem from="1686864657806" duration="10236000" />
++      <workItem from="1686956980008" duration="8346000" />
++      <workItem from="1687048458808" duration="3515000" />
++      <workItem from="1687120077730" duration="1056000" />
++      <workItem from="1687131533134" duration="3247000" />
++      <workItem from="1687144177305" duration="1370000" />
++      <workItem from="1687193982287" duration="7748000" />
++      <workItem from="1687225766103" duration="1789000" />
++      <workItem from="1687274756886" duration="327000" />
+     </task>
+     <task id="LOCAL-00001" summary="eventvoting">
+       <created>1684784852624</created>
+@@ -130,7 +143,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1686737998627</updated>
+     </task>
+-    <option name="localTasksCounter" value="8" />
++    <task id="LOCAL-00008" summary="live_ranking update">
++      <created>1686876732556</created>
++      <option name="number" value="00008" />
++      <option name="presentableId" value="LOCAL-00008" />
++      <option name="project" value="LOCAL" />
++      <updated>1686876732556</updated>
++    </task>
++    <option name="localTasksCounter" value="9" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -156,6 +176,7 @@
+     <MESSAGE value="Ligações entre outras coisas" />
+     <MESSAGE value="event_list" />
+     <MESSAGE value="live_ranking" />
+-    <option name="LAST_COMMIT_MESSAGE" value="live_ranking" />
++    <MESSAGE value="live_ranking update" />
++    <option name="LAST_COMMIT_MESSAGE" value="live_ranking update" />
+   </component>
+ </project>
+\ No newline at end of file
