@@ -19,6 +19,18 @@ const Eventinfo = () => {
 
 
 
+  // fetch('https://labmm.clients.ua.pt/proj/koru/event/info/1')
+  // .then(response => response.json())
+  // .then(data => {
+  //   const eventInfo=data;
+  //   // Faça algo com os dados recebidos
+  //   console.log(data);
+  // })
+  // .catch(error => {
+  //   // Trate erros aqui
+  //   console.error(error);
+  // });
+
  const eventInfo = {
   "info": [
       {
