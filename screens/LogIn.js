@@ -17,7 +17,7 @@ const LogIn = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-    const val = useContext(AuthContext);
+    const {login} = useContext(AuthContext);
 
 
   return (
@@ -40,7 +40,7 @@ const LogIn = () => {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.overlay}>
         <View>
-              <Text style={styles.title}>{val}</Text>
+              <Text style={styles.title}>Login</Text>
             </View>
             <TextInput
                 style={styles.input}
@@ -55,7 +55,11 @@ const LogIn = () => {
                 value={password}
                 onChangeText={setPassword}
             />
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity
+                onPress={() => {
+                  login(username, password);
+                }}
+                style={styles.button}>
               <Text style={styles.buttonText}>Continue</Text>
             </TouchableOpacity>
         </View>
