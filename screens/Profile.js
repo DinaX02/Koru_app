@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useContext, useEffect} from "react";
 import {
   View,
   ImageBackground,
@@ -8,8 +8,36 @@ import {
   Image,
   ScrollView,
 } from "react-native";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
+import {BASE_URL} from "../config";
 
 const Profile = ({ navigation }) => {
+
+  const [profile, setProfile] = useState([]);
+  const {userInfo} = useContext(AuthContext);
+  const token = userInfo.token;
+  const id_user = userInfo.id_user;
+
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/profile/${id_user}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setProfile(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
+
   return (
    
     <ImageBackground
@@ -31,9 +59,11 @@ const Profile = ({ navigation }) => {
         <View style={styles.scrollView}>
           <View style={styles.contentContainer}>
             <Text style={styles.titleOverlayBlue}>Number of events:</Text>
-            <Text style={styles.paragraphOverlay}>{3}</Text>
+            <Text style={styles.paragraphOverlay}>{profile.numberOfEvents}</Text>
             <Text style={styles.titleOverlayBlue}>Coins Invested:</Text>
-            <Text style={styles.paragraphOverlay}>{385}</Text>
+            <Text style={styles.paragraphOverlay}>
+              {profile.coinsInvested || profile.coinsInvested === 0 ? profile.coinsInvested : "0"}
+            </Text>
             <Text style={styles.titleOverlayBlue}>Email:</Text>
             <Text style={styles.paragraphOverlay}>
               koru@email.com
@@ -42,9 +72,13 @@ const Profile = ({ navigation }) => {
               Recent Transactions History:
             </Text>
             <View style={styles.overlayTransaction}>
-            <Text>You invested (X) coins in Koru</Text>
-            <Text>You invested (X) coins in Koru</Text>
-            <Text>You invested (X) coins in Koru</Text>
+              {profile.recentTransactions.length === 0 ? (
+                  <Text>No transactions made yet</Text>
+              ) : (
+                  profile.recentTransactions.map((event, index) => (
+                      <Text key={index}>You invested {event.coins} coins in {event.name}</Text>
+                  ))
+              )}
             </View>
 
             <View style={styles.linksContainer}>

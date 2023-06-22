@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
     View,
     ImageBackground,
@@ -7,40 +7,38 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    useWindowDimensions,
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
+import {BASE_URL} from "../config";
+import {AuthContext} from "../context/AuthContext";
 
 const Eventlist = () => {
     const navigation = useNavigation();
+    const [events, setEvents] = useState([]);
+    const {userInfo} = useContext(AuthContext);
+    const token = userInfo.token;
+    const id_user = userInfo.id_user;
 
-    const events = [
-        {
-            name_event: "Event 1",
-            start_date: "2023-06-12T10:00:00",
-            end_date: "2023-06-26T12:00:00",
-        },
-        {
-            name_event: "Event 2",
-            start_date: "2023-06-13T14:00:00",
-            end_date: "2023-06-13T16:00:00",
-        },
-        {
-            name_event: "Event 3",
-            start_date: "2023-06-15T09:00:00",
-            end_date: "2023-06-15T12:00:00",
-        },
-        {
-            name_event: "Event 4",
-            start_date: "2023-06-17T16:00:00",
-            end_date: "2023-06-17T18:00:00",
-        },
-        {
-            name_event: "Event 5",
-            start_date: "2023-06-18T13:00:00",
-            end_date: "2023-06-18T15:00:00",
-        },
-    ];
+    useEffect(() => {
+        axios
+            .get(
+                `${BASE_URL}/profile/events/${id_user}`,
+                {
+                    headers: {
+                        Authorization: token,
+                        id: id_user,
+                    },
+                },
+    )
+    .then(res => {
+            setEvents(res.data);
+        })
+            .catch(e => {
+                console.log("error", e);
+            });
+    }, []);
+
 
     const [filter, setFilter] = useState("active");
 

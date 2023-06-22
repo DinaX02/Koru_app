@@ -8,23 +8,26 @@ export const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState({});
 
     const login = (username, password) => {
-        axios
-            .post(`${BASE_URL}/user/login/${username}`, {
-                username,
-                password,
-            })
-            .then(res => {
-                const data = res.data;
-                const id_user = data.id_user;
-                const token = data.token;
-                alert(id_user);
-                // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-            })
-            .catch(e => {
-                console.log(`login error ${e}`);
-                alert(`login error ${e}`);
-            });
+        return new Promise((resolve, reject) => {
+            axios
+                .post(`${BASE_URL}/user/login/${username}`, {
+                    username,
+                    password,
+                })
+                .then(res => {
+                    setUserInfo(res.data)
+                    // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+                    resolve(); // Resolve the Promise on successful login
+                })
+                .catch(e => {
+                    console.log(`login error ${e}`);
+                    reject(e); // Reject the Promise with the error
+                });
+        });
     };
 
-    return <AuthContext.Provider value={{ login }}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={{
+        userInfo,
+        login,
+    }}>{children}</AuthContext.Provider>;
 };

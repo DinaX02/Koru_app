@@ -17,7 +17,19 @@ const LogIn = () => {
     const navigation = useNavigation();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(false);
+
     const {login} = useContext(AuthContext);
+
+  const handleLogin = () => {
+    login(username, password)
+        .then(() => {
+          navigation.navigate('Home');
+        })
+        .catch(error => {
+          setErrorMessage(true)
+        });
+  };
 
 
   return (
@@ -46,18 +58,29 @@ const LogIn = () => {
                 style={styles.input}
                 placeholder="Username"
                 value={username}
-                onChangeText={setUsername}
+                onChangeText={text => {
+                  setUsername(text);
+                  setErrorMessage(false);
+                }}
             />
             <TextInput
                 style={styles.input}
                 placeholder="Password"
                 secureTextEntry
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={text => {
+                  setPassword(text);
+                  setErrorMessage(false);
+                }}
             />
+            <Text style={{
+              display: errorMessage ? "flex" : "none",
+              color: "#D10000",
+            }}>Wrong password or username</Text>
+
             <TouchableOpacity
                 onPress={() => {
-                  login(username, password);
+                  handleLogin();
                 }}
                 style={styles.button}>
               <Text style={styles.buttonText}>Continue</Text>
