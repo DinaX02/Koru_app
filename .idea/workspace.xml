@@ -7,7 +7,8 @@
       <change beforePath="$PROJECT_DIR$/context/AuthContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/context/AuthContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/LogIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/LogIn.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Profile.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Profile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Welcome.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/animationINTRO.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/animationINTRO.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,6 +94,9 @@
       <workItem from="1687306961060" duration="3593000" />
       <workItem from="1687382203197" duration="15700000" />
       <workItem from="1687440021941" duration="14645000" />
+      <workItem from="1687468333861" duration="712000" />
+      <workItem from="1687482688227" duration="25000" />
+      <workItem from="1687483397828" duration="8307000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>

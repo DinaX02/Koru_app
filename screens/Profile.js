@@ -14,15 +14,30 @@ import {BASE_URL} from "../config";
 
 const Profile = ({ navigation }) => {
 
-  const [profile, setProfile] = useState([]);
+  const [profile, setProfile] = useState({
+    numberOfEvents: "",
+    coinsInvested: "",
+    recentTransactions: "",
+  });
   const {userInfo} = useContext(AuthContext);
   const token = userInfo.token;
   const id_user = userInfo.id_user;
+  const {logout} = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logout()
+        .then(() => {
+          navigation.navigate('WelcomePage');
+        })
+        .catch(error => {
+          console.log(error)
+        });
+  };
 
   useEffect(() => {
     axios
         .get(
-            `${BASE_URL}/profile/${id_user}`,
+            `${BASE_URL}/profile`,
             {
               headers: {
                 Authorization: token,
@@ -53,7 +68,7 @@ const Profile = ({ navigation }) => {
             source={require("../assets/logo_litle_hompeage.png")}
           />
           <Text style={styles.title}>Profile</Text>
-          <Text style={styles.paragraph}>Hi Koru_admin! {/* mudar para o nome do utilizador!*/}</Text> 
+          <Text style={styles.paragraph}>Hi {profile.username} !</Text>
         </View>
 
         <View style={styles.scrollView}>
@@ -66,7 +81,7 @@ const Profile = ({ navigation }) => {
             </Text>
             <Text style={styles.titleOverlayBlue}>Email:</Text>
             <Text style={styles.paragraphOverlay}>
-              koru@email.com
+              {profile.email}
             </Text>
             <Text style={styles.titleOverlayBlue}>
               Recent Transactions History:
@@ -75,8 +90,8 @@ const Profile = ({ navigation }) => {
               {profile.recentTransactions.length === 0 ? (
                   <Text>No transactions made yet</Text>
               ) : (
-                  profile.recentTransactions.map((event, index) => (
-                      <Text key={index}>You invested {event.coins} coins in {event.name}</Text>
+                  profile.recentTransactions.map((transaction, index) => (
+                      <Text key={index}>You invested {transaction.amount} coins in {transaction.name_project}</Text>
                   ))
               )}
             </View>
@@ -92,7 +107,10 @@ const Profile = ({ navigation }) => {
           </View>
           <TouchableOpacity
           style={styles.logoutButton}
-          onPress={() => navigation.navigate("Welcome")}
+          onPress={() => {
+            handleLogout();
+          }
+          }
         >
           <Image
             style={styles.logoutIcon}

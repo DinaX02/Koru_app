@@ -1,10 +1,14 @@
 import React, { useState }  from 'react';
 import { View, Text, Image,Button, StyleSheet,TouchableOpacity,Dimensions} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {AuthContext} from "../context/AuthContext";
+import { useContext } from "react";
 
 const { height, width } = Dimensions.get('window');
 
 const Welcome = () => {
+  const {userInfo} = useContext(AuthContext);
+  console.log(userInfo);
 
   const navigation = useNavigation();
 

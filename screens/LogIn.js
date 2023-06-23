@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     Image,
     KeyboardAvoidingView,
-    Alert,ScrollView,
+    ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {AuthContext} from "../context/AuthContext";
