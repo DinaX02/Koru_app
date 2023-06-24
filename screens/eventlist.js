@@ -24,7 +24,7 @@ const Eventlist = () => {
     useEffect(() => {
         axios
             .get(
-                `${BASE_URL}/profile/events/${id_user}`,
+                `${BASE_URL}/profile/events`,
                 {
                     headers: {
                         Authorization: token,

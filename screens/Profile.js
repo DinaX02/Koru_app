@@ -37,7 +37,7 @@ const Profile = ({ navigation }) => {
   useEffect(() => {
     axios
         .get(
-            `${BASE_URL}/profile`,
+            `${BASE_URL}/profile/user`,
             {
               headers: {
                 Authorization: token,
