@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   ImageBackground,
@@ -7,72 +7,119 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,ScrollView,
-
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../context/AuthContext";
 
 const SignUp = () => {
-
   const navigation = useNavigation();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleEmailChange = (text) => {
-    setEmail(text);
+  const { signUp } = useContext(AuthContext);
+
+  const handleSignUp = () => {
+    if (username.trim() === "" || email.trim() === "" || password.trim() === "") {
+      setErrorMessage("All fields are required");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMessage("Invalid email format");
+      return;
+    }
+
+    signUp(username, email, password)
+        .then(() => {
+          navigation.navigate('Home');
+        })
+        .catch(error => {
+          setErrorMessage("Invalid username or email address");
+        });
+  };
+
+  const validateEmail = (email) => {
+    const emailRegex = /\S+@\S+\.\S+/;
+    return emailRegex.test(email);
   };
 
   return (
-    <ScrollView
-    contentContainerStyle={styles.scrollContainer}
-    keyboardShouldPersistTaps="handled"
-  >
-    <ImageBackground
-      source={require("../assets/background_homepage.png")}
-      style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
-    >
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/logo_litle_hompeage.png")}
-        />
-      </View>
-
-      <KeyboardAvoidingView style={styles.container} behavior="padding">
-        <View style={styles.overlay}>
-        <View style={styles.TextnamePage}>
-              <Text style={styles.title}>Sign Up</Text>
-            </View>
-            <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={handleEmailChange}
-          />
-          <TextInput style={styles.input} placeholder="Username" />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            secureTextEntry
-          />
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-
-      <View style={styles.setacontainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()} // Função para voltar para a página anterior
+      <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+      >
+        <ImageBackground
+            source={require("../assets/background_homepage.png")}
+            style={styles.backgroundImage}
+            imageStyle={styles.imageStyle}
         >
-          <Image style={styles.seta} source={require("../assets/seta_back.png")} />
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
-  </ScrollView>
+          <View style={styles.logoContainer}>
+            <Image
+                style={styles.logo}
+                source={require("../assets/logo_litle_hompeage.png")}
+            />
+          </View>
+
+          <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <View style={styles.overlay}>
+              <View>
+                <Text style={styles.title}>Sign Up</Text>
+              </View>
+              <TextInput
+                  style={styles.input}
+                  placeholder="Username"
+                  value={username}
+                  onChangeText={text => {
+                    setUsername(text);
+                    setErrorMessage("");
+                  }}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  keyboardType="email-address"
+                  value={email}
+                  onChangeText={text => {
+                    setEmail(text);
+                    setErrorMessage("");
+                  }}
+              />
+              <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  secureTextEntry
+                  value={password}
+                  onChangeText={text => {
+                    setPassword(text);
+                    setErrorMessage("");
+                  }}
+              />
+              {errorMessage !== "" && (
+                  <Text style={styles.errorMessage}>{errorMessage}</Text>
+              )}
+
+              <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+                <Text style={styles.buttonText}>Continue</Text>
+              </TouchableOpacity>
+            </View>
+          </KeyboardAvoidingView>
+
+          <View style={styles.setacontainer}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                  style={styles.seta}
+                  source={require("../assets/seta_back.png")}
+              />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
@@ -107,7 +154,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 86,
-    height: 23,
+    height: 23
   },
   overlay: {
     backgroundColor: 'rgba(217, 217, 217, 0.6)',

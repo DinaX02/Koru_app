@@ -1,35 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
   Image,ScrollView,
 } from "react-native";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
+import {BASE_URL} from "../config";
 
 const Eventinfo = () => {
-  const [selectedTab, setSelectedTab] = useState("about");
+
   const [eventStatus, setEventStatus] = useState('');
+  const [eventInfor, setEventInfor] = useState({});
+  const {userInfo} = useContext(AuthContext);
+  const token = userInfo.token;
+  const id_user = userInfo.id_user;
+  const {eventId} = useContext(AuthContext);
 
 
-  const handleTabPress = (tabName) => {
-    setSelectedTab(tabName);
-  };
 
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/event/info/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setEventInfor(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
 
-
-  // fetch('https://labmm.clients.ua.pt/proj/koru/event/info/1')
-  // .then(response => response.json())
-  // .then(data => {
-  //   const eventInfo=data;
-  //   // Faça algo com os dados recebidos
-  //   console.log(data);
-  // })
-  // .catch(error => {
-  //   // Trate erros aqui
-  //   console.error(error);
-  // });
+  useEffect(() => {
+    console.log(eventInfor);
+  }, [eventInfor]);
 
  const eventInfo = {
   "info": [
@@ -107,7 +120,7 @@ const startVoting = startVotingTime.split(' ')[1].slice(0, -3); // para receber 
 const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
 
   return (
-   
+
     <View style={styles.container}>
 
 {/* info do evento em baixo */}
@@ -122,9 +135,9 @@ const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so h
 
       <View style={styles.eventDetailsContainer}>
         <View style={styles.eventTitleContainer}>
-          <Text style={styles.eventTitleText}>{eventInfo.info[0].name_event}</Text>
+          <Text style={styles.eventTitleText}>{eventId}</Text>
           <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> {eventInfo.info[0].name_org} </Text></Text>
-         
+
           <Text style={styles.eventHours}>{startTime} - {endTime}</Text>
         </View>
 
@@ -321,7 +334,7 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     alignItems: "center",
     justifyContent: "center",
- 
+
   },
   dateDay: {
     fontSize: 16,

@@ -111,7 +111,7 @@ function Tabs() {
                 headerShown: false,
                 tabBarStyle: {
                     position: 'absolute',
-                    height: 60,
+                    height: Platform.OS === 'ios' ? 90 : 60,
                 },
             }}
         >

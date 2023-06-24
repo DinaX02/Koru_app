@@ -52,7 +52,7 @@ const LogIn = () => {
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.overlay}>
         <View>
-              <Text style={styles.title}>Login</Text>
+              <Text style={styles.title}>Log In</Text>
             </View>
             <TextInput
                 style={styles.input}

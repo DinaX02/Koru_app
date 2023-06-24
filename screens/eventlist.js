@@ -19,6 +19,7 @@ const Eventlist = () => {
     const {userInfo} = useContext(AuthContext);
     const token = userInfo.token;
     const id_user = userInfo.id_user;
+    const {evento} = useContext(AuthContext);
 
     useEffect(() => {
         axios
@@ -114,7 +115,10 @@ const Eventlist = () => {
                     {filteredEvents.map((event, index) => (
                         <TouchableOpacity
                             key={index}
-                            onPress={() => navigation.navigate('Event')}
+                            onPress={() => {
+                                evento(event.id_event)
+                                navigation.navigate('Event');
+                            }}
                             style={styles.project}
                         >
                             <View style={styles.projectcontent}>

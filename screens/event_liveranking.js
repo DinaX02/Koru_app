@@ -265,16 +265,6 @@ const Eventliveranking = () => {
                         );
                     })}
                 </ScrollView>
-            <BottomSheet
-                ref={bottomSheetRef}
-                index={initialIndex}
-                snapPoints={snapPoints}
-                onChange={handleSheetChanges}
-            >
-                <View style={styles.contentContainer}>
-                    <Text>Awesome 🎉</Text>
-                </View>
-            </BottomSheet>
         </View>
     );
 };

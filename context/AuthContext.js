@@ -7,6 +7,11 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState({});
+    const [eventId, setEventId] = useState();
+
+    const evento = (id_event) =>{
+        setEventId(id_event);
+    }
 
     const login = (username, password) => {
         return new Promise((resolve, reject) => {
@@ -23,6 +28,26 @@ export const AuthProvider = ({ children }) => {
                 })
                 .catch(e => {
                     console.log(`login error ${e}`);
+                    reject(e); // Reject the Promise with the error
+                });
+        });
+    };
+
+    const signUp = (username, email, password) => {
+        return new Promise((resolve, reject) => {
+            axios
+                .post(`${BASE_URL}/user/register`, {
+                    username,
+                    email,
+                    password,
+                })
+                .then(res => {
+                    login(username, password) // Call the login function with the username and password
+                        .then(() => resolve()) // Resolve the Promise when the login is successful
+                        .catch(error => reject(error)); // Reject the Promise if the login fails
+                })
+                .catch(e => {
+                    console.log(`register error ${e}`);
                     reject(e); // Reject the Promise with the error
                 });
         });
@@ -51,6 +76,7 @@ export const AuthProvider = ({ children }) => {
             const storedUserInfo = await AsyncStorage.getItem('userInfo');
             if (storedUserInfo) {
                 setUserInfo(JSON.parse(storedUserInfo));
+                console.log(storedUserInfo)
             }
         } catch (error) {
             console.log(`is logged in error ${error}`);
@@ -62,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ userInfo, login, logout }}>
+        <AuthContext.Provider value={{ userInfo, evento, eventId, signUp, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
