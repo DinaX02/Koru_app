@@ -59,7 +59,7 @@ const Profile = ({ navigation }) => {
       source={require("../assets/img_background_login.png")}
       style={styles.backgroundImage}
     >
-      <View>
+
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.logoContainer}>
@@ -96,15 +96,16 @@ const Profile = ({ navigation }) => {
               )}
             </View>
 
-            <View style={styles.linksContainer}>
+            {/* <View style={styles.linksContainer}>
               <TouchableOpacity>
                 <Text style={styles.titleOverlayBlueLinks}>
                   Change Password
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
-          </View>
+        
+          <View style={styles.spaceLogOuttt}>
           <TouchableOpacity
           style={styles.logoutButton}
           onPress={() => {
@@ -118,8 +119,11 @@ const Profile = ({ navigation }) => {
           />
         </TouchableOpacity>
         </View>
+          </View>
+          
+        </View>
       </View> 
-    </ScrollView></View>
+    </ScrollView>
     </ImageBackground>
    
   );
@@ -154,6 +158,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "left",
   },
+  spaceLogOuttt:{
+    width:"100%",
+    alignItems:"center",
+    marginTop:10,
+  },
   paragraph: {
     fontSize: 14,
     color: "white",
@@ -180,7 +189,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#001847",
     marginTop: 10,
-    marginBottom: 10,
+    // marginBottom: 10,
     textAlign: "left",
   },
   paragraphOverlay: {
@@ -218,9 +227,9 @@ const styles = StyleSheet.create({
     marginBottom:40,
   },
   logoutButton: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
+    // position: "absolute",
+    // bottom: -13,
+    // right: -300,
   },
   logoutIcon: {
     width: 30,
