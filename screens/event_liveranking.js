@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {
     View,
@@ -7,23 +7,42 @@ import {
     TouchableOpacity,
     Image,
     ScrollView,
-    Dimensions,
 } from "react-native";
+import {BASE_URL} from "../config";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
 
-const windowHeight = Dimensions.get('window').height;
-const targetPosition = windowHeight - 200;
 
 const Eventliveranking = () => {
+    const [eventRanking, setEventRanking] = useState({});
+    const {userInfo} = useContext(AuthContext);
+    const token = userInfo.token;
+    const id_user = userInfo.id_user;
+    const {eventId} = useContext(AuthContext);
 
-    const bottomSheetRef = useRef(null);
-    const snapPoints = useMemo(() => [targetPosition], []);
-
-    const handleSheetChanges = useCallback((index) => {
-        console.log('handleSheetChanges', index);
+    useEffect(() => {
+        axios
+            .get(
+                `${BASE_URL}/event/rank/${id_user}/${eventId}`,
+                {
+                    headers: {
+                        Authorization: token,
+                        id: id_user,
+                    },
+                },
+            )
+            .then(res => {
+                setEventRanking(res.data);
+            })
+            .catch(e => {
+                console.log("error", e);
+            });
     }, []);
 
-    // Adjust initial index if it falls outside the snap points
-    const initialIndex = snapPoints.includes(targetPosition) ? snapPoints.indexOf(targetPosition) : 0;
+    useEffect(() => {
+        console.log(eventRanking);
+    }, [eventRanking]);
+
 
 
     const coin1 = [
@@ -240,7 +259,7 @@ const Eventliveranking = () => {
                     {selectedCoinArray.slice(3).map((project, index) => {
                         const i = index + 4;
                         return (
-                            <TouchableOpacity
+                            <View
                                 key={project.id_project}
                                 style={styles.project}
                             >
@@ -261,7 +280,7 @@ const Eventliveranking = () => {
                                     <Text>{project.name_project}</Text>
                                 </View>
                                 <Text>{project.amount}</Text>
-                            </TouchableOpacity>
+                            </View>
                         );
                     })}
                 </ScrollView>

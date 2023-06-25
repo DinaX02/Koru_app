@@ -1,4 +1,4 @@
-import React, { useState, useRef , useEffect} from "react";
+import React, { useState, useRef , useEffect, useContext} from "react";
 import BottomSheet from 'react-native-simple-bottom-sheet';
 import {
   View,
@@ -12,15 +12,72 @@ import {
 } from "react-native";
 
 import PopUp from "../components/PopUp";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
+import {BASE_URL} from "../config";
+import {useNavigation} from "@react-navigation/native";
 
 
 
 const Eventvoting = () => {
-
+  const navigation = useNavigation();
   const [status, setStatus] = useState('Open');
   const [imageSource, setImageSource] = useState(require("../assets/ongoing_green.png"));
-  const [projectName, setProjectName] = useState("koru");
+  const [projectName, setProjectName] = useState("Project");
+  const [projectDescription, setProjectDescription] = useState("Description...");
   const [popupVisible, setPopupVisible] = useState(false);
+  const [eventProjects, setEventProjects] = useState({});
+  const [eventWallet, setEventWallet] = useState({});
+  const {userInfo} = useContext(AuthContext);
+  const token = userInfo.token;
+  const id_user = userInfo.id_user;
+  const {eventId} = useContext(AuthContext);
+
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/event/projects/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setEventProjects(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
+
+  /*useEffect(() => {
+    console.log(eventProjects);
+  }, [eventProjects]);*/
+
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/event/balance/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setEventWallet(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
+
+  useEffect(() => {
+    console.log(eventWallet);
+  }, [eventWallet]);
 
   const openPopup = () => {
     setPopupVisible(true);
@@ -71,58 +128,6 @@ const Eventvoting = () => {
       setImageSource(require("../assets/Closed_red.png"));
     }
   }, []);
-
-
-  const json = [
-    {
-      "id": 1,
-      "name": "Project 1"
-    },
-    {
-      "id": 2,
-      "name": "Project 2"
-    },
-    {
-      "id": 3,
-      "name": "Project 3"
-    },
-    {
-      "id": 4,
-      "name": "Project 4"
-    },
-    {
-      "id": 5,
-      "name": "Project 5"
-    },
-    {
-      "id": 6,
-      "name": "Project 6"
-    },
-    {
-      "id": 7,
-      "name": "Project 7"
-    },
-    {
-      "id": 8,
-      "name": "Project 8"
-    },
-    {
-      "id": 9,
-      "name": "Project 9"
-    },
-    {
-      "id": 10,
-      "name": "Project 10"
-    },
-    {
-      "id": 11,
-      "name": "Project 11"
-    },
-    {
-      "id": 12,
-      "name": "Project 12"
-    }
-  ];
 
 
   const walletData = {
@@ -199,27 +204,38 @@ const Eventvoting = () => {
   </View>
 </View>
         <ScrollView contentContainerStyle={styles.projects}>
-          {json &&
-          json.map((project) => (
-              <TouchableOpacity
-                  key={project.id}
-                  onPress={() => {
-                    setProjectName(project.name)
-                    panelRef.current.togglePanel()
-                  }}
-                  style={styles.project}
-              >
-                <View style={styles.projectcontent}>
-                  <Image
-                      style={styles.projectimage}
-                      source={require("../assets/event_join.png")}
-                  />
-                  <Text>{project.name}</Text>
-                </View>
-                <View style={styles.circle}/>
+          {eventProjects && eventProjects.length > 0 ? (
+              eventProjects.map((project, index) => (
+                  <TouchableOpacity
+                      key={index}
+                      onPress={() => {
+                        setProjectName(project.name_project)
+                        setProjectDescription(project.desc_project)
+                        //panelRef.current.togglePanel()
+                        navigation.navigate("Vote", {
+                          title: project.name_project, // Pass the title value as the parameter
+                        });
+                      }}
+                      style={styles.project}
+                  >
+                    <View style={styles.projectcontent}>
+                      {project.logo_project ? (
+                          <Image style={styles.projectimage} source={{ uri: `data:image/png;base64,${project.logo_project}` }}/>
+                      ) : (
+                          <Image
+                              style={styles.projectimage}
+                              source={require("../assets/image_welcome.png")}
+                          />
+                      )}
+                      <Text>{project.name_project}</Text>
+                    </View>
+                    <View style={styles.circle}/>
 
-              </TouchableOpacity>
-          ))}
+                  </TouchableOpacity>
+              ))
+          ) : (
+              <Text>No schedule available</Text>
+          )}
         </ScrollView>
       </ImageBackground>
       <BottomSheet
@@ -246,7 +262,7 @@ const Eventvoting = () => {
               <Text style={styles.joinButtonText}>Vote</Text>
             </TouchableOpacity>
             <Text style={styles.sliderdescription}>
-              Koru is an event tracking platform that allows organizers to create and manage events efficiently, while providing event attendees with a personalized and interactive experience. The app focuses on the dynamics of voting on projects displayed at the event, where participants have coins they can invest in the projects they like the most.
+              {projectDescription}
             </Text>
             <Text style={styles.LinkVote}>
 
@@ -333,6 +349,7 @@ const styles = StyleSheet.create({
   projectimage: {
     height: 40,
     width: 40,
+    borderRadius: 20,
     marginLeft: 20,
     marginRight: 10,
     borderColor: "black",

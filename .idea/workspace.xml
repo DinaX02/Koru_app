@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="update">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="event info">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_18_2023_2_23_AM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_18_2023_2_23_AM__Default_Changelist_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_20_2023_4_31_PM__Default_Changelist_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_20_2023_4_31_PM__Default_Changelist_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,7 +104,8 @@
       <workItem from="1687529524052" duration="13385000" />
       <workItem from="1687566253366" duration="7909000" />
       <workItem from="1687620774632" duration="2283000" />
-      <workItem from="1687647978404" duration="11400000" />
+      <workItem from="1687647978404" duration="11533000" />
+      <workItem from="1687705901850" duration="13985000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -206,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687649389910</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="event info">
+      <created>1687662008618</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1687662008618</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +252,7 @@
     <MESSAGE value="api working" />
     <MESSAGE value="profile and login/logout/async storage" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="event info" />
+    <option name="LAST_COMMIT_MESSAGE" value="event info" />
   </component>
 </project>

@@ -40,6 +40,10 @@ const Eventlist = () => {
             });
     }, []);
 
+    useEffect(() => {
+        console.log(events)
+    }, [events])
+
 
     const [filter, setFilter] = useState("active");
 

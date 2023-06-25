@@ -1,14 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
     View,
     ImageBackground,
     StyleSheet,
     Text,
-    ScrollView,
+    ScrollView, TouchableOpacity, Image,
 } from "react-native";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
+import {BASE_URL} from "../config";
 
 
 const Eventschedule = () => {
+
+    const [eventSchedule, setEventSchedule] = useState({});
+    const {userInfo} = useContext(AuthContext);
+    const token = userInfo.token;
+    const id_user = userInfo.id_user;
+    const {eventId} = useContext(AuthContext);
+
+
+
+    useEffect(() => {
+        axios
+            .get(
+                `${BASE_URL}/event/programa/${eventId}`,
+                {
+                    headers: {
+                        Authorization: token,
+                        id: id_user,
+                    },
+                },
+            )
+            .then(res => {
+                setEventSchedule(res.data);
+            })
+            .catch(e => {
+                console.log("error", e);
+            });
+    }, []);
+
+    useEffect(() => {
+        console.log(eventSchedule);
+    }, [eventSchedule]);
 
     return (
 
@@ -20,42 +54,19 @@ const Eventschedule = () => {
                 style={styles.backgroundImage}
             >
                 <ScrollView contentContainerStyle={styles.scroll}>
-
-                    <View style={styles.timestamp}>
-                        <Text style={styles.number}>1</Text>
-                        <View>
-                            <Text style={styles.hour}>9:00</Text>
-                            <Text style={styles.task}>Opening Show</Text>
-                        </View>
-                    </View>
-                    <View style={styles.timestamp}>
-                        <Text style={styles.number}>2</Text>
-                        <View>
-                            <Text style={styles.hour}>10:00</Text>
-                            <Text style={styles.task}>Projects</Text>
-                        </View>
-                    </View>
-                    <View style={styles.timestamp}>
-                        <Text style={styles.number}>3</Text>
-                        <View>
-                            <Text style={styles.hour}>11:30</Text>
-                            <Text style={styles.task}>Coffee Break</Text>
-                        </View>
-                    </View>
-                    <View style={styles.timestamp}>
-                        <Text style={styles.number}>4</Text>
-                        <View>
-                            <Text style={styles.hour}>12:00 - 18:30</Text>
-                            <Text style={styles.task}>Voting</Text>
-                        </View>
-                    </View>
-                    <View style={styles.timestamp}>
-                        <Text style={styles.number}>5</Text>
-                        <View>
-                            <Text style={styles.hour}>19:00</Text>
-                            <Text style={styles.task}>Awards</Text>
-                        </View>
-                    </View>        
+                    {eventSchedule && eventSchedule.length > 0 ? (
+                        eventSchedule.map((schedule, index) => (
+                            <View style={styles.timestamp} key={index}>
+                                <Text style={styles.number}>{index + 1}</Text>
+                                <View>
+                                    <Text style={styles.hour}>{schedule.date_schedule ? schedule.date_schedule.split(' ')[1]?.slice(0, -3) : ""}</Text>
+                                    <Text style={styles.task}>{schedule.name_schedule}</Text>
+                                </View>
+                            </View>
+                        ))
+                    ) : (
+                        <Text>No schedule available</Text>
+                    )}
                 </ScrollView>
             </ImageBackground>
         </View>

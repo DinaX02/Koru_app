@@ -12,6 +12,7 @@ import Profile from './screens/Profile';
 import Welcome from './screens/Welcome';
 import LogIn from './screens/LogIn';
 import SignUp from './screens/SignUp';
+import Project from './screens/Project';
 import Eventinfo from './screens/event_info';
 import Eventliveranking from './screens/event_liveranking';
 import Eventschedule from './screens/event_schedule';
@@ -79,21 +80,27 @@ function EventListStackScreen() {
     return (
         <EventListStack.Navigator
             screenOptions={{
-                headerLeft: null,
                 headerStyle:{
                     backgroundColor: "#2F2E5F",
                 },
                 headerTintColor: 'white',
             }}
         >
-            <EventListStack.Screen name="My Event List" component={Eventlist} />
+            <EventListStack.Screen name="My Event List" component={Eventlist} options={{headerLeft: null,}} />
             <EventListStack.Screen
                 name="Event"
                 component={Event}
                 options={({ route }) => ({
-                    title: route.params.title, // Pass the title value as the header title
+                    title: route.params.title,
+                    headerLeft: null,
                 })}
             />
+            <EventListStack.Screen
+                name="Vote"
+                component={Project}
+                options={({ route }) => ({
+                     title: route.params.title,
+            })}/>
         </EventListStack.Navigator>
     );
 }
