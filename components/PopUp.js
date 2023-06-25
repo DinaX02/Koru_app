@@ -299,9 +299,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    padding: 20,
+    top: 15,
+    left: 15,
     flexDirection: "row",
   },
   closeButtonText: {
