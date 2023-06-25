@@ -117,7 +117,9 @@ const Eventlist = () => {
                             key={index}
                             onPress={() => {
                                 evento(event.id_event)
-                                navigation.navigate('Event');
+                                navigation.navigate("Event", {
+                                    title: event.name_event, // Pass the title value as the parameter
+                                });
                             }}
                             style={styles.project}
                         >

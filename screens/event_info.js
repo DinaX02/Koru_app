@@ -12,14 +12,24 @@ import {BASE_URL} from "../config";
 
 const Eventinfo = () => {
 
-  const [eventStatus, setEventStatus] = useState('');
-  const [eventInfor, setEventInfor] = useState({});
+  const [selectedStatus, setSelectedStatus] = useState("Upcoming");
+  const [eventInfo, setEventInfo] = useState({});
   const {userInfo} = useContext(AuthContext);
   const token = userInfo.token;
   const id_user = userInfo.id_user;
   const {eventId} = useContext(AuthContext);
 
+  const getImageSource = () => {
+    if (selectedStatus === "Ongoing") {
+      return require("../assets/ongoing_green.png");
+    } else if (selectedStatus === "Closed") {
+      return require("../assets/Closed_red.png");
+    } else if (selectedStatus === "Upcoming") {
+      return require("../assets/upcoming_yellow.png");
+    }
 
+    return require("../assets/ongoing_green.png"); // Imagem padrão caso não haja correspondência
+  };
 
   useEffect(() => {
     axios
@@ -33,7 +43,7 @@ const Eventinfo = () => {
             },
         )
         .then(res => {
-          setEventInfor(res.data);
+          setEventInfo(res.data);
         })
         .catch(e => {
           console.log("error", e);
@@ -41,166 +51,114 @@ const Eventinfo = () => {
   }, []);
 
   useEffect(() => {
-    console.log(eventInfor);
-  }, [eventInfor]);
+    console.log(eventInfo);
+  }, [eventInfo]);
 
- const eventInfo = {
-  "info": [
-      {
-          "name_event": "MediaPlay23",
-          "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
-          "logo_event": "", //img event
-          "start_date": "2023-06-27 09:00:00",
-          "end_date": "2023-06-27 19:00:00",
-          "vote_start": "2002-02-02 12:00:00", //caso for null fzr algo
-          "vote_end": "2002-02-02 18:30:00", //caso for null fzr algo
-          "name_org": "DeCA",
-          "total_people": 2,
-          "total_projetos": 3
+  useEffect(() => {
+    if (eventInfo.info && eventInfo.info.length > 0) {
+      const startDate = new Date(eventInfo.info[0].start_date);
+      const endDate = new Date(eventInfo.info[0].end_date);
+      const currentDate = new Date();
+
+      if (currentDate >= startDate && currentDate <= endDate) {
+        setSelectedStatus("Ongoing");
+      } else if (currentDate > endDate) {
+        setSelectedStatus("Closed");
+      } else if (currentDate < startDate) {
+        setSelectedStatus("Upcoming");
       }
-  ],
-  "coins": [
-      {
-          "id_coin": 1,
-          "name_coin": "coin1"
-      },
-      {
-          "id_coin": 3,
-          "name_coin": "coin2"
-      }
-  ]
-}
-
-useEffect(() => {
-  const currentDateTime = new Date().getTime();
-  const startDate = new Date(eventInfo.info[0].start_date).getTime();
-  const endDate = new Date(eventInfo.info[0].end_date).getTime();
-
-  if (currentDateTime < startDate) {
-    setEventStatus('Upcoming');
-  } else if (currentDateTime >= startDate && currentDateTime <= endDate) {
-    setEventStatus('Ongoing');
-  } else {
-    setEventStatus('Closed');
-  }
-}, []);
-
- let imageSourceStatusEvent;
-  if (eventStatus === 'Upcoming') {
-    imageSourceStatusEvent = require("../assets/upcoming_yellow.png");
-  } else if (eventStatus === 'Closed') {
-    imageSourceStatusEvent = require("../assets/Closed_red.png");
-  } else {
-    imageSourceStatusEvent = require("../assets/ongoing_green.png");
-  }
-
-// receber apenas o mes
-
-const startDateMonth = new Date(eventInfo.info[0].start_date);
-const monthName = startDateMonth.toLocaleString('default', { month: 'short' }).toUpperCase().replace('.', '');
-
-// receber apenas dia do mes
-
-const startDateDay = new Date(eventInfo.info[0].start_date);
-const dayOfMonth = startDateDay.getDate();
-
-// hora e data evento
-const startDateTime = eventInfo.info[0].start_date;
-const endDateTime = eventInfo.info[0].end_date;
-
-const startTime = startDateTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
-const endTime = endDateTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
-
-// hora e data votacao
-
-const startVotingTime = eventInfo.info[0].vote_start;
-const endVotingTime = eventInfo.info[0].vote_end;
-
-const startVoting = startVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
-const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos
+    } else {
+      setSelectedStatus("Open");
+    }
+  }, [eventInfo]);
 
   return (
 
-    <View style={styles.container}>
+      <View style={styles.container}>
 
-{/* info do evento em baixo */}
+        {/* info do evento em baixo */}
+        <View style={styles.contentContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={styles.dateDay}>{eventInfo.info ? new Date(eventInfo.info[0].start_date).getDate() : "Day"}</Text>
+            <Text style={styles.dateMonth}>{eventInfo.info ? new Date(eventInfo.info[0].start_date).toLocaleString('default', { month: 'short' }).toUpperCase().replace('.', '') : "Month"}</Text>
+          </View>
 
-    <View style={styles.contentContainer}>
-      <View style={styles.dateContainer}>
-        <Text style={styles.dateDay}>{dayOfMonth}</Text>
-        <Text style={styles.dateMonth}>{monthName}</Text>
-      </View>
+          <View style={styles.separator} />
 
-      <View style={styles.separator} />
+          <View style={styles.eventDetailsContainer}>
+            <View style={styles.eventTitleContainer}>
+              <Text style={styles.eventTitleText}>{eventInfo.info ? eventInfo.info[0].name_event : "Event"}</Text>
+              <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> {eventInfo.info ? eventInfo.info[0].name_org : "Koru"}</Text></Text>
 
-      <View style={styles.eventDetailsContainer}>
-        <View style={styles.eventTitleContainer}>
-          <Text style={styles.eventTitleText}>{eventId}</Text>
-          <Text style={styles.organizedByText}>Organized by<Text style={styles.organizerName}> {eventInfo.info[0].name_org} </Text></Text>
+              <Text style={styles.eventHours}>{eventInfo.info ? eventInfo.info[0].start_date.split(' ')[1].slice(0, -3) : "start"} - {eventInfo.info ? eventInfo.info[0].end_date.split(' ')[1].slice(0, -3) : "end"}</Text>
+            </View>
 
-          <Text style={styles.eventHours}>{startTime} - {endTime}</Text>
+            {selectedStatus && (
+                <View style={styles.ongoingContainer}>
+                  <Text style={styles.ongoingText}>{selectedStatus}</Text>
+                  <Image
+                      source={getImageSource()}
+                      style={styles.ongoingImage}
+                  />
+                </View>
+            )}
+          </View>
         </View>
 
-        <View style={styles.ongoingContainer}>
-          <Text style={styles.ongoingText}>{eventStatus}</Text>
-          <Image
-            source={imageSourceStatusEvent}
-            style={styles.ongoingImage}
-          />
-        </View>
+        <ImageBackground
+            source={require("../assets/background.png")}
+            style={styles.backgroundImage}
+        >
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+            <View style={styles.content}>
+              {/* Conteúdo aqui */}
+              <View>
+                <Text style={styles.overviewTitle}>Overview</Text>
+                <Text style={styles.overviewText}>
+                  {eventInfo.info ? eventInfo.info[0].des_event : "Description..."}
+                </Text>
+              </View>
+              {/* voting info*/}
+              <View style={styles.votingContainer}>
+                <Text style={styles.votingTitle}>Voting</Text>
+                <View style={styles.votingContent}>
+                  <View style={styles.votingItem}>
+                    <Text style={styles.votingItemTitle}>Start:</Text>
+                    <Text style={styles.votingItemValue}>{eventInfo.info ? eventInfo.info[0].vote_start.split(' ')[1].slice(0, -3) : "start"}</Text>
+                  </View>
+                  <View style={styles.votingItem}>
+                    <Text style={styles.votingItemTitle}>Closes at:</Text>
+                    <Text style={styles.votingItemValue}>{eventInfo.info ? eventInfo.info[0].vote_end.split(' ')[1].slice(0, -3) : "end"}</Text>
+                  </View>
+                </View>
+              </View>
+              {/* other info*/}
+              <View style={styles.totalContainer}>
+                <View style={styles.totalItem}>
+                  <Text style={styles.totalTitle}>Total projects</Text>
+                  <Text style={styles.totalValue}>{eventInfo.info ? eventInfo.info[0].total_projetos : "0"}</Text>
+                </View>
+                <View style={styles.totalItem}>
+                  <Text style={styles.totalTitle}>Total participants</Text>
+                  <Text style={styles.totalValue}>{eventInfo.info ? eventInfo.info[0].total_people : "0"}</Text>
+                </View>
+              </View>
+              <View style={styles.COinsss}>
+                <Text style={styles.totalTitle}>Types of Coins</Text>
+                {eventInfo.coins && (
+                    eventInfo.coins.map((coin, index) => (
+                          <Text key={index} style={styles.totalValue}>
+                            {coin.name_coin}
+                          </Text>
+                      ))
+                )}
+              </View>
+            </View>
+          </ScrollView>
+        </ImageBackground>
       </View>
-    </View>
 
-    <ImageBackground
-      source={require("../assets/background.png")}
-      style={styles.backgroundImage}
-    >
- <ScrollView contentContainerStyle={styles.scrollViewContent}>
-<View style={styles.content}>
-  {/* Conteúdo aqui */}
-  <View>
-  <Text style={styles.overviewTitle}>Overview</Text>
-  <Text style={styles.overviewText}>
-  {eventInfo.info[0].des_event}
-  </Text>
-</View>
-  {/* voting info*/}
-<View style={styles.votingContainer}>
-  <Text style={styles.votingTitle}>Voting</Text>
-  <View style={styles.votingContent}>
-    <View style={styles.votingItem}>
-      <Text style={styles.votingItemTitle}>Start:</Text>
-      <Text style={styles.votingItemValue}>{startVoting}</Text>
-    </View>
-    <View style={styles.votingItem}>
-      <Text style={styles.votingItemTitle}>Closes at:</Text>
-      <Text style={styles.votingItemValue}>{endVoting}</Text>
-    </View>
-  </View>
-</View>
- {/* other info*/}
-<View style={styles.totalContainer}>
-  <View style={styles.totalItem}>
-    <Text style={styles.totalTitle}>Total projects</Text>
-    <Text style={styles.totalValue}>{eventInfo.info[0].total_projetos}</Text>
-  </View>
-  <View style={styles.totalItem}>
-    <Text style={styles.totalTitle}>Total participants</Text>
-    <Text style={styles.totalValue}>{eventInfo.info[0].total_people}</Text>
-  </View>
-</View>
-<View style={styles.COinsss}>
-  <Text style={styles.totalTitle}>Types of Coins</Text>
-  {eventInfo.coins.map((coin) => (
-    <Text style={styles.totalValue} key={coin.id_coin}>{coin.name_coin}</Text>
-  ))}
-</View>
-</View>
-</ScrollView>
-    </ImageBackground>
-  </View>
-
-);
+  );
 };
 
 const styles = StyleSheet.create({
@@ -400,5 +358,3 @@ const styles = StyleSheet.create({
 });
 
 export default Eventinfo;
-
-

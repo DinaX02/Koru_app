@@ -87,7 +87,13 @@ function EventListStackScreen() {
             }}
         >
             <EventListStack.Screen name="My Event List" component={Eventlist} />
-            <EventListStack.Screen name="Event" component={Event} />
+            <EventListStack.Screen
+                name="Event"
+                component={Event}
+                options={({ route }) => ({
+                    title: route.params.title, // Pass the title value as the header title
+                })}
+            />
         </EventListStack.Navigator>
     );
 }
