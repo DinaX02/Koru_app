@@ -55,7 +55,7 @@ const Eventschedule = () => {
                             <Text style={styles.hour}>19:00</Text>
                             <Text style={styles.task}>Awards</Text>
                         </View>
-                    </View>
+                    </View>        
                 </ScrollView>
             </ImageBackground>
         </View>
@@ -81,7 +81,10 @@ const styles = StyleSheet.create({
         fontWeight: 800,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 8,
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderBottomLeftRadius: 8,
+        borderBottomRightRadius: 8,
         marginRight: 20,
     },
     timestamp:{
