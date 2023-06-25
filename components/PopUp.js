@@ -272,6 +272,8 @@ const styles = StyleSheet.create({
   },
   img_coins_vote: {
     marginRight: 5,
+    width:10,
+    height:10
   },
   popup: {
     backgroundColor: "white",
