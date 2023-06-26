@@ -28,10 +28,30 @@ const Eventvoting = () => {
   const [popupVisible, setPopupVisible] = useState(false);
   const [eventProjects, setEventProjects] = useState({});
   const [eventWallet, setEventWallet] = useState({});
+  const [eventInfo, setEventInfo] = useState({});
   const {userInfo} = useContext(AuthContext);
   const token = userInfo.token;
   const id_user = userInfo.id_user;
   const {eventId} = useContext(AuthContext);
+
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/event/info/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setEventInfo(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
 
   useEffect(() => {
     axios
@@ -52,9 +72,6 @@ const Eventvoting = () => {
         });
   }, []);
 
-  /*useEffect(() => {
-    console.log(eventProjects);
-  }, [eventProjects]);*/
 
   useEffect(() => {
     axios
@@ -87,71 +104,33 @@ const Eventvoting = () => {
     setPopupVisible(false);
   };
 
-  const eventInfo = {
-    "info": [
-        {
-            "name_event": "MediaPlay23",
-            "des_event": "Media Play is an event organized by DeCA, where the students present the best projects developed in the DeCA's Communication Sciences and Technologies courses, covering all study cycles.All the projects were selected by a jury, based on the proposals presented by the students.",
-            "logo_event": "", //img event
-            "start_date": "2023-06-27 09:00:00",
-            "end_date": "2023-06-27 19:00:00",
-            "vote_start": "2023-06-15 12:00:00", //caso for null fzr algo
-            "vote_end": "2023-06-27 18:30:00", //caso for null fzr algo
-            "name_org": "DeCA",
-            "total_people": 2,
-            "total_projetos": 3
-        }
-    ],
-    "coins": [
-        {
-            "id_coin": 1,
-            "name_coin": "coin1"
-        },
-        {
-            "id_coin": 3,
-            "name_coin": "coin2"
-        }
-    ]
-  }
 
 
   useEffect(() => {
-    const currentDateTime = new Date().getTime(); // hora atual
-    const voteStartDateTime = new Date(eventInfo.info[0].vote_start).getTime(); // hora inicio votacao
-    const voteEndDateTime = new Date(eventInfo.info[0].vote_end).getTime(); // hora fim votacao
+    if (eventInfo && eventInfo.info && eventInfo.info.length > 0) {
+      const currentDateTime = new Date().getTime(); // current time
+      const voteStartDateTime = eventInfo.info[0].vote_start
+          ? new Date(eventInfo.info[0].vote_start).getTime()
+          : null; // voting start time
+      const voteEndDateTime = eventInfo.info[0].vote_end
+          ? new Date(eventInfo.info[0].vote_end).getTime()
+          : null; // voting end time
 
-    if (currentDateTime >= voteStartDateTime && currentDateTime <= voteEndDateTime) {
-      setStatus('Open');
-      setImageSource(require("../assets/ongoing_green.png"));
-    } else {
-      setStatus('Closed');
-      setImageSource(require("../assets/Closed_red.png"));
+      if (voteStartDateTime && voteEndDateTime && currentDateTime >= voteStartDateTime && currentDateTime <= voteEndDateTime) {
+        setStatus('Open');
+        setImageSource(require("../assets/ongoing_green.png"));
+      } else {
+        setStatus('Closed');
+        setImageSource(require("../assets/Closed_red.png"));
+      }
     }
-  }, []);
+  }, [eventInfo]);
 
-
-  const walletData = {
-    teste_coin1: {
-      id: 1,
-      balance: 100,
-    },
-    teste_coin2: {
-      id: 2,
-      balance: 50,
-    },
-    teste_coin3: {
-      id: 2,
-      balance: 10,
-    },
-  };
 
 
   const panelRef = useRef(null);
   const dimensions = useWindowDimensions();
 
-  const endVotingTime = eventInfo.info[0].vote_end;
-
-  const endVoting = endVotingTime.split(' ')[1].slice(0, -3); // para receber so hora e minutos do fim da votacao
 
   return (
     <View style={styles.container}>
@@ -171,33 +150,40 @@ const Eventvoting = () => {
       />
     </View>
 
-          <Text style={styles.statustexttags}>
-            <Text style={styles.statusgrey}>Closes at:</Text> {endVoting}
-          </Text>
+          {status === 'Open' && (
+              <Text style={styles.statustexttags}>
+                <Text style={styles.statusgrey}>Closes at:</Text>{' '}
+                {eventInfo.info ? eventInfo.info[0].vote_end.split(' ')[1].slice(0, -3) : 'date'}
+              </Text>
+          )}
         </View>
         <View style={styles.wallet}>
   <View>
     <Text style={styles.wallettitle}>Your Wallet</Text>
-    {Object.keys(walletData).map((key, index) => {
-      const coin = walletData[key];
-      let coinImage;
+    {eventWallet && Object.keys(eventWallet).length > 0 ? (
+        Object.keys(eventWallet).map((key, index) => {
+          const coin = eventWallet[key];
+          let coinImage;
 
-      if (index === 0) {
-        coinImage = require(`../assets/coin.png`);
-      } else if (index === 1) {
-        coinImage = require(`../assets/coin_red.png`);
-      } else if (index === 2) {
-        coinImage = require(`../assets/coin_yellow.png`);
-      }
+          if (index === 0) {
+            coinImage = require(`../assets/coin.png`);
+          } else if (index === 1) {
+            coinImage = require(`../assets/coin_red.png`);
+          } else if (index === 2) {
+            coinImage = require(`../assets/coin_yellow.png`);
+          }
 
-      return (
-        <View key={index} style={styles.coindiv}>
-          <Image style={styles.coin_img_size} source={coinImage} />
-          <Text style={styles.cointitle}>{key}</Text>
-          <Text style={styles.coinvalue}>{coin.balance}</Text>
-        </View>
-      );
-    })}
+          return (
+              <View key={index} style={styles.coindiv}>
+                <Image style={styles.coin_img_size} source={coinImage} />
+                <Text style={styles.cointitle}>{key}</Text>
+                <Text style={styles.coinvalue}>{coin.balance}</Text>
+              </View>
+          );
+        })
+    ) : (
+        <Text style={{color:"white"}}>No coins available</Text>
+    )}
   </View>
   <View style={styles.walletContainer}>
     <Image source={require('../assets/wallet.png')} />
@@ -234,7 +220,7 @@ const Eventvoting = () => {
                   </TouchableOpacity>
               ))
           ) : (
-              <Text>No schedule available</Text>
+              <Text style={{color:"white"}}>No projects available for voting at the moment</Text>
           )}
         </ScrollView>
       </ImageBackground>
@@ -309,7 +295,8 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     width: 150,
     marginBottom: 20,
-  },  joinButtonText: {
+  },
+    joinButtonText: {
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
@@ -347,12 +334,13 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   projectimage: {
+    borderWidth: 1,
     height: 40,
     width: 40,
     borderRadius: 20,
     marginLeft: 20,
     marginRight: 10,
-    borderColor: "black",
+    borderColor: "#2F2E5F",
   },
   projects: {
     marginTop: 20,

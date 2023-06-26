@@ -65,7 +65,7 @@ const Eventschedule = () => {
                             </View>
                         ))
                     ) : (
-                        <Text>No schedule available</Text>
+                        <Text style={{color:"white"}}>No schedule available at the moment</Text>
                     )}
                 </ScrollView>
             </ImageBackground>

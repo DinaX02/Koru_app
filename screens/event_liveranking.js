@@ -20,7 +20,7 @@ const Eventliveranking = () => {
     const id_user = userInfo.id_user;
     const {eventId} = useContext(AuthContext);
 
-    useEffect(() => {
+    /*useEffect(() => {
         axios
             .get(
                 `${BASE_URL}/event/rank/${id_user}/${eventId}`,
@@ -41,7 +41,7 @@ const Eventliveranking = () => {
 
     useEffect(() => {
         console.log(eventRanking);
-    }, [eventRanking]);
+    }, [eventRanking]);*/
 
 
 

@@ -10,43 +10,40 @@ import {
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
-import {BASE_URL} from "../config";
-import {AuthContext} from "../context/AuthContext";
+import { BASE_URL } from "../config";
+import { AuthContext } from "../context/AuthContext";
 
 const Eventlist = () => {
     const navigation = useNavigation();
     const [events, setEvents] = useState([]);
-    const {userInfo} = useContext(AuthContext);
+    const { userInfo } = useContext(AuthContext);
     const token = userInfo.token;
     const id_user = userInfo.id_user;
-    const {evento} = useContext(AuthContext);
+    const { evento } = useContext(AuthContext);
 
     useEffect(() => {
-        axios
-            .get(
-                `${BASE_URL}/profile/events`,
-                {
-                    headers: {
-                        Authorization: token,
-                        id: id_user,
-                    },
+        axios.get(
+            `${BASE_URL}/profile/events`,
+            {
+                headers: {
+                    Authorization: token,
+                    id: id_user,
                 },
-    )
-    .then(res => {
-            setEvents(res.data);
-        })
+            }
+        )
+            .then(res => {
+                setEvents(res.data);
+            })
             .catch(e => {
                 console.log("error", e);
             });
     }, []);
 
     useEffect(() => {
-        console.log(events)
-    }, [events])
-
+        console.log(events);
+    }, [events]);
 
     const [filter, setFilter] = useState("active");
-
     const currentDate = new Date();
 
     const filteredEvents = events.filter((event) => {
@@ -83,7 +80,6 @@ const Eventlist = () => {
                 </View>
 
                 {/* filter */}
-
                 <View style={styles.filter}>
                     <View style={styles.listoptions}>
                         <TouchableOpacity onPress={() => setFilter("active")}>
@@ -116,27 +112,31 @@ const Eventlist = () => {
                 </View>
 
                 <ScrollView contentContainerStyle={styles.projects}>
-                    {filteredEvents.map((event, index) => (
-                        <TouchableOpacity
-                            key={index}
-                            onPress={() => {
-                                evento(event.id_event)
-                                navigation.navigate("Event", {
-                                    title: event.name_event, // Pass the title value as the parameter
-                                });
-                            }}
-                            style={styles.project}
-                        >
-                            <View style={styles.projectcontent}>
-                                <Image
-                                    style={styles.projectimage}
-                                    source={require("../assets/image_welcome.png")}
-                                />
-                                <Text>{event.name_event}</Text>
-                            </View>
-                            <View style={styles.circle} />
-                        </TouchableOpacity>
-                    ))}
+                    {filteredEvents.length === 0 ? (
+                        <Text style={{color:"white"}}>No events available, join one by scanning a QRcode</Text>
+                    ) : (
+                        filteredEvents.map((event, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => {
+                                    evento(event.id_event);
+                                    navigation.navigate("Event", {
+                                        title: event.name_event, // Pass the title value as the parameter
+                                    });
+                                }}
+                                style={styles.project}
+                            >
+                                <View style={styles.projectcontent}>
+                                    <Image
+                                        style={styles.projectimage}
+                                        source={require("../assets/image_welcome.png")}
+                                    />
+                                    <Text>{event.name_event}</Text>
+                                </View>
+                                <View style={styles.circle} />
+                            </TouchableOpacity>
+                        ))
+                    )}
                 </ScrollView>
 
                 {/* podium */}
