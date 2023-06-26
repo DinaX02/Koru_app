@@ -51,10 +51,6 @@ const Eventinfo = () => {
   }, []);
 
   useEffect(() => {
-    console.log(eventInfo);
-  }, [eventInfo]);
-
-  useEffect(() => {
     if (eventInfo.info && eventInfo.info.length > 0) {
       const startDate = new Date(eventInfo.info[0].start_date);
       const endDate = new Date(eventInfo.info[0].end_date);

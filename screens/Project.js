@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import {
   StyleSheet,
   View,
-  ImageBackground,
   Image,
   Text,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { useRoute } from "@react-navigation/native";
 
 import { useNavigation } from "@react-navigation/native";
 import PopUp from "../components/PopUp";
@@ -17,17 +17,14 @@ import { BASE_URL } from "../config";
 
 const Project = () => {
   // const [popupVisible, setPopupVisible] = useState(false);
-  const navigation = useNavigation();
-  const [projectName, setProjectName] = useState("Project");
-  const [projectDescription, setProjectDescription] = useState("Description...");
   const [popupVisible, setPopupVisible] = useState(false);
-  const [eventProjects, setEventProjects] = useState({});
   const [eventWallet, setEventWallet] = useState({});
   const { userInfo } = useContext(AuthContext);
   const token = userInfo.token;
   const id_user = userInfo.id_user;
   const { eventId } = useContext(AuthContext);
-
+  const route = useRoute();
+  const { projectName, projectDescription, projectLogo, projectId } = route.params;
 
 
   /*useEffect(() => {
@@ -35,9 +32,6 @@ const Project = () => {
   }, [eventProjects]);*/
 
 
-  useEffect(() => {
-    console.log(eventWallet);
-  }, [eventWallet]);
 
   const openPopup = () => {
     setPopupVisible(true);
@@ -98,13 +92,13 @@ const Project = () => {
     
         <View style={styles.imageContainer}>
           <Image
-            source={require("../assets/image_welcome.png")}
+              source={{ uri: `data:image/png;base64,${projectLogo}` }}
             style={styles.image}
           />
           <Text style={styles.title}>{projectName}</Text>
         </View>
 
-        <Text style={styles.sliderdescription}>dsdsadasdsadasdaddadaddadasdasdadadsadsadadsadadadsdsssddsdadadaddsdsadasdsadasdaddadaddadasdasdadadsadsadadsadadadsdsssddsdadadaddsdsadasdsadasdaddadaddadasdasdadadsadsadadsadadadsdsssddsdadadaddsdsadasdsadasdaddadaddadasdasdas</Text>
+        <Text style={styles.sliderdescription}>{projectDescription}</Text>
 
         <View style={styles.voteView}>
           <TouchableOpacity style={styles.voteButton} onPress={openPopup}>
@@ -152,6 +146,7 @@ const styles = StyleSheet.create({
   },
   sliderdescription: {
     width: "80%",
+    textAlign: "center",
   },
   walletContainer: {
     backgroundColor: "white",
@@ -203,12 +198,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 30,
     paddingHorizontal: 20,
+    borderWidth: 1,
+    borderRadius: 20,
+    borderColor: "#2F2E5F",
   },
   view: {
     flexDirection:"row",
     backgroundColor: "white",
-    borderWidth: 2,
-    borderColor: "#2F2E5F",
     borderBottomLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomRightRadius: 15,

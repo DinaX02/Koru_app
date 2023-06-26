@@ -1,5 +1,4 @@
-import React, { useState, useRef , useEffect, useContext} from "react";
-import BottomSheet from 'react-native-simple-bottom-sheet';
+import React, { useState, useEffect, useContext} from "react";
 import {
   View,
   ImageBackground,
@@ -8,10 +7,8 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  useWindowDimensions,
 } from "react-native";
 
-import PopUp from "../components/PopUp";
 import {AuthContext} from "../context/AuthContext";
 import axios from "axios";
 import {BASE_URL} from "../config";
@@ -25,7 +22,6 @@ const Eventvoting = () => {
   const [imageSource, setImageSource] = useState(require("../assets/ongoing_green.png"));
   const [projectName, setProjectName] = useState("Project");
   const [projectDescription, setProjectDescription] = useState("Description...");
-  const [popupVisible, setPopupVisible] = useState(false);
   const [eventProjects, setEventProjects] = useState({});
   const [eventWallet, setEventWallet] = useState({});
   const [eventInfo, setEventInfo] = useState({});
@@ -71,6 +67,9 @@ const Eventvoting = () => {
           console.log("error", e);
         });
   }, []);
+  useEffect(() => {
+    console.log(eventProjects);
+  }, [eventProjects]);
 
 
   useEffect(() => {
@@ -92,17 +91,6 @@ const Eventvoting = () => {
         });
   }, []);
 
-  useEffect(() => {
-    console.log(eventWallet);
-  }, [eventWallet]);
-
-  const openPopup = () => {
-    setPopupVisible(true);
-  };
-
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
 
 
 
@@ -126,10 +114,6 @@ const Eventvoting = () => {
     }
   }, [eventInfo]);
 
-
-
-  const panelRef = useRef(null);
-  const dimensions = useWindowDimensions();
 
 
   return (
@@ -197,9 +181,12 @@ const Eventvoting = () => {
                       onPress={() => {
                         setProjectName(project.name_project)
                         setProjectDescription(project.desc_project)
-                        //panelRef.current.togglePanel()
                         navigation.navigate("Vote", {
-                          title: project.name_project, // Pass the title value as the parameter
+                          title: project.name_project,
+                          projectName: project.name_project,
+                          projectDescription: project.desc_project,
+                          projectLogo: project.logo_project,
+                          projectId: project.id_project,
                         });
                       }}
                       style={styles.project}
@@ -224,38 +211,6 @@ const Eventvoting = () => {
           )}
         </ScrollView>
       </ImageBackground>
-      <BottomSheet
-          isOpen={false}
-          ref={ref => panelRef.current = ref}
-          sliderMaxHeight={dimensions.height - 300}
-      >
-          <ScrollView contentContainerStyle={{
-            width: "100%",
-            flexDirection: "column",
-            alignItems: "center",
-            paddingBottom: 75,
-          }}>
-            <Image
-              style={{
-                borderRadius: dimensions.width / 2,
-                width: dimensions.width * 0.2,
-                height: dimensions.width * 0.2,
-              }}
-              source={require("../assets/image_welcome.png")}
-            />
-            <Text style={styles.slidertitle}>{projectName}</Text>
-            <TouchableOpacity onPress={openPopup} style={styles.joinButton}>
-              <Text style={styles.joinButtonText}>Vote</Text>
-            </TouchableOpacity>
-            <Text style={styles.sliderdescription}>
-              {projectDescription}
-            </Text>
-            <Text style={styles.LinkVote}>
-
-            <Text style={styles.Linkbold}>Link: </Text>Koru_link.com</Text>
-        <PopUp visible={popupVisible} onClose={closePopup} />
-          </ScrollView>
-      </BottomSheet>
     </View>
   );
 };

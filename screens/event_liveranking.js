@@ -14,16 +14,17 @@ import axios from "axios";
 
 
 const Eventliveranking = () => {
-    const [eventRanking, setEventRanking] = useState({});
-    const {userInfo} = useContext(AuthContext);
+    const [eventRanking, setEventRanking] = useState([]);
+    const {eventId, userInfo} = useContext(AuthContext);
     const token = userInfo.token;
     const id_user = userInfo.id_user;
-    const {eventId} = useContext(AuthContext);
+    const [selectedCoin, setSelectedCoin] = useState("");
+    const [selectedCoinArray, setSelectedCoinArray] = useState([]);
 
-    /*useEffect(() => {
+    useEffect(() => {
         axios
             .get(
-                `${BASE_URL}/event/rank/${id_user}/${eventId}`,
+                `${BASE_URL}/event/rank/${eventId}`,
                 {
                     headers: {
                         Authorization: token,
@@ -32,7 +33,13 @@ const Eventliveranking = () => {
                 },
             )
             .then(res => {
-                setEventRanking(res.data);
+                const rankingData = res.data;
+                setEventRanking(rankingData);
+                if (rankingData.length > 0) {
+                    const firstCoin = rankingData[0];
+                    setSelectedCoin(firstCoin.name_coin);
+                    setSelectedCoinArray(firstCoin.projects);
+                }
             })
             .catch(e => {
                 console.log("error", e);
@@ -41,248 +48,138 @@ const Eventliveranking = () => {
 
     useEffect(() => {
         console.log(eventRanking);
-    }, [eventRanking]);*/
+    }, [eventRanking]);
 
 
-
-    const coin1 = [
-        {
-            "id_project": 2,
-            "amount": 1500,
-            "name_project": "Composto",
-            "logo_project": null
-        },
-        {
-            "id_project": 4,
-            "amount": 800,
-            "name_project": "Koru",
-            "logo_project": null
-        },
-        {
-            "id_project": 1,
-            "amount": 600,
-            "name_project": "Officium",
-            "logo_project": null
-        },
-        {
-            "id_project": 5,
-            "amount": 400,
-            "name_project": "Emme",
-            "logo_project": null
-        },
-        {
-            "id_project": 6,
-            "amount": 300,
-            "name_project": "Cultout",
-            "logo_project": null
-        }
-    ];
-
-    const coin2 = [
-        {
-            "id_project": 2,
-            "amount": 3500,
-            "name_project": "Composto",
-            "logo_project": null
-        },
-        {
-            "id_project": 6,
-            "amount": 2500,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 4,
-            "amount": 2200,
-            "name_project": "Koru",
-            "logo_project": null
-        },
-        {
-            "id_project": 5,
-            "amount": 1800,
-            "name_project": "Emme",
-            "logo_project": null
-        },
-        {
-            "id_project": 1,
-            "amount": 800,
-            "name_project": "Officium",
-            "logo_project": null
-        }
-    ];
-
-    const coin3 = [
-        {
-            "id_project": 4,
-            "amount": 4000,
-            "name_project": "Koru",
-            "logo_project": null
-        },
-        {
-            "id_project": 5,
-            "amount": 2200,
-            "name_project": "Emme",
-            "logo_project": null
-        },
-        {
-            "id_project": 2,
-            "amount": 2800,
-            "name_project": "Composto",
-            "logo_project": null
-        },
-        {
-            "id_project": 1,
-            "amount": 1600,
-            "name_project": "Officium",
-            "logo_project": null
-        },
-        {
-            "id_project": 6,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 7,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 8,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 9,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 10,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 11,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        },
-        {
-            "id_project": 12,
-            "amount": 1200,
-            "name_project": "Cultout",
-            "logo_project": null
-        }
-    ];
-
-
-
-
-    const [selectedCoin, setSelectedCoin] = useState("coin1");
-    const [selectedCoinArray, setSelectedCoinArray] = useState(coin1);// Initialize with coin1
 
     const handleFilterChange = (coin) => {
-        switch (coin) {
-            case "coin1":
-                setSelectedCoin("coin1");
-                setSelectedCoinArray(coin1);
-                break;
-            case "coin2":
-                setSelectedCoin("coin2");
-                setSelectedCoinArray(coin2);
-                break;
-            case "coin3":
-                setSelectedCoin("coin3");
-                setSelectedCoinArray(coin3);
-                break;
-            default:
-                setSelectedCoin();
-                setSelectedCoinArray([]);
-                break;
-        }
+        setSelectedCoin(coin.name_coin);
+        setSelectedCoinArray(coin.projects);
     };
 
     return (
         <View style={styles.container}>
                 {/* filter */}
                 <View style={styles.filter}>
-                    <TouchableOpacity onPress={() => handleFilterChange("coin1")}>
-                        <Text style={selectedCoin === "coin1" ? styles.filteroptionselected : styles.filteroption}>Public</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterChange("coin2")}>
-                        <Text style={selectedCoin === "coin2" ? styles.filteroptionselected : styles.filteroption}>Companies</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => handleFilterChange("coin3")}>
-                        <Text style={selectedCoin === "coin3" ? styles.filteroptionselected : styles.filteroption}>Directors</Text>
-                    </TouchableOpacity>
+                    {eventRanking &&
+                    eventRanking.map((coin, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => handleFilterChange(coin)}
+                        >
+                            <Text
+                                style={
+                                    selectedCoin === coin.name_coin
+                                        ? styles.filteroptionselected
+                                        : styles.filteroption
+                                }
+                            >
+                                {coin.name_coin}
+                            </Text>
+                        </TouchableOpacity>
+                    ))}
                 </View>
 
                 {/* podium */}
+            {selectedCoinArray.length > 0 && (
                 <View style={styles.podium}>
-                    <View style={styles.currentcoin}><Image style={styles.currentcoinimg} source={require("../assets/coin_red.png")}/></View>
-                    <View style={styles.podiumproject}>
-                        <Text style={[styles.podiumplace, { backgroundColor: "silver" }]}>2</Text>
+                    <View style={styles.currentcoin}>
                         <Image
-                            style={styles.podiumimage}
-                            source={require("../assets/img_1_slider_hp.png")}
+                            style={styles.currentcoinimg}
+                            source={
+                                selectedCoin === eventRanking[0].name_coin
+                                    ? require("../assets/coin.png")
+                                    : selectedCoin === eventRanking[1].name_coin
+                                    ? require("../assets/coin_red.png")
+                                    : selectedCoin === eventRanking[2].name_coin
+                                        ? require("../assets/coin_yellow.png")
+                                        : null
+                            }
                         />
-                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[1].name_project}</Text>
-                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[1].amount}</Text>
                     </View>
-                    <View style={styles.podiumproject1}>
-                        <Text style={[styles.podiumplace, { backgroundColor: "gold" }]}>1</Text>
-                        <Image
-                            style={styles.podiumimage}
-                            source={require("../assets/img_silder_2.png")}
-                        />
-                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[0].name_project}</Text>
-                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[0].amount}</Text>
-                    </View>
-                    <View style={styles.podiumproject}>
-                        <Text style={[styles.podiumplace, { backgroundColor: "#967444" }]}>3</Text>
-                        <Image
-                            style={styles.podiumimage}
-                            source={require("../assets/img_slider_3.png")}
-                        />
-                        <Text style={styles.podiumprojecttitle}>{selectedCoinArray[2].name_project}</Text>
-                        <Text style={styles.podiumprojectcoins}>{selectedCoinArray[2].amount}</Text>
-                    </View>
-
+                    {selectedCoinArray.length >= 2 && (
+                        <View style={styles.podiumproject}>
+                            <Text style={[styles.podiumplace, { backgroundColor: "silver" }]}>
+                                2
+                            </Text>
+                            <Image
+                                style={styles.podiumimage}
+                                source={{ uri: `data:image/png;base64,${selectedCoinArray[1].logo_project}` }}
+                            />
+                            <Text style={styles.podiumprojecttitle}>
+                                {selectedCoinArray[1].name_project}
+                            </Text>
+                            <Text style={styles.podiumprojectcoins}>
+                                {selectedCoinArray[1].amount_sum}
+                            </Text>
+                        </View>
+                    )}
+                    {selectedCoinArray.length >= 1 && (
+                        <View style={styles.podiumproject1}>
+                            <Text style={[styles.podiumplace, { backgroundColor: "gold" }]}>1</Text>
+                            <Image
+                                style={styles.podiumimage}
+                                source={{ uri: `data:image/png;base64,${selectedCoinArray[0].logo_project}` }}
+                            />
+                            <Text style={styles.podiumprojecttitle}>
+                                {selectedCoinArray[0].name_project}
+                            </Text>
+                            <Text style={styles.podiumprojectcoins}>
+                                {selectedCoinArray[0].amount_sum}
+                            </Text>
+                        </View>
+                    )}
+                    {selectedCoinArray.length >= 3 && (
+                        <View style={styles.podiumproject}>
+                            <Text style={[styles.podiumplace, { backgroundColor: "#967444" }]}>
+                                3
+                            </Text>
+                            <Image
+                                style={styles.podiumimage}
+                                source={{ uri: `data:image/png;base64,${selectedCoinArray[2].logo_project}` }}
+                            />
+                            <Text style={styles.podiumprojecttitle}>
+                                {selectedCoinArray[2].name_project}
+                            </Text>
+                            <Text style={styles.podiumprojectcoins}>
+                                {selectedCoinArray[2].amount_sum}
+                            </Text>
+                        </View>
+                    )}
                 </View>
+            )}
 
                 <ScrollView contentContainerStyle={styles.projects}>
-                    {selectedCoinArray.slice(3).map((project, index) => {
-                        const i = index + 4;
-                        return (
-                            <View
-                                key={project.id_project}
-                                style={styles.project}
-                            >
-                                <View style={styles.project_info}>
-                                    <Text
-                                        style={{
-                                            width: 30,
-                                            textAlign: "center",
-                                            marginRight: 15,
-                                            color: "grey",
-                                            fontWeight: 800,
-                                        }}
-                                    >{i}</Text>
-                                    <Image
-                                        style={styles.projectimage}
-                                        source={require("../assets/image_welcome.png")}
-                                    />
-                                    <Text>{project.name_project}</Text>
+                    {selectedCoinArray && selectedCoinArray.length > 0 && selectedCoinArray.slice(3).length > 0 ? (
+                        selectedCoinArray.slice(3).map((project, index) => {
+                            const i = index + 4;
+                            return (
+                                <View key={project.id_project} style={styles.project}>
+                                    <View style={styles.project_info}>
+                                        <Text
+                                            style={{
+                                                width: 30,
+                                                textAlign: "center",
+                                                marginRight: 15,
+                                                color: "grey",
+                                                fontWeight: 800,
+                                            }}
+                                        >
+                                            {i}
+                                        </Text>
+                                        <Image
+                                            style={styles.projectimage}
+                                            source={{ uri: `data:image/png;base64,${project.logo_project}` }}
+                                        />
+                                        <Text>{project.name_project}</Text>
+                                    </View>
+                                    <Text>{project.amount_sum}</Text>
                                 </View>
-                                <Text>{project.amount}</Text>
-                            </View>
-                        );
-                    })}
+                            );
+                        })
+                    ) : (
+                        <Text>{selectedCoinArray && selectedCoinArray.length === 0 ? "No projects available" : "No more projects"}</Text>
+                    )}
                 </ScrollView>
         </View>
     );

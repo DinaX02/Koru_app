@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="project page">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="event voting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
@@ -101,7 +102,10 @@
       <workItem from="1687566253366" duration="7909000" />
       <workItem from="1687620774632" duration="2283000" />
       <workItem from="1687647978404" duration="11533000" />
-      <workItem from="1687705901850" duration="21479000" />
+      <workItem from="1687705901850" duration="23763000" />
+      <workItem from="1687754006158" duration="1725000" />
+      <workItem from="1687788568438" duration="5432000" />
+      <workItem from="1687797661457" duration="3414000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -229,7 +233,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687732029771</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="event voting">
+      <created>1687745907945</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1687745907945</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -264,6 +275,7 @@
     <MESSAGE value="update" />
     <MESSAGE value="event info" />
     <MESSAGE value="project page" />
-    <option name="LAST_COMMIT_MESSAGE" value="project page" />
+    <MESSAGE value="event voting" />
+    <option name="LAST_COMMIT_MESSAGE" value="event voting" />
   </component>
 </project>

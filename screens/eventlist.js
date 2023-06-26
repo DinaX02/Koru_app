@@ -129,7 +129,7 @@ const Eventlist = () => {
                                 <View style={styles.projectcontent}>
                                     <Image
                                         style={styles.projectimage}
-                                        source={require("../assets/image_welcome.png")}
+                                        source={{ uri: `data:image/png;base64,${event.logo_event}` }}
                                     />
                                     <Text>{event.name_event}</Text>
                                 </View>
