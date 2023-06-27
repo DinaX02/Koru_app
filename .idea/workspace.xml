@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="qr code">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_20_2023_4_31_PM_[Default_Changelist]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_6_20_2023_4_31_PM__Default_Changelist_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/components/PopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PopUp.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/QrCodeReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/QrCodeReader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/Joinevent.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Joinevent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/ScanQrCode.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/ScanQrCode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +108,10 @@
       <workItem from="1687788568438" duration="5432000" />
       <workItem from="1687797661457" duration="3438000" />
       <workItem from="1687815970275" duration="1544000" />
-      <workItem from="1687820023134" duration="7333000" />
+      <workItem from="1687820023134" duration="7466000" />
+      <workItem from="1687861142913" duration="3141000" />
+      <workItem from="1687880942775" duration="2437000" />
+      <workItem from="1687887972344" duration="9152000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -251,7 +253,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687805212401</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="qr code">
+      <created>1687828622860</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1687828622860</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -287,6 +296,7 @@
     <MESSAGE value="project page" />
     <MESSAGE value="event voting" />
     <MESSAGE value="live_ranking" />
-    <option name="LAST_COMMIT_MESSAGE" value="live_ranking" />
+    <MESSAGE value="qr code" />
+    <option name="LAST_COMMIT_MESSAGE" value="qr code" />
   </component>
 </project>

@@ -92,11 +92,9 @@ const styles = StyleSheet.create({
         fontWeight: 800,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
+        borderRadius: 8,
         marginRight: 20,
+        overflow: 'hidden',
     },
     timestamp:{
         width: "80%",

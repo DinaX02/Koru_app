@@ -105,7 +105,11 @@ const Project = () => {
           </TouchableOpacity>
         </View>
 
-        <PopUp visible={popupVisible} onClose={closePopup} />
+         <PopUp
+             visible={popupVisible}
+             onClose={closePopup}
+             eventWallet={eventWallet}
+         />
 
  </ScrollView>
 
