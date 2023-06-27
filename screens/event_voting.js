@@ -187,7 +187,7 @@ const Eventvoting = () => {
                           projectDescription: project.desc_project,
                           projectLogo: project.logo_project,
                           projectId: project.id_project,
-                        });
+                        })
                       }}
                       style={styles.project}
                   >

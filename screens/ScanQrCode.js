@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   ImageBackground,
@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Dimensions,SafeAreaView
 } from "react-native";
 
 import QrCodeReader from "../components/QrCodeReader";
@@ -15,7 +14,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const ScanQrCode = () => {
 
-  const { height, width } = Dimensions.get("window");
 
   const navigation = useNavigation();
 

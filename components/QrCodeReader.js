@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, Linking } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { useNavigation } from '@react-navigation/native';
 
 export default function QrCodeReader() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [qrData, setQrData] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -16,19 +18,21 @@ export default function QrCodeReader() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    setQrData(data);
-    handleRedirection(data);
+    const qrDataObject = JSON.parse(data);
+    setQrData(qrDataObject);
   };
-
-  const handleRedirection = (data) => {
-    if (data.startsWith('http://') || data.startsWith('https://')) {
-      // Redirecionar para uma URL
-      Linking.openURL(data);
-    } else {
-      // Executar outra ação com base no conteúdo do QR Code
-      alert(`Scanned QR code: ${data}`);
+  useEffect(() => {
+    if (qrData !== '') {
+      navigation.navigate("Join", {
+        eventName: qrData.event_name,
+        coinType: qrData.coin_type,
+        amount: qrData.amount,
+        tokens: qrData.tokens,
+      })
     }
-  };
+  }, [qrData]);
+
+
 
   const handleScanAgain = () => {
     setScanned(false);

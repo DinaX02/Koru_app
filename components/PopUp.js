@@ -91,7 +91,7 @@ const PopUp = ({ visible, onClose }) => {
   };
 
   
- handleTransactionClose = () => {
+ const handleTransactionClose = () => {
     setTransactionVisible(false);
     onClose();
   };

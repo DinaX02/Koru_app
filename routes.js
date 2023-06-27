@@ -19,6 +19,7 @@ import Eventschedule from './screens/event_schedule';
 import Eventvoting from './screens/event_voting';
 import ScanQrCode from './screens/ScanQrCode';
 import Loading from './screens/animationINTRO';
+import JoinEventAfterScan from "./screens/Joinevent";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -224,6 +225,7 @@ const Routes = () => (
             <Stack.Screen name="Welcome" component={WelcomeStackScreen} />
             <Stack.Screen name="Home" component={Tabs} />
             <Stack.Screen name="ScanQrCode" component={ScanQrCode} />
+            <Stack.Screen name="Join" component={JoinEventAfterScan} />
         </Stack.Navigator>
     </NavigationContainer>
 );

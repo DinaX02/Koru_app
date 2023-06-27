@@ -26,10 +26,24 @@ const Project = () => {
   const route = useRoute();
   const { projectName, projectDescription, projectLogo, projectId } = route.params;
 
-
-  /*useEffect(() => {
-    console.log(eventProjects);
-  }, [eventProjects]);*/
+  useEffect(() => {
+    axios
+        .get(
+            `${BASE_URL}/event/balance/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            },
+        )
+        .then(res => {
+          setEventWallet(res.data);
+        })
+        .catch(e => {
+          console.log("error", e);
+        });
+  }, []);
 
 
 
@@ -41,53 +55,38 @@ const Project = () => {
     setPopupVisible(false);
   };
 
-  const coinsData = {
-    teste_coin1: {
-      id: 1,
-      balance: 100,
-    },
-    teste_coin2: {
-      id: 2,
-      balance: 50,
-    },
-    teste_coin3: {
-      id: 2,
-      balance: 10,
-    },
-  };
-
-  
-  const renderCoins = () => {
-    return Object.values(coinsData).map((coin, index) => {
-      let coinImage;
-
-      if (index === 0) {
-        coinImage = require('../assets/coin.png');
-      } else if (index === 1) {
-        coinImage = require('../assets/coin_red.png');
-      } else if (index === 2) {
-        coinImage = require('../assets/coin_yellow.png');
-      }
-
-      return (
-        <View style={styles.view} key={index}>
-          <Image
-            source={coinImage}
-            style={styles.img_coins_vote}
-          />
-          <Text style={styles.viewText}>{coin.balance}</Text>
-        </View>
-      );
-    });
-  };
-
   return (
    
       
        <ScrollView contentContainerStyle={styles.container}>
 
 <View style={styles.viewsContainer}>
-      {renderCoins()}
+  {eventWallet && Object.keys(eventWallet).length > 0 ? (
+      Object.keys(eventWallet).map((key, index) => {
+        const coin = eventWallet[key];
+        let coinImage;
+
+        if (index === 0) {
+          coinImage = require(`../assets/coin.png`);
+        } else if (index === 1) {
+          coinImage = require(`../assets/coin_red.png`);
+        } else if (index === 2) {
+          coinImage = require(`../assets/coin_yellow.png`);
+        }
+
+        return (
+            <View style={styles.view} key={index}>
+              <Image
+                  source={coinImage}
+                  style={styles.img_coins_vote}
+              />
+              <Text style={styles.viewText}>{coin.balance}</Text>
+            </View>
+        );
+      })
+  ) : (
+      <Text style={{color:"white"}}>No coins available</Text>
+  )}
     </View>
     
         <View style={styles.imageContainer}>

@@ -7,22 +7,28 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const JoinEventAfterScan = ({navigation}) => {
+const JoinEventAfterScan = () => {
+
+  const navigation = useNavigation();
+  const route = useRoute();
+  const { eventName, coinType, amount, tokens } = route.params;
+
   return (
     <ImageBackground
       source={require("../assets/background.png")}
       style={styles.backgroundImage}
       imageStyle={styles.imageStyle}
     >
-      <View style={styles.logoutBtn}>
-        <TouchableOpacity
-         onPress={() => navigation.goBack()} >
+      <View>
+        <TouchableOpacity style={styles.logoutBtn}   onPress={() => navigation.goBack()}>
           <Image
-            style={styles.logOut}
-            source={require("../assets/seta_back.png")}
+              style={styles.logOut}
+              source={require("../assets/seta_back.png")}
           />
         </TouchableOpacity>
+
       </View>
 
       <View style={styles.logoContainer}>
@@ -42,13 +48,10 @@ const JoinEventAfterScan = ({navigation}) => {
           </View>
         </View>
 
-        <Text style={styles.eventName}>Event Name</Text>
+        <Text style={styles.eventName}>{eventName}</Text>
 
         <Text style={styles.eventDescription}>
-          Media Play is an event organized by DeCA, where the students present
-          the best projects developed in the DeCA's Communication Sciences and
-          Technologies courses, covering all study cycles. All the projects were
-          selected by a jury, based on the proposals presented by the students.
+          Join {eventName} with {amount} {coinType} coins?
         </Text>
 
         <TouchableOpacity style={styles.joinButton}>
@@ -118,11 +121,11 @@ const styles = StyleSheet.create({
   },
   eventDescription: {
     marginTop: 20,
+    fontSize: 18,
     width: "100%",
-    textAlign: "left",
+    textAlign: "center",
   },
   logoutBtn: {
-    position: "absolute",
     top: 20,
     left: 20,
   },

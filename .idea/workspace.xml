@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="event voting">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="live_ranking">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/PopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PopUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/QrCodeReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/QrCodeReader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Joinevent.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Joinevent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_info.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_info.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/ScanQrCode.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/ScanQrCode.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +107,9 @@
       <workItem from="1687705901850" duration="23763000" />
       <workItem from="1687754006158" duration="1725000" />
       <workItem from="1687788568438" duration="5432000" />
-      <workItem from="1687797661457" duration="3414000" />
+      <workItem from="1687797661457" duration="3438000" />
+      <workItem from="1687815970275" duration="1544000" />
+      <workItem from="1687820023134" duration="7333000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -240,7 +244,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687745907945</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="live_ranking">
+      <created>1687805212401</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1687805212401</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -265,7 +276,6 @@
     <MESSAGE value="schedule" />
     <MESSAGE value="Ligações entre outras coisas" />
     <MESSAGE value="event_list" />
-    <MESSAGE value="live_ranking" />
     <MESSAGE value="live_ranking update" />
     <MESSAGE value="login start" />
     <MESSAGE value="auth" />
@@ -276,6 +286,7 @@
     <MESSAGE value="event info" />
     <MESSAGE value="project page" />
     <MESSAGE value="event voting" />
-    <option name="LAST_COMMIT_MESSAGE" value="event voting" />
+    <MESSAGE value="live_ranking" />
+    <option name="LAST_COMMIT_MESSAGE" value="live_ranking" />
   </component>
 </project>
