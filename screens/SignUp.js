@@ -33,6 +33,11 @@ const SignUp = () => {
       return;
     }
 
+    if (hasSpecialCharacters(username) || hasSpecialCharacters(password)) {
+      setErrorMessage("Username and password should not contain special characters");
+      return;
+    }
+
     signUp(username, email, password)
         .then(() => {
           navigation.navigate('Home');
@@ -41,6 +46,10 @@ const SignUp = () => {
           setErrorMessage("Invalid username or email address");
         });
   };
+const hasSpecialCharacters = (str) => {
+  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  return specialCharsRegex.test(str);
+};
 
   const validateEmail = (email) => {
     const emailRegex = /\S+@\S+\.\S+/;
