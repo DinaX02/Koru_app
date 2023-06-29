@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   ImageBackground,
@@ -9,12 +9,10 @@ import {
   ScrollView,
 } from "react-native";
 
-import {AuthContext} from "../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-import {BASE_URL} from "../config";
-import {useNavigation} from "@react-navigation/native";
-
-
+import { BASE_URL } from "../config";
+import { useNavigation } from "@react-navigation/native";
 
 const Eventvoting = () => {
   const navigation = useNavigation();
@@ -25,77 +23,87 @@ const Eventvoting = () => {
   const [eventProjects, setEventProjects] = useState({});
   const [eventWallet, setEventWallet] = useState({});
   const [eventInfo, setEventInfo] = useState({});
-  const {userInfo} = useContext(AuthContext);
+  const { userInfo } = useContext(AuthContext);
   const token = userInfo.token;
   const id_user = userInfo.id_user;
-  const {eventId} = useContext(AuthContext);
+  const { eventId } = useContext(AuthContext);
 
-  useEffect(() => {
-    axios
-        .get(
-            `${BASE_URL}/event/info/${eventId}`,
-            {
-              headers: {
-                Authorization: token,
-                id: id_user,
-              },
-            },
-        )
+  const fetchEventInfo = () => {
+    axios.get(
+        `${BASE_URL}/event/info/${eventId}`,
+        {
+          headers: {
+            Authorization: token,
+            id: id_user,
+          },
+        }
+    )
         .then(res => {
           setEventInfo(res.data);
         })
         .catch(e => {
           console.log("error", e);
         });
-  }, []);
+  };
 
-  useEffect(() => {
-    axios
-        .get(
-            `${BASE_URL}/event/projects/${eventId}`,
-            {
-              headers: {
-                Authorization: token,
-                id: id_user,
-              },
-            },
-        )
+  const fetchEventProjects = () => {
+    axios.get(
+        `${BASE_URL}/event/projects/${eventId}`,
+        {
+          headers: {
+            Authorization: token,
+            id: id_user,
+          },
+        }
+    )
         .then(res => {
           setEventProjects(res.data);
         })
         .catch(e => {
           console.log("error", e);
         });
-  }, []);
-  useEffect(() => {
-    console.log(eventProjects);
-  }, [eventProjects]);
+  };
 
-
-  useEffect(() => {
-    axios
-        .get(
-            `${BASE_URL}/event/balance/${eventId}`,
-            {
-              headers: {
-                Authorization: token,
-                id: id_user,
-              },
-            },
-        )
+  const fetchEventWallet = () => {
+    axios.get(
+        `${BASE_URL}/event/balance/${eventId}`,
+        {
+          headers: {
+            Authorization: token,
+            id: id_user,
+          },
+        }
+    )
         .then(res => {
           setEventWallet(res.data);
         })
         .catch(e => {
           console.log("error", e);
         });
-  }, []);
-
-
-
+  };
 
   useEffect(() => {
-    if (eventInfo && eventInfo.info && eventInfo.info.length > 0) {
+    fetchEventInfo();
+    fetchEventProjects();
+    fetchEventWallet();
+
+    const interval = setInterval(() => {
+      fetchEventInfo();
+      fetchEventProjects();
+      fetchEventWallet();
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+        eventInfo &&
+        eventInfo.info &&
+        eventInfo.info.length > 0
+    ) {
       const currentDateTime = new Date().getTime(); // current time
       const voteStartDateTime = eventInfo.info[0].vote_start
           ? new Date(eventInfo.info[0].vote_start).getTime()
@@ -104,7 +112,12 @@ const Eventvoting = () => {
           ? new Date(eventInfo.info[0].vote_end).getTime()
           : null; // voting end time
 
-      if (voteStartDateTime && voteEndDateTime && currentDateTime >= voteStartDateTime && currentDateTime <= voteEndDateTime) {
+      if (
+          voteStartDateTime &&
+          voteEndDateTime &&
+          currentDateTime >= voteStartDateTime &&
+          currentDateTime <= voteEndDateTime
+      ) {
         setStatus('Open');
         setImageSource(require("../assets/ongoing_green.png"));
       } else {
@@ -149,11 +162,11 @@ const Eventvoting = () => {
           const coin = eventWallet[key];
           let coinImage;
 
-          if (index === 0) {
+          if (coin.color === 1) {
             coinImage = require(`../assets/coin.png`);
-          } else if (index === 1) {
+          } else if (coin.color === 2) {
             coinImage = require(`../assets/coin_red.png`);
-          } else if (index === 2) {
+          } else if (coin.color === 3) {
             coinImage = require(`../assets/coin_yellow.png`);
           }
 

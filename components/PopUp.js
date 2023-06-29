@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
     Modal,
     View,
@@ -6,15 +6,49 @@ import {
     Text,
     StyleSheet,
     Image,
+    TextInput,
+    ActivityIndicator,
 } from "react-native";
+import {AuthContext} from "../context/AuthContext";
+import axios from "axios";
+import {BASE_URL} from "../config";
 
-const PopUp = ({ visible, onClose, eventWallet }) => {
+const PopUp = ({ visible, onClose, nameProject, idProject }) => {
+    const [eventWallet, setEventWallet] = useState({});
     const [amount, setAmount] = useState(0);
-    const [maxAmount, setMaxAmount] = useState(100);
+    const [maxAmount, setMaxAmount] = useState();
     const [buttonSelected, setButtonSelected] = useState("");
     const [confirmVisible, setConfirmVisible] = useState(false);
     const [transactionVisible, setTransactionVisible] = useState(false);
-    const [PossibleVote, setPossibleVote] = useState(false); // pode votar ou n
+    const [PossibleVote, setPossibleVote] = useState(false);
+    const [notEnoughCoins, setNotEnoughCoins] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const {userInfo, eventId} = useContext(AuthContext);
+    const token = userInfo.token;
+    const id_user = userInfo.id_user;
+
+    const fetchEventWallet = () => {
+        axios
+            .get(
+                `${BASE_URL}/event/balance/${eventId}`,
+                {
+                    headers: {
+                        Authorization: token,
+                        id: id_user,
+                    },
+                },
+            )
+            .then(res => {
+                setEventWallet(res.data);
+            })
+            .catch(e => {
+                console.log("error", e);
+            });
+    };
+
+    useEffect(() => {
+        fetchEventWallet()
+    }, []);
 
     useEffect(() => {
         if (!visible) {
@@ -24,16 +58,24 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
     }, [visible]);
 
     useEffect(() => {
-        // Verificar se a quantidade é maior que 0 e pelo menos um botão foi selecionado
         if (amount > 0 && buttonSelected !== "") {
-            setPossibleVote(true); // Habilitar o botão de voto
+            setPossibleVote(true);
         } else {
-            setPossibleVote(false); // Desabilitar o botão de voto
+            setPossibleVote(false);
         }
     }, [amount, buttonSelected]);
 
+    useEffect(() => {
+        if (amount > maxAmount) {
+            setNotEnoughCoins(true);
+        } else {
+            setNotEnoughCoins(false);
+        }
+    }, [amount, maxAmount]);
+
+
     const increaseAmount = () => {
-        if (amount < maxAmount && buttonSelected !== "") {
+        if (buttonSelected !== "") {
             setAmount(amount + 1);
         }
     };
@@ -62,7 +104,31 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
 
     const handleVote = () => {
         setConfirmVisible(false);
-        setTransactionVisible(true);
+        setLoading(true); // Start the loading animation
+
+        const requestData = {
+            amount: amount,
+            project: idProject,
+            coin: buttonSelected,
+        };
+
+        const requestConfig = {
+            headers: {
+                Authorization: token,
+                id: id_user,
+            },
+        };
+
+        axios.post(`${BASE_URL}/event/vote/${eventId}`, requestData, requestConfig)
+            .then(response => {
+                setLoading(false);
+                fetchEventWallet();
+                setTransactionVisible(true);
+            })
+            .catch(error => {
+                setLoading(false); // Stop the loading animation
+                console.error('Error:', error);
+            });
     };
 
     const handleTransactionClose = () => {
@@ -82,7 +148,7 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                             />
                         </TouchableOpacity>
 
-                        <Text style={styles.textProj}>Voting on Koru</Text>
+                        <Text style={styles.textProj}>Voting on {nameProject}</Text>
                         <Text style={styles.textSelectaCoin}>Please select a coin</Text>
                         <View style={styles.rowContainer}>
                             <Text style={styles.popupText}>Coin:</Text>
@@ -102,10 +168,24 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                                             styles.maxAmountButtonSelected,
                                         ]}
                                     >
-                                        <Image
-                                            style={styles.img_coins_vote}
-                                            source={require("../assets/coin.png")}
-                                        />
+                                        {index === 0 && (
+                                            <Image
+                                                style={styles.img_coins_vote}
+                                                source={require("../assets/coin.png")}
+                                            />
+                                        )}
+                                        {index === 1 && (
+                                            <Image
+                                                style={styles.img_coins_vote}
+                                                source={require("../assets/coin_red.png")}
+                                            />
+                                        )}
+                                        {index === 2 && (
+                                            <Image
+                                                style={styles.img_coins_vote}
+                                                source={require("../assets/coin_yellow.png")}
+                                            />
+                                        )}
                                         <Text
                                             style={[
                                                 styles.maxAmountButtonText,
@@ -129,7 +209,18 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                                 >
                                     <Text style={styles.amountButtonText}>-</Text>
                                 </TouchableOpacity>
-                                <Text style={styles.amountText}>{amount}</Text>
+                                <TextInput
+                                    style={styles.amountText}
+                                    value={amount.toString()}
+                                    onChangeText={(value) => {
+                                        const numericValue = parseInt(value);
+                                        if (!isNaN(numericValue) && numericValue >= 0) {
+                                            setAmount(numericValue);
+                                        }
+                                    }}
+                                    keyboardType="numeric"
+                                    editable={PossibleVote}
+                                />
                                 <TouchableOpacity
                                     onPress={increaseAmount}
                                     style={styles.amountButton}
@@ -138,14 +229,20 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
+                        {notEnoughCoins && (
+                            <Text style={{textAlign: "center"}}>
+                                Not enough coins. Please select a lower amount.
+                            </Text>
+                        )}
                         <View style={styles.viewButton}>
                             <TouchableOpacity
                                 onPress={showConfirmation}
                                 style={[
                                     styles.voteButton,
                                     !PossibleVote && styles.voteButtonDisabled,
+                                    notEnoughCoins && styles.voteButtonDisabled,
                                 ]}
-                                disabled={!PossibleVote}
+                                disabled={!PossibleVote || notEnoughCoins}
                             >
                                 <Text style={styles.voteButtonText}>Vote</Text>
                             </TouchableOpacity>
@@ -159,7 +256,7 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                 <View style={styles.container}>
                     <View style={styles.popup2}>
                         <Text style={styles.confirmationText}>
-                            Are you sure you want to invest {amount} coins in Koru?
+                            Are you sure you want to invest {amount} coins in {nameProject}?
                         </Text>
                         <View style={styles.confirmationButtonsContainer}>
                             <TouchableOpacity
@@ -199,6 +296,12 @@ const PopUp = ({ visible, onClose, eventWallet }) => {
                     </View>
                 </View>
             </Modal>
+            {loading && (
+                <View style={styles.loadingContainer}>
+                    {/* Replace this with your loading animation component */}
+                    <ActivityIndicator size="large" color="#2F2E5F" />
+                </View>
+            )}
         </>
     );
 };

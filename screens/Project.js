@@ -53,6 +53,22 @@ const Project = () => {
 
   const closePopup = () => {
     setPopupVisible(false);
+    axios
+        .get(
+            `${BASE_URL}/event/balance/${eventId}`,
+            {
+              headers: {
+                Authorization: token,
+                id: id_user,
+              },
+            }
+        )
+        .then((res) => {
+          setEventWallet(res.data);
+        })
+        .catch((e) => {
+          console.log("error", e);
+        });
   };
 
   return (
@@ -108,7 +124,8 @@ const Project = () => {
          <PopUp
              visible={popupVisible}
              onClose={closePopup}
-             eventWallet={eventWallet}
+             nameProject = {projectName}
+             idProject = {projectId}
          />
 
  </ScrollView>

@@ -8,49 +8,67 @@ import {
     Image,
     ScrollView,
 } from "react-native";
-import {BASE_URL} from "../config";
-import {AuthContext} from "../context/AuthContext";
+import { BASE_URL } from "../config";
+import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
-
 
 const Eventliveranking = () => {
     const [eventRanking, setEventRanking] = useState([]);
-    const {eventId, userInfo} = useContext(AuthContext);
+    const { eventId, userInfo } = useContext(AuthContext);
     const token = userInfo.token;
     const id_user = userInfo.id_user;
     const [selectedCoin, setSelectedCoin] = useState("");
     const [selectedCoinArray, setSelectedCoinArray] = useState([]);
 
-    useEffect(() => {
+    const fetchEventRanking = () => {
         axios
-            .get(
-                `${BASE_URL}/event/rank/${eventId}`,
-                {
-                    headers: {
-                        Authorization: token,
-                        id: id_user,
-                    },
+            .get(`${BASE_URL}/event/rank/${eventId}`, {
+                headers: {
+                    Authorization: token,
+                    id: id_user,
                 },
-            )
-            .then(res => {
+            })
+            .then((res) => {
                 const rankingData = res.data;
                 setEventRanking(rankingData);
-                if (rankingData.length > 0) {
-                    const firstCoin = rankingData[0];
-                    setSelectedCoin(firstCoin.name_coin);
-                    setSelectedCoinArray(firstCoin.projects);
-                }
             })
-            .catch(e => {
+            .catch((e) => {
                 console.log("error", e);
             });
+    };
+
+    useEffect(() => {
+        if (eventRanking.length > 0) {
+            const firstCoin = eventRanking[0];
+            if(selectedCoin === "" ){
+                setSelectedCoin(firstCoin.name_coin);
+                setSelectedCoinArray(firstCoin.projects);
+            } else{
+                const updatedSelectedCoin = eventRanking.find(
+                    (coin) => coin.name_coin === selectedCoin
+                );
+                if (updatedSelectedCoin) {
+                    setSelectedCoinArray(updatedSelectedCoin.projects);
+                }
+            }
+        }
+    }, [eventRanking]);
+
+    useEffect(() => {
+        fetchEventRanking();
+
+        const interval = setInterval(() => {
+            fetchEventRanking();
+        }, 5000);
+
+        return () => {
+            clearInterval(interval);
+        };
     }, []);
 
     useEffect(() => {
         console.log(eventRanking);
     }, [eventRanking]);
-
-
 
     const handleFilterChange = (coin) => {
         setSelectedCoin(coin.name_coin);
@@ -87,11 +105,11 @@ const Eventliveranking = () => {
                         <Image
                             style={styles.currentcoinimg}
                             source={
-                                selectedCoin === eventRanking[0].name_coin
+                                eventRanking.find(coin => coin.name_coin === selectedCoin)?.color === 1
                                     ? require("../assets/coin.png")
-                                    : selectedCoin === eventRanking[1].name_coin
+                                    : eventRanking.find(coin => coin.name_coin === selectedCoin)?.color === 2
                                     ? require("../assets/coin_red.png")
-                                    : selectedCoin === eventRanking[2].name_coin
+                                    : eventRanking.find(coin => coin.name_coin === selectedCoin)?.color === 3
                                         ? require("../assets/coin_yellow.png")
                                         : null
                             }
