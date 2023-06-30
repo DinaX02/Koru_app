@@ -40,15 +40,9 @@ const Eventschedule = () => {
             });
     }, []);
 
-    useEffect(() => {
-        console.log(eventSchedule);
-    }, [eventSchedule]);
 
     return (
-
         <View style={styles.container}>
-
-
             <ImageBackground
                 source={require("../assets/background.png")}
                 style={styles.backgroundImage}
@@ -56,25 +50,39 @@ const Eventschedule = () => {
                 <ScrollView contentContainerStyle={styles.scroll}>
                     {eventSchedule && eventSchedule.length > 0 ? (
                         eventSchedule.map((schedule, index) => (
-                            <View style={styles.timestamp} key={index}>
+                            <View
+                                style={[
+                                    styles.timestamp,
+                                    index === eventSchedule.length - 1 && styles.lastTimestamp,
+                                ]}
+                                key={index}
+                            >
                                 <Text style={styles.number}>{index + 1}</Text>
                                 <View>
-                                    <Text style={styles.hour}>{schedule.date_schedule ? schedule.date_schedule.split(' ')[1]?.slice(0, -3) : ""}</Text>
+                                    <Text style={styles.hour}>
+                                        {schedule.date_schedule
+                                            ? schedule.date_schedule.split(" ")[1]?.slice(0, -3)
+                                            : ""}
+                                    </Text>
                                     <Text style={styles.task}>{schedule.name_schedule}</Text>
                                 </View>
                             </View>
                         ))
                     ) : (
-                        <Text style={{color:"white"}}>No schedule available at the moment</Text>
+                        <Text style={{ color: "white" }}>
+                            No schedule available at the moment
+                        </Text>
                     )}
                 </ScrollView>
             </ImageBackground>
         </View>
-
     );
 };
 
 const styles = StyleSheet.create({
+    lastTimestamp: {
+        borderBottomWidth: 0,
+    },
     task:{
         color: "whitesmoke",
         fontWeight: 700,

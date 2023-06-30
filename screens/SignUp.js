@@ -130,6 +130,9 @@ const hasSpecialCharacters = (str) => {
   );
 };
 const styles = StyleSheet.create({
+  errorMessage:{
+    color: "red",
+  },
   scrollContainer: {
     flexGrow: 1,
   },

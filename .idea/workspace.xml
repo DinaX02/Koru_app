@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="voting page start">
+    <list default="true" id="9dee0d72-6639-4ee7-a242-472267e5fdcf" name="Default Changelist" comment="real time e voting feito">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/PopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/PopUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/QrCodeReader.js" beforeDir="false" afterPath="$PROJECT_DIR$/components/QrCodeReader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/Joinevent.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Joinevent.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/Project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/SignUp.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_liveranking.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_liveranking.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/event_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_schedule.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/screens/event_voting.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/event_voting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/screens/eventlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/screens/eventlist.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +115,9 @@
       <workItem from="1687880942775" duration="2437000" />
       <workItem from="1687887972344" duration="9205000" />
       <workItem from="1687921791338" duration="200000" />
-      <workItem from="1687972950664" duration="20696000" />
+      <workItem from="1687972950664" duration="22022000" />
+      <workItem from="1688065790717" duration="4370000" />
+      <workItem from="1688078910107" duration="16391000" />
     </task>
     <task id="LOCAL-00001" summary="eventvoting">
       <created>1684784852624</created>
@@ -267,7 +273,14 @@
       <option name="project" value="LOCAL" />
       <updated>1687897323104</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="real time e voting feito">
+      <created>1688003521670</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1688003521670</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -305,6 +318,7 @@
     <MESSAGE value="live_ranking" />
     <MESSAGE value="qr code" />
     <MESSAGE value="voting page start" />
-    <option name="LAST_COMMIT_MESSAGE" value="voting page start" />
+    <MESSAGE value="real time e voting feito" />
+    <option name="LAST_COMMIT_MESSAGE" value="real time e voting feito" />
   </component>
 </project>

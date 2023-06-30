@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import BottomSheet from "@gorhom/bottom-sheet";
 import {
     View,
     StyleSheet,
@@ -27,6 +26,7 @@ const Eventliveranking = () => {
                     Authorization: token,
                     id: id_user,
                 },
+                timeout: 60000,
             })
             .then((res) => {
                 const rankingData = res.data;
@@ -36,6 +36,7 @@ const Eventliveranking = () => {
                 console.log("error", e);
             });
     };
+
 
     useEffect(() => {
         if (eventRanking.length > 0) {
@@ -66,9 +67,6 @@ const Eventliveranking = () => {
         };
     }, []);
 
-    useEffect(() => {
-        console.log(eventRanking);
-    }, [eventRanking]);
 
     const handleFilterChange = (coin) => {
         setSelectedCoin(coin.name_coin);
@@ -196,7 +194,7 @@ const Eventliveranking = () => {
                             );
                         })
                     ) : (
-                        <Text>{selectedCoinArray && selectedCoinArray.length === 0 ? "No projects available" : "No more projects"}</Text>
+                        <Text style={{marginTop: 20,}}>{selectedCoinArray && selectedCoinArray.length === 0 ? "No projects available" : "No more projects"}</Text>
                     )}
                 </ScrollView>
         </View>

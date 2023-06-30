@@ -105,12 +105,13 @@ const Eventvoting = () => {
         eventInfo.info.length > 0
     ) {
       const currentDateTime = new Date().getTime(); // current time
-      const voteStartDateTime = eventInfo.info[0].vote_start
+      const voteStartDateTime = eventInfo.info[0]?.vote_start
           ? new Date(eventInfo.info[0].vote_start).getTime()
-          : null; // voting start time
-      const voteEndDateTime = eventInfo.info[0].vote_end
+          : null;
+      const voteEndDateTime = eventInfo.info[0]?.vote_end
           ? new Date(eventInfo.info[0].vote_end).getTime()
-          : null; // voting end time
+          : null;
+
 
       if (
           voteStartDateTime &&
@@ -200,6 +201,7 @@ const Eventvoting = () => {
                           projectDescription: project.desc_project,
                           projectLogo: project.logo_project,
                           projectId: project.id_project,
+                          status: status,
                         })
                       }}
                       style={styles.project}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {
   View,
   ImageBackground,
@@ -6,59 +6,111 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import { BASE_URL } from '../config';
+import { AuthContext } from '../context/AuthContext';
+
 
 const JoinEventAfterScan = () => {
 
   const navigation = useNavigation();
   const route = useRoute();
-  const { eventName, coinType, amount, tokens } = route.params;
+  const { tokenInfo, tokens } = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+  const { userInfo } = useContext(AuthContext);
+  const token = userInfo.token;
+  const id_user = userInfo.id_user;
+
+  const handleJoin = async () => {
+    setIsLoading(true);
+    try {
+      const fetchPromises = tokens.map(async (token) => {
+        const response = await axios.post(
+            `${BASE_URL}/qr/secondread`,
+            {
+              token: token.value,
+            },
+            {
+              headers: {
+                Authorization: userInfo.token,
+                id: userInfo.id_user,
+              },
+            }
+        );
+        return response.data;
+      });
+
+      const results = await Promise.all(fetchPromises);
+      console.log(results);
+
+      // Navigate to the event list page
+      navigation.navigate('Eventlist');
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <ImageBackground
-      source={require("../assets/background.png")}
-      style={styles.backgroundImage}
-      imageStyle={styles.imageStyle}
-    >
-      <View>
-        <TouchableOpacity style={styles.logoutBtn}   onPress={() => navigation.goBack()}>
-          <Image
-              style={styles.logOut}
-              source={require("../assets/seta_back.png")}
-          />
-        </TouchableOpacity>
-
-      </View>
-
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../assets/logo_litle_hompeage.png")}
-        />
-      </View>
-
-      <View style={styles.eventContainer}>
+      <ImageBackground
+          source={require("../assets/background.png")}
+          style={styles.backgroundImage}
+          imageStyle={styles.imageStyle}
+      >
         <View>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <TouchableOpacity style={styles.logoutBtn} onPress={() => navigation.goBack()}>
             <Image
-              style={styles.eventImage}
-              source={require("../assets/event_join.png")} //img do evento
+                style={styles.logOut}
+                source={require("../assets/seta_back.png")}
             />
-          </View>
+          </TouchableOpacity>
         </View>
 
-        <Text style={styles.eventName}>{eventName}</Text>
+        <View style={styles.logoContainer}>
+          <Image
+              style={styles.logo}
+              source={require("../assets/logo_litle_hompeage.png")}
+          />
+        </View>
 
-        <Text style={styles.eventDescription}>
-          Join {eventName} with {amount} {coinType} coins?
-        </Text>
+        <View style={styles.eventContainer}>
+          <View>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              <Image
+                  style={styles.eventImage}
+                  source={{ uri: `data:image/png;base64,${tokenInfo[0].logo_event}` }}
+              />
+            </View>
+          </View>
 
-        <TouchableOpacity style={styles.joinButton}>
-          <Text style={styles.joinButtonText}>Join</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+          <Text style={styles.eventName}>{tokenInfo[0].name_event}</Text>
+
+          <Text style={styles.eventDescription}>
+            Join {tokenInfo[0].name_event} with {tokenInfo.map((info, index) => {
+            if (index === tokenInfo.length - 1 && tokenInfo.length > 1) {
+              return `and ${info.amount} ${info.name_coin} coins`;
+            } else if (tokenInfo.length > 2) {
+              return `${info.amount} ${info.name_coin} coins, `;
+            }
+            else {
+              return `${info.amount} ${info.name_coin} coins `;
+            }
+          })}?
+          </Text>
+
+          <TouchableOpacity style={styles.joinButton} onPress={handleJoin}>
+            {isLoading ? (
+                <ActivityIndicator color="white" />
+            ) : (
+                <Text style={styles.joinButtonText}>Join</Text>
+            )}
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
   );
 };
 
@@ -111,7 +163,8 @@ const styles = StyleSheet.create({
   eventImage: {
     width: 90,
     height: 90,
-    borderRadius: 40,
+    borderRadius: 45,
+    marginBottom: 10,
     alignSelf: "center",
   },
   eventName: {

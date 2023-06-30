@@ -8,7 +8,7 @@ import {
     Image,
     ScrollView,
 } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native'; // Import the useFocusEffect hook
 import axios from "axios";
 import { BASE_URL } from "../config";
 import { AuthContext } from "../context/AuthContext";
@@ -21,7 +21,7 @@ const Eventlist = () => {
     const id_user = userInfo.id_user;
     const { evento } = useContext(AuthContext);
 
-    useEffect(() => {
+    const loadEvents = () => {
         axios.get(
             `${BASE_URL}/profile/events`,
             {
@@ -37,11 +37,17 @@ const Eventlist = () => {
             .catch(e => {
                 console.log("error", e);
             });
-    }, []);
+    };
 
     useEffect(() => {
-        console.log(events);
-    }, [events]);
+        loadEvents();
+    }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            loadEvents(); // Reload events when the screen comes into focus
+        }, [])
+    );
 
     const [filter, setFilter] = useState("active");
     const currentDate = new Date();
