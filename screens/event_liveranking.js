@@ -123,7 +123,9 @@ const Eventliveranking = () => {
                                 source={{ uri: `data:image/png;base64,${selectedCoinArray[1].logo_project}` }}
                             />
                             <Text style={styles.podiumprojecttitle}>
-                                {selectedCoinArray[1].name_project}
+                                {selectedCoinArray[1].name_project.length > 9
+                                    ? `${selectedCoinArray[1].name_project.substring(0, 9)}...`
+                                    : selectedCoinArray[1].name_project}
                             </Text>
                             <Text style={styles.podiumprojectcoins}>
                                 {selectedCoinArray[1].amount_sum}
@@ -138,7 +140,9 @@ const Eventliveranking = () => {
                                 source={{ uri: `data:image/png;base64,${selectedCoinArray[0].logo_project}` }}
                             />
                             <Text style={styles.podiumprojecttitle}>
-                                {selectedCoinArray[0].name_project}
+                                {selectedCoinArray[0].name_project.length > 9
+                                    ? `${selectedCoinArray[0].name_project.substring(0, 9)}...`
+                                    : selectedCoinArray[0].name_project}
                             </Text>
                             <Text style={styles.podiumprojectcoins}>
                                 {selectedCoinArray[0].amount_sum}
@@ -155,7 +159,9 @@ const Eventliveranking = () => {
                                 source={{ uri: `data:image/png;base64,${selectedCoinArray[2].logo_project}` }}
                             />
                             <Text style={styles.podiumprojecttitle}>
-                                {selectedCoinArray[2].name_project}
+                                {selectedCoinArray[2].name_project.length > 9
+                                    ? `${selectedCoinArray[2].name_project.substring(0, 8)}...`
+                                    : selectedCoinArray[2].name_project}
                             </Text>
                             <Text style={styles.podiumprojectcoins}>
                                 {selectedCoinArray[2].amount_sum}

@@ -73,16 +73,16 @@ const Eventlist = () => {
             >
                 <View style={styles.newevent}>
                     <Text style={styles.eventtext}>Join a new Event</Text>
-                    <View style={styles.scanview}>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('ScanQrCode')}
+                        style={styles.scanview}>
                         <Text style={styles.eventtext}>Scan here</Text>
                         <View style={styles.qrcodeview}>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('ScanQrCode')}
-                            >
+                            <View>
                                 <Image style={styles.qrcode} source={require("../assets/qr_code.png")} />
-                            </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 {/* filter */}
@@ -119,7 +119,18 @@ const Eventlist = () => {
 
                 <ScrollView contentContainerStyle={styles.projects}>
                     {filteredEvents.length === 0 ? (
-                        <Text style={{color:"white"}}>No events available, join one by scanning a QRcode</Text>
+                            <View style={styles.errorView}>
+                            <Image
+                                source={require("../assets/error.png")}
+                                style={styles.errorImage}
+                            />
+                        <Text style={{
+                            color:"white",
+                            textAlign: "center",
+                            marginVertical: 20,
+                            fontWeight: 700,
+                        }}>You still haven't joined any event!{"\n"}Start by scanning a QR code.</Text>
+                            </View>
                     ) : (
                         filteredEvents.map((event, index) => (
                             <TouchableOpacity
@@ -152,6 +163,17 @@ const Eventlist = () => {
 };
 
 const styles = StyleSheet.create({
+    errorView:{
+        width: "80%",
+        height: "100%",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    errorImage:{
+        width: 160,
+        height: 200,
+    },
     listoptions:{
         flexDirection: "row",
         alignItems: "center",
@@ -206,6 +228,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         paddingBottom: 100,
+        minHeight: "80%",
     },
     project: {
         flexDirection: "row",

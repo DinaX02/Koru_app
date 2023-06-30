@@ -143,8 +143,8 @@ function Tabs() {
                                 }
                                 style={
                                     focused
-                                        ? { width: 24, height: 35 }
-                                        : { width: 25, height: 25 }
+                                        ? { width: 30, height: 39 }
+                                        : { width: 30, height: 29 }
                                 }
                             />
                         );
@@ -165,8 +165,8 @@ function Tabs() {
                                 }
                                 style={
                                     focused
-                                        ? { width: 25, height: 35 }
-                                        : { width: 25, height: 27 }
+                                        ? { width: 26, height: 39 }
+                                        : { width: 26, height: 29 }
                                 }
                             />
                         );
@@ -187,8 +187,8 @@ function Tabs() {
                                 }
                                 style={
                                     focused
-                                        ? { width: 25, height: 35 }
-                                        : { width: 25, height: 25 }
+                                        ? { width: 29, height: 39 }
+                                        : { width: 29, height: 29 }
                                 }
                             />
                         );

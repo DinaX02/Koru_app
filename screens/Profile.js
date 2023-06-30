@@ -164,9 +164,10 @@ const styles = StyleSheet.create({
     marginTop:10,
   },
   paragraph: {
-    fontSize: 14,
+    fontSize: 18,
     color: "white",
     marginBottom:10,
+    fontWeight: 600,
   },
   scrollView: {
     borderRadius:20,
